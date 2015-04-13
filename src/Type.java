@@ -1,0 +1,3 @@
+public enum Type {
+    PLAYER1, PLAYER2, BULLET, MISSILE, BASICENEMY
+}
