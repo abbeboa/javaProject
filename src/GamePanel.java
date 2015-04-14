@@ -11,10 +11,18 @@ import java.util.List;
 
 public class GamePanel extends JPanel implements Runnable, KeyListener {
 
-    private static final int JPWIDTH = 1280; // JPanel size
-    private static final int JPHEIGHT = 720;
+    public static final int JPWIDTH = 1280; // JPanel size
+    public static final int JPHEIGHT = 720;
     private static final int PERIOD = 10; // time in ms for each game update
     public static final Rectangle gameField = new Rectangle(0, 0, JPWIDTH, JPHEIGHT);
+
+    public static int getJpwidth() {
+        return JPWIDTH;
+    }
+
+    public static int getJpheight() {
+        return JPHEIGHT;
+    }
 
     private static Color bgColor = Color.BLACK;
 
@@ -22,6 +30,7 @@ public class GamePanel extends JPanel implements Runnable, KeyListener {
     private boolean gameRunning = false;
     private boolean gameOver = false;
     private boolean newGame = true;
+    private boolean gamePaused = true;
 
     private static List<Integer> pressedKeys = new ArrayList<Integer>();
 
@@ -36,6 +45,7 @@ public class GamePanel extends JPanel implements Runnable, KeyListener {
     private int playerStartPosY;
     private int currentShootingDelay = 30;
     private int shootingDelayCounter = 0;
+    private Menu menu;
 
     //test variables
     private int testX;
@@ -70,6 +80,7 @@ public class GamePanel extends JPanel implements Runnable, KeyListener {
         try {
             String imageFolderAddress = "src/images/";
             imgBackground = ImageIO.read(new File(imageFolderAddress + "background.jpg"));
+            imgMenuBackground = ImageIO.read(new File(imageFolderAddress + "MenuBackground.jpg"));
             imgPlayer1 = ImageIO.read(new File(imageFolderAddress + "player1.png"));
             imgBullet = ImageIO.read(new File(imageFolderAddress + "bullet.png"));
         } catch (IOException e) {
@@ -238,24 +249,32 @@ public class GamePanel extends JPanel implements Runnable, KeyListener {
 
         gameRunning = true;
         while (gameRunning) {
-            gameUpdate(); // update game events
-            gameRender(); // render image
-            paintImage(); // paint image on screen
-            // repaint(); replaced by paintImage
+            if (!gamePaused) {
+                gameUpdate(); // update game events
+                gameRender(); // render image
+                paintImage(); // paint image on screen
+                // repaint(); replaced by paintImage
 
-            timeSinceStart = System.currentTimeMillis() - startTime;
-            sleepTime = PERIOD - timeSinceStart;
+                timeSinceStart = System.currentTimeMillis() - startTime;
+                sleepTime = PERIOD - timeSinceStart;
 
-            if (sleepTime <= 0) {
-                sleepTime = 5; // a little bit of sleep is always needed
+                if (sleepTime <= 0) {
+                    sleepTime = 5; // a little bit of sleep is always needed
+                }
+                try {
+                    Thread.sleep(sleepTime); // frees the CPU to perform other tasks
+                } catch (InterruptedException ex) {
+                }
             }
-            try {
-                Thread.sleep(sleepTime); // frees the CPU to perform other tasks
-            } catch (InterruptedException ex) {
+            else if (gamePaused) {
+                Menu startmenu = new Menu();
+
+
             }
 
             startTime = System.currentTimeMillis();
         }
+
         System.exit(0); // exits JFrame
     }
 
