@@ -5,9 +5,9 @@ public class Projectile extends AbstractGameObject {
     private int ownerID;
     private Direction direction;
 
-    public Projectile(final double x, final double y, final double speed, final int hp,  final Boolean indestructible,
+    public Projectile(final double x, final double y, final int hp,  final Boolean indestructible,
                       final Type type, final Direction direction, final int ownerID) {
-        super(x, y, speed, hp, indestructible, type);
+        super(x, y, hp, indestructible, type);
         this.direction = direction;
         this.ownerID = ownerID;
     }

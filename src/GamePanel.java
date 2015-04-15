@@ -87,7 +87,7 @@ public class GamePanel extends JPanel implements Runnable, KeyListener {
         addMouseListener_();
     }
 
-    public void importImages() {
+    private void importImages() {
         try {
             String imageFolderAddress = "src/images/";
             imgBackground = ImageIO.read(new File(imageFolderAddress + "background.jpg"));

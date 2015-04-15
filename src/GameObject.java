@@ -1,4 +1,4 @@
-import java.awt.image.BufferedImage;
+/*import java.awt.image.BufferedImage;
 
 public interface GameObject {
     public abstract double getX();
@@ -17,4 +17,4 @@ public interface GameObject {
 
     public BufferedImage getInitialImage(Type type);
 
-}
+}*/
