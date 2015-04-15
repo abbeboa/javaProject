@@ -42,8 +42,6 @@ public class GamePanel extends JPanel implements Runnable, KeyListener {
     private Player player1;
     private int playerInitialHP = 1;
     private int playerInitialSpeed = 10;
-    private int playerStartPosX;
-    private int playerStartPosY;
     private int currentShootingDelay = 30;
     private int shootingDelayCounter = 0;
 
@@ -274,9 +272,9 @@ public class GamePanel extends JPanel implements Runnable, KeyListener {
     }
 
     private void createPlayer1() {
-        playerStartPosX = JPWIDTH / 2 - (imgPlayer1.getWidth() / 2);
-        playerStartPosY = JPHEIGHT - imgPlayer1.getHeight();
-        player1 = new Player(playerStartPosX, playerStartPosY, playerInitialHP, playerInitialSpeed, false, Type.PLAYER1);
+        double playerStartPosX = JPWIDTH / 2 - (imgPlayer1.getWidth() / 2);
+        double playerStartPosY = JPHEIGHT - imgPlayer1.getHeight();
+        player1 = new Player(playerStartPosX, playerStartPosY, false, Type.PLAYER1);
     }
 
     public void run() {

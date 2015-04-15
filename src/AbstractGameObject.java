@@ -11,11 +11,10 @@ public abstract class AbstractGameObject {
     private int counter = 0;
     private int id;
 
-    public AbstractGameObject(final double x, final double y, final int hp, final Boolean indestructible, final Type type) {
+    public AbstractGameObject(final double x, final double y, final Boolean indestructible, final Type type) {
         this.x = x;
         this.y = y;
         setInitialValues(type);
-        this.hp = hp;
         this.indestructible = indestructible;
         this.type = type;
         this.rectangle = new Rectangle((int)x, (int)y, image.getWidth(), image.getHeight());
@@ -28,27 +27,33 @@ public abstract class AbstractGameObject {
             case PLAYER1:
                 this.speed = 3.0;
                 this.image = GamePanel.imgPlayer1;
+                this.hp = 100;
                 break;
             case PLAYER2:
                 this.speed = 1.0;
                 this.image = GamePanel.imgPlayer1;
+                this.hp = 100;
                 break;
             case BULLET:
                 this.speed = 5.0;
                 this.image = GamePanel.imgBullet;
+                this.hp = 0;
                 break;
             case MISSILE:
                 this.speed = 5.0;
                 this.image = GamePanel.imgBullet;
+                this.hp = 0;
                 break;
             case BASICENEMY:
                 this.speed = 1.0;
                 this.image = GamePanel.imgPlayer1;
+                this.hp = 2;
                 break;
             default:
                 System.out.println("getInitialValues fault");
                 this.speed = 1.0;
                 this.image = GamePanel.imgBullet;
+                this.hp = 1;
         }
     }
 

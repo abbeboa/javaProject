@@ -1,5 +1,3 @@
-import java.awt.image.BufferedImage;
-
 public class Projectile extends AbstractGameObject {
 
     private int ownerID;
@@ -7,7 +5,7 @@ public class Projectile extends AbstractGameObject {
 
     public Projectile(final double x, final double y, final int hp,  final Boolean indestructible,
                       final Type type, final Direction direction, final int ownerID) {
-        super(x, y, hp, indestructible, type);
+        super(x, y, indestructible, type);
         this.direction = direction;
         this.ownerID = ownerID;
     }
