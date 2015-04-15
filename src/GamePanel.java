@@ -49,7 +49,10 @@ public class GamePanel extends JPanel implements Runnable, KeyListener {
     private enum STATE{MENU, GAME}
     private STATE state = STATE.MENU;
     private Menu menu;
-
+    private int clickableLeft = (JPWIDTH / 2 + JPWIDTH / 10);
+    private int clickableRight = (JPWIDTH / 2 + JPWIDTH / 10 + JPWIDTH / 5);
+    private int clickableTop = (Menu.height + JPWIDTH / 20);
+    private int clickableBottom = Menu.height;
 
     //test variables
     private int testX;
@@ -61,6 +64,7 @@ public class GamePanel extends JPanel implements Runnable, KeyListener {
     public static BufferedImage imgBackground;
     public static BufferedImage imgPlayer1;
     public static BufferedImage imgBullet;
+    public static BufferedImage imgBasicEnemy;
     public static Image imgMenuBackground;
 
 
@@ -90,6 +94,7 @@ public class GamePanel extends JPanel implements Runnable, KeyListener {
             imgBackground = ImageIO.read(new File(imageFolderAddress + "background.jpg"));
             imgMenuBackground = ImageIO.read(new File(imageFolderAddress + "menuBackground.jpg"));
             imgPlayer1 = ImageIO.read(new File(imageFolderAddress + "player1.png"));
+            imgBasicEnemy = ImageIO.read(new File(imageFolderAddress + "basicEnemy.png"));
             imgBullet = ImageIO.read(new File(imageFolderAddress + "bullet.png"));
         } catch (IOException e) {
             e.printStackTrace();
@@ -101,21 +106,19 @@ public class GamePanel extends JPanel implements Runnable, KeyListener {
         if (!gameOver) {
             // actions only performed when game is not over
             if ( state == STATE.MENU) {
-                if (x > (JPWIDTH / 2 + JPWIDTH / 10) && x < (JPWIDTH / 2 + JPWIDTH / 10 + JPWIDTH / 5) && y > menu.buttonY && y < (menu.buttonY + JPWIDTH / 20)) {
+                if (x > clickableLeft && x < clickableRight && y > clickableBottom && y < clickableTop) { // resume button
                     if (resumeGame) {
                         state = STATE.GAME;
                     }
-                } else if (x > (JPWIDTH / 2 + JPWIDTH / 10) && x < (JPWIDTH / 2 + JPWIDTH / 10 + JPWIDTH / 5) && y > menu.buttonY + 100 && y < (menu.buttonY + 100 + JPWIDTH / 20)) {
+                } else if (x > clickableLeft && x < clickableRight && y > clickableBottom+100 && y < clickableTop+100) { // new game button
                     newGame = true;
                     state = STATE.GAME;
-                } else if (x > (JPWIDTH / 2 + JPWIDTH / 10) && x < (JPWIDTH / 2 + JPWIDTH / 10 + JPWIDTH / 5) && y > menu.buttonY + 200 && y < (menu.buttonY + 200 + JPWIDTH / 20)) {
+                } else if (x > clickableLeft && x < clickableRight && y > clickableBottom+200 && y < clickableTop+200) { // quit game button
                     stopGame();
                 }
             }
-            }
-            }
-
-
+        }
+    }
 
     private void addMouseListener_() {
         MouseAdapter mouseAdapter = new MouseAdapter() {
@@ -379,12 +382,12 @@ public class GamePanel extends JPanel implements Runnable, KeyListener {
     }
 
     private void drawPlayer() {
-        try {
+        //try {
             dbg.drawImage(player1.getImage(), (int) player1.getX(), (int) player1.getY(), this);
-            }
-    catch (Exception e) {
-            //System.out.println("drawPlayer graphics error:" + e);
-        }
+           // }
+   //catch (Exception e) {
+       //     System.out.println("drawPlayer graphics error:" + e);
+     //   }
     }
 
     public Image getDbImage() {
@@ -392,6 +395,22 @@ public class GamePanel extends JPanel implements Runnable, KeyListener {
     }
 
     public static boolean isResumeGame() {return resumeGame;}
+
+    public int getClickableLeft() {
+            return clickableLeft;
+        }
+
+    public int getClickableRight() {
+            return clickableRight;
+        }
+
+    public int getClickableTop() {
+            return clickableTop;
+        }
+
+    public int getClickableBottom() {
+            return clickableBottom;
+        }
 
     private void drawMenu(Graphics dbg) {
         Graphics2D g = (Graphics2D)dbg;
