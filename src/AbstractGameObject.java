@@ -1,7 +1,7 @@
 import java.awt.*;
 import java.awt.image.BufferedImage;
 
-public abstract class AbstractGameObject implements GameObject {
+public abstract class AbstractGameObject {
     protected double x, y, speed;
     protected int hp;
     protected Boolean indestructible;
@@ -11,22 +11,47 @@ public abstract class AbstractGameObject implements GameObject {
     private int counter = 0;
     private int id;
 
-    public AbstractGameObject(final double x, final double y, final double speed, final int hp, final Boolean indestructible, final Type type) {
+    public AbstractGameObject(final double x, final double y, final int hp, final Boolean indestructible, final Type type) {
         this.x = x;
         this.y = y;
-        this.speed = getInitialSpeed(type);
+        setInitialValues(type);
         this.hp = hp;
         this.indestructible = indestructible;
         this.type = type;
-        this.image = getInitialImage(type);
         this.rectangle = new Rectangle((int)x, (int)y, image.getWidth(), image.getHeight());
         this.id = counter;
         counter++;
-
-        int rectangleWidth = image.getWidth();
     }
 
-    @Override
+    private void setInitialValues(Type type) {
+        switch (type) {
+            case PLAYER1:
+                this.speed = 3.0;
+                this.image = GamePanel.imgPlayer1;
+                break;
+            case PLAYER2:
+                this.speed = 1.0;
+                this.image = GamePanel.imgPlayer1;
+                break;
+            case BULLET:
+                this.speed = 5.0;
+                this.image = GamePanel.imgBullet;
+                break;
+            case MISSILE:
+                this.speed = 5.0;
+                this.image = GamePanel.imgBullet;
+                break;
+            case BASICENEMY:
+                this.speed = 1.0;
+                this.image = GamePanel.imgPlayer1;
+                break;
+            default:
+                System.out.println("getInitialValues fault");
+                this.speed = 1.0;
+                this.image = GamePanel.imgBullet;
+        }
+    }
+
     public void move(Direction direction, double speed) {
         double newX = x;
         double newY = y;
@@ -71,30 +96,25 @@ public abstract class AbstractGameObject implements GameObject {
         this.rectangle = new Rectangle(newX, newY, image.getWidth(), image.getHeight());
     }
 
-    @Override
     public double getX() {
         return x;
     }
 
-    @Override
     public double getY() {
         return y;
     }
 
-    @Override
     public int getHP() {
         return hp;
     }
 
-    @Override
     public double getSpeed() {
         return speed;
     }
 
-    @Override
     public void shoot(Type type, Direction direction) {
         Position pos = calculateShootPos(direction, type);
-        Projectile projectile = new Projectile(pos.getX(), pos.getY(), getInitialSpeed(type), 0, true, type, direction, this.id);
+        Projectile projectile = new Projectile(pos.getX(), pos.getY(), 0, true, type, direction, this.id);
         GamePanel.projectileList.add(projectile);
     }
 
@@ -145,44 +165,8 @@ public abstract class AbstractGameObject implements GameObject {
         }
     }
 
-    @Override
     public BufferedImage getImage() {
         return image;
-    }
-
-    @Override
-    public BufferedImage getInitialImage(Type type) {
-        switch (type) {
-            case PLAYER1:
-                return GamePanel.imgPlayer1;
-            case PLAYER2:
-                return GamePanel.imgPlayer1;
-            case BULLET:
-                return GamePanel.imgBullet;
-            case MISSILE:
-                return GamePanel.imgBullet;
-            default:
-                System.out.println("getInitialImage fault");
-                return GamePanel.imgBullet;
-        }
-    }
-
-    public double getInitialSpeed(Type type) {
-        switch (type) {
-            case PLAYER1:
-                return 3.0;
-            case PLAYER2:
-                return 1.0;
-            case BULLET:
-                return 5.0;
-            case MISSILE:
-                return 5.0;
-            case BASICENEMY:
-                return 1.0;
-            default:
-                System.out.println("getInitialSpeed fault");
-                return 1.0;
-        }
     }
 
     public Rectangle getRectangle() {
