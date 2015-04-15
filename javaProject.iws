@@ -2,18 +2,16 @@
 <project version="4">
   <component name="ChangeListManager">
     <list default="true" id="0140d6da-d072-4a34-bc7e-d86f31676f05" name="Default" comment="">
-      <change type="DELETED" beforePath="$PROJECT_DIR$/out/production/javaProject/test.txt" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/src/test.txt" afterPath="" />
+      <change type="DELETED" beforePath="$PROJECT_DIR$/out/production/javaProject/GameObject.class" afterPath="" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/out/production/javaProject/AbstractGameObject$1.class" afterPath="$PROJECT_DIR$/out/production/javaProject/AbstractGameObject$1.class" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/out/production/javaProject/AbstractGameObject.class" afterPath="$PROJECT_DIR$/out/production/javaProject/AbstractGameObject.class" />
       <change type="MODIFICATION" beforePath="$PROJECT_DIR$/out/production/javaProject/GamePanel$1.class" afterPath="$PROJECT_DIR$/out/production/javaProject/GamePanel$1.class" />
       <change type="MODIFICATION" beforePath="$PROJECT_DIR$/out/production/javaProject/GamePanel$STATE.class" afterPath="$PROJECT_DIR$/out/production/javaProject/GamePanel$STATE.class" />
       <change type="MODIFICATION" beforePath="$PROJECT_DIR$/out/production/javaProject/GamePanel.class" afterPath="$PROJECT_DIR$/out/production/javaProject/GamePanel.class" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/out/production/javaProject/Menu.class" afterPath="$PROJECT_DIR$/out/production/javaProject/Menu.class" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/out/production/javaProject/TestGame.class" afterPath="$PROJECT_DIR$/out/production/javaProject/TestGame.class" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/GamePanel.java" afterPath="$PROJECT_DIR$/src/GamePanel.java" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/Menu.java" afterPath="$PROJECT_DIR$/src/Menu.java" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/TestGame.java" afterPath="$PROJECT_DIR$/src/TestGame.java" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/javaProject.iml" afterPath="$PROJECT_DIR$/javaProject.iml" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/javaProject.ipr" afterPath="$PROJECT_DIR$/javaProject.ipr" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/out/production/javaProject/Player.class" afterPath="$PROJECT_DIR$/out/production/javaProject/Player.class" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/out/production/javaProject/Projectile.class" afterPath="$PROJECT_DIR$/out/production/javaProject/Projectile.class" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/AbstractGameObject.java" afterPath="$PROJECT_DIR$/src/AbstractGameObject.java" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/Projectile.java" afterPath="$PROJECT_DIR$/src/Projectile.java" />
       <change type="MODIFICATION" beforePath="$PROJECT_DIR$/javaProject.iws" afterPath="$PROJECT_DIR$/javaProject.iws" />
     </list>
     <ignored path="javaProject.iws" />
@@ -40,17 +38,42 @@
   </component>
   <component name="FileEditorManager">
     <leaf>
-      <file leaf-file-name="GamePanel.java" pinned="false" current-in-tab="true">
+      <file leaf-file-name="GamePanel.java" pinned="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/src/GamePanel.java">
           <provider selected="true" editor-type-id="text-editor">
-            <state vertical-scroll-proportion="0.13439636" vertical-offset="8320" max-vertical-offset="8759">
-              <caret line="451" column="29" selection-start-line="451" selection-start-column="17" selection-end-line="451" selection-end-column="29" />
-              <folding>
-                <element signature="e#10981#10982#0" expanded="true" />
-                <element signature="e#11024#11025#0" expanded="true" />
-                <element signature="e#13031#13032#0" expanded="true" />
-                <element signature="e#13061#13062#0" expanded="true" />
-              </folding>
+            <state vertical-scroll-proportion="-7.285714" vertical-offset="4869" max-vertical-offset="8645">
+              <caret line="277" column="5" selection-start-line="277" selection-start-column="5" selection-end-line="277" selection-end-column="5" />
+              <folding />
+            </state>
+          </provider>
+        </entry>
+      </file>
+      <file leaf-file-name="Projectile.java" pinned="false" current-in-tab="false">
+        <entry file="file://$PROJECT_DIR$/src/Projectile.java">
+          <provider selected="true" editor-type-id="text-editor">
+            <state vertical-scroll-proportion="0.0" vertical-offset="0" max-vertical-offset="418">
+              <caret line="8" column="35" selection-start-line="8" selection-start-column="35" selection-end-line="8" selection-end-column="35" />
+              <folding />
+            </state>
+          </provider>
+        </entry>
+      </file>
+      <file leaf-file-name="Player.java" pinned="false" current-in-tab="false">
+        <entry file="file://$PROJECT_DIR$/src/Player.java">
+          <provider selected="true" editor-type-id="text-editor">
+            <state vertical-scroll-proportion="0.0" vertical-offset="0" max-vertical-offset="285">
+              <caret line="6" column="5" selection-start-line="6" selection-start-column="5" selection-end-line="6" selection-end-column="5" />
+              <folding />
+            </state>
+          </provider>
+        </entry>
+      </file>
+      <file leaf-file-name="AbstractGameObject.java" pinned="false" current-in-tab="true">
+        <entry file="file://$PROJECT_DIR$/src/AbstractGameObject.java">
+          <provider selected="true" editor-type-id="text-editor">
+            <state vertical-scroll-proportion="0.3029613" vertical-offset="1995" max-vertical-offset="3306">
+              <caret line="120" column="58" selection-start-line="120" selection-start-column="58" selection-end-line="120" selection-end-column="58" />
+              <folding />
             </state>
           </provider>
         </entry>
@@ -58,7 +81,7 @@
       <file leaf-file-name="Menu.java" pinned="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/src/Menu.java">
           <provider selected="true" editor-type-id="text-editor">
-            <state vertical-scroll-proportion="0.0" vertical-offset="0" max-vertical-offset="494">
+            <state vertical-scroll-proportion="0.0" vertical-offset="209" max-vertical-offset="494">
               <caret line="11" column="40" selection-start-line="11" selection-start-column="40" selection-end-line="11" selection-end-column="40" />
               <folding />
             </state>
@@ -68,7 +91,7 @@
       <file leaf-file-name="TestGame.java" pinned="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/src/TestGame.java">
           <provider selected="true" editor-type-id="text-editor">
-            <state vertical-scroll-proportion="0.0" vertical-offset="0" max-vertical-offset="570">
+            <state vertical-scroll-proportion="0.0" vertical-offset="19" max-vertical-offset="570">
               <caret line="1" column="18" selection-start-line="1" selection-start-column="18" selection-end-line="1" selection-end-column="18" />
               <folding>
                 <element signature="e#459#460#0" expanded="true" />
@@ -80,24 +103,27 @@
       </file>
     </leaf>
   </component>
+  <component name="Git.Settings">
+    <option name="RECENT_GIT_ROOT_PATH" value="$PROJECT_DIR$" />
+  </component>
   <component name="IdeDocumentHistory">
     <option name="CHANGED_PATHS">
       <list>
         <option value="$PROJECT_DIR$/src/Direction.java" />
         <option value="$PROJECT_DIR$/src/Gameobject.java" />
-        <option value="$PROJECT_DIR$/src/Player.java" />
         <option value="$PROJECT_DIR$/src/Position.java" />
-        <option value="$PROJECT_DIR$/src/Projectile.java" />
         <option value="$PROJECT_DIR$/src/Type.java" />
         <option value="$PROJECT_DIR$/src/GameObject.java" />
-        <option value="$PROJECT_DIR$/src/AbstractGameObject.java" />
         <option value="$PROJECT_DIR$/src/EnamyWave.java" />
         <option value="$PROJECT_DIR$/src/EnemyWave.java" />
         <option value="$PROJECT_DIR$/src/ProjectileType.java" />
         <option value="$PROJECT_DIR$/src/test.txt" />
         <option value="$PROJECT_DIR$/src/TestGame.java" />
-        <option value="$PROJECT_DIR$/src/GamePanel.java" />
         <option value="$PROJECT_DIR$/src/Menu.java" />
+        <option value="$PROJECT_DIR$/src/Player.java" />
+        <option value="$PROJECT_DIR$/src/GamePanel.java" />
+        <option value="$PROJECT_DIR$/src/Projectile.java" />
+        <option value="$PROJECT_DIR$/src/AbstractGameObject.java" />
       </list>
     </option>
   </component>
@@ -167,8 +193,8 @@
           </PATH>
         </subPane>
       </pane>
-      <pane id="PackagesPane" />
       <pane id="Scope" />
+      <pane id="PackagesPane" />
     </panes>
   </component>
   <component name="PropertiesComponent">
@@ -476,11 +502,19 @@
       <workItem from="1429042098343" duration="27000" />
       <workItem from="1429042326429" duration="346000" />
       <workItem from="1429109463630" duration="3393000" />
+      <workItem from="1429113246588" duration="549000" />
     </task>
+    <task id="LOCAL-00001" summary="småfixar som fixat det Chriz fuckat upp">
+      <created>1429113767273</created>
+      <option name="number" value="00001" />
+      <option name="project" value="LOCAL" />
+      <updated>1429113767273</updated>
+    </task>
+    <option name="localTasksCounter" value="2" />
     <servers />
   </component>
   <component name="TimeTrackingManager">
-    <option name="totallyTimeSpent" value="23599000" />
+    <option name="totallyTimeSpent" value="24148000" />
   </component>
   <component name="ToolWindowManager">
     <frame x="0" y="0" width="1926" height="1057" extended-state="6" />
@@ -530,6 +564,8 @@
     <option name="myTodoPanelSettings">
       <TodoPanelSettings />
     </option>
+    <MESSAGE value="småfixar som fixat det Chriz fuckat upp" />
+    <option name="LAST_COMMIT_MESSAGE" value="småfixar som fixat det Chriz fuckat upp" />
   </component>
   <component name="XDebuggerManager">
     <breakpoint-manager />
@@ -540,6 +576,33 @@
     <option name="FILTER_TARGETS" value="false" />
   </component>
   <component name="editorHistoryManager">
+    <entry file="file://$PROJECT_DIR$/src/GamePanel.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state vertical-scroll-proportion="0.0" vertical-offset="0" max-vertical-offset="8683">
+          <caret line="0" column="0" selection-start-line="0" selection-start-column="0" selection-end-line="0" selection-end-column="0" />
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/src/Menu.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state vertical-scroll-proportion="0.0" vertical-offset="209" max-vertical-offset="494">
+          <caret line="11" column="40" selection-start-line="11" selection-start-column="40" selection-end-line="11" selection-end-column="40" />
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/src/TestGame.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state vertical-scroll-proportion="0.0" vertical-offset="19" max-vertical-offset="570">
+          <caret line="1" column="18" selection-start-line="1" selection-start-column="18" selection-end-line="1" selection-end-column="18" />
+          <folding>
+            <element signature="e#459#460#0" expanded="true" />
+            <element signature="e#489#490#0" expanded="true" />
+          </folding>
+        </state>
+      </provider>
+    </entry>
     <entry file="file://$PROJECT_DIR$/src/Position.java">
       <provider selected="true" editor-type-id="text-editor">
         <state vertical-scroll-proportion="0.0" vertical-offset="0" max-vertical-offset="323">
@@ -635,12 +698,7 @@
       <provider selected="true" editor-type-id="text-editor">
         <state vertical-scroll-proportion="0.0" vertical-offset="0" max-vertical-offset="6324">
           <caret line="0" column="0" selection-start-line="0" selection-start-column="0" selection-end-line="0" selection-end-column="0" />
-          <folding>
-            <element signature="e#10981#10982#0" expanded="true" />
-            <element signature="e#11024#11025#0" expanded="true" />
-            <element signature="e#13031#13032#0" expanded="true" />
-            <element signature="e#13061#13062#0" expanded="true" />
-          </folding>
+          <folding />
         </state>
       </provider>
     </entry>
@@ -704,12 +762,7 @@
       <provider selected="true" editor-type-id="text-editor">
         <state vertical-scroll-proportion="0.0" vertical-offset="0" max-vertical-offset="6358">
           <caret line="0" column="0" selection-start-line="0" selection-start-column="0" selection-end-line="0" selection-end-column="0" />
-          <folding>
-            <element signature="e#10981#10982#0" expanded="true" />
-            <element signature="e#11024#11025#0" expanded="true" />
-            <element signature="e#13031#13032#0" expanded="true" />
-            <element signature="e#13061#13062#0" expanded="true" />
-          </folding>
+          <folding />
         </state>
       </provider>
     </entry>
@@ -783,13 +836,6 @@
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/src/Projectile.java">
-      <provider selected="true" editor-type-id="text-editor">
-        <state vertical-scroll-proportion="0.0" vertical-offset="0" max-vertical-offset="408">
-          <caret line="2" column="13" selection-start-line="2" selection-start-column="13" selection-end-line="2" selection-end-column="13" />
-        </state>
-      </provider>
-    </entry>
     <entry file="file://$PROJECT_DIR$/src/ProjectileType.java">
       <provider selected="true" editor-type-id="text-editor">
         <state vertical-scroll-proportion="0.0" vertical-offset="0" max-vertical-offset="136">
@@ -815,20 +861,6 @@
       <provider selected="true" editor-type-id="text-editor">
         <state vertical-scroll-proportion="0.3214683" vertical-offset="0" max-vertical-offset="899">
           <caret line="17" column="52" selection-start-line="17" selection-start-column="52" selection-end-line="17" selection-end-column="52" />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/src/AbstractGameObject.java">
-      <provider selected="true" editor-type-id="text-editor">
-        <state vertical-scroll-proportion="0.099183194" vertical-offset="0" max-vertical-offset="3128">
-          <caret line="6" column="33" selection-start-line="6" selection-start-column="31" selection-end-line="6" selection-end-column="33" />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/src/Player.java">
-      <provider selected="true" editor-type-id="text-editor">
-        <state vertical-scroll-proportion="0.0" vertical-offset="0" max-vertical-offset="255">
-          <caret line="9" column="1" selection-start-line="9" selection-start-column="1" selection-end-line="9" selection-end-column="1" />
         </state>
       </provider>
     </entry>
@@ -873,14 +905,33 @@
     </entry>
     <entry file="file://$PROJECT_DIR$/src/GamePanel.java">
       <provider selected="true" editor-type-id="text-editor">
-        <state vertical-scroll-proportion="0.13439636" vertical-offset="8320" max-vertical-offset="8759">
-          <caret line="451" column="29" selection-start-line="451" selection-start-column="17" selection-end-line="451" selection-end-column="29" />
-          <folding>
-            <element signature="e#10981#10982#0" expanded="true" />
-            <element signature="e#11024#11025#0" expanded="true" />
-            <element signature="e#13031#13032#0" expanded="true" />
-            <element signature="e#13061#13062#0" expanded="true" />
-          </folding>
+        <state vertical-scroll-proportion="-7.285714" vertical-offset="4869" max-vertical-offset="8645">
+          <caret line="277" column="5" selection-start-line="277" selection-start-column="5" selection-end-line="277" selection-end-column="5" />
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/src/Projectile.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state vertical-scroll-proportion="0.0" vertical-offset="0" max-vertical-offset="418">
+          <caret line="8" column="35" selection-start-line="8" selection-start-column="35" selection-end-line="8" selection-end-column="35" />
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/src/Player.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state vertical-scroll-proportion="0.0" vertical-offset="0" max-vertical-offset="285">
+          <caret line="6" column="5" selection-start-line="6" selection-start-column="5" selection-end-line="6" selection-end-column="5" />
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/src/AbstractGameObject.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state vertical-scroll-proportion="0.3029613" vertical-offset="1995" max-vertical-offset="3306">
+          <caret line="120" column="58" selection-start-line="120" selection-start-column="58" selection-end-line="120" selection-end-column="58" />
+          <folding />
         </state>
       </provider>
     </entry>

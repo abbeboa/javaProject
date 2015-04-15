@@ -119,7 +119,7 @@ public abstract class AbstractGameObject {
 
     public void shoot(Type type, Direction direction) {
         Position pos = calculateShootPos(direction, type);
-        Projectile projectile = new Projectile(pos.getX(), pos.getY(), 0, true, type, direction, this.id);
+        Projectile projectile = new Projectile(pos.getX(), pos.getY(), true, type, direction, this.id);
         GamePanel.projectileList.add(projectile);
     }
 
