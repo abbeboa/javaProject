@@ -31,6 +31,7 @@ public class GamePanel extends JPanel implements Runnable, KeyListener {
     private boolean gameRunning = false;
     private boolean gameOver = false;
     private boolean newGame = true;
+    private static boolean resumeGame = false;
 
     private static List<Integer> pressedKeys = new ArrayList<Integer>();
 
@@ -46,10 +47,8 @@ public class GamePanel extends JPanel implements Runnable, KeyListener {
     private int currentShootingDelay = 30;
     private int shootingDelayCounter = 0;
 
-    //test for menu
-    private enum STATE{
-        MENU,
-        GAME}
+    //menu
+    private enum STATE{MENU, GAME}
     private STATE state = STATE.MENU;
     private Menu menu;
 
@@ -105,14 +104,13 @@ public class GamePanel extends JPanel implements Runnable, KeyListener {
             // actions only performed when game is not over
             if ( state == STATE.MENU) {
                 if (x > (JPWIDTH / 2 + JPWIDTH / 10) && x < (JPWIDTH / 2 + JPWIDTH / 10 + JPWIDTH / 5) && y > menu.buttonY && y < (menu.buttonY + JPWIDTH / 20)) {
-                    System.out.println(("Resume Game"));
-                    state = STATE.GAME;
+                    if (resumeGame) {
+                        state = STATE.GAME;
+                    }
                 } else if (x > (JPWIDTH / 2 + JPWIDTH / 10) && x < (JPWIDTH / 2 + JPWIDTH / 10 + JPWIDTH / 5) && y > menu.buttonY + 100 && y < (menu.buttonY + 100 + JPWIDTH / 20)) {
-                    System.out.println("New Game");
                     newGame = true;
                     state = STATE.GAME;
                 } else if (x > (JPWIDTH / 2 + JPWIDTH / 10) && x < (JPWIDTH / 2 + JPWIDTH / 10 + JPWIDTH / 5) && y > menu.buttonY + 200 && y < (menu.buttonY + 200 + JPWIDTH / 20)) {
-                    System.out.println("Quit Game");
                     stopGame();
                 }
             }
@@ -210,6 +208,7 @@ public class GamePanel extends JPanel implements Runnable, KeyListener {
         try {
             if (state == STATE.GAME) {
                 for (int keyCode : pressedKeys) {
+
                     if (keyCode == KeyEvent.VK_LEFT) {
                         if (gameField.contains(player1.getRectangle())) {
                             player1.move(Direction.LEFT, player1.getSpeed());
@@ -237,7 +236,6 @@ public class GamePanel extends JPanel implements Runnable, KeyListener {
                             player1.shoot(Type.BULLET, Direction.UP);
                             shootingDelayCounter += currentShootingDelay;
                         }
-
                     }
                     if (keyCode == KeyEvent.VK_P) {
                             state = STATE.MENU;
@@ -270,13 +268,9 @@ public class GamePanel extends JPanel implements Runnable, KeyListener {
         // starts a new thread
         if (graphicsThread == null || !gameRunning) {
             graphicsThread = new Thread(this);
-            menu = new Menu(); // test for menu
+            menu = new Menu();
             graphicsThread.start();
         }
-    }
-
-    public void stopGame() {
-        gameRunning = false;
     }
 
     private void createPlayer1() {
@@ -317,10 +311,15 @@ public class GamePanel extends JPanel implements Runnable, KeyListener {
         System.exit(0); // exits JFrame
     }
 
+    public void stopGame() {
+            gameRunning = false;
+        }
+
     private void gameUpdate() {
         if (newGame) {
             createPlayer1();
             newGame = false;
+            resumeGame = true;
         }
         if (!gameOver) {
             // update game state ...
@@ -363,8 +362,6 @@ public class GamePanel extends JPanel implements Runnable, KeyListener {
             drawMenu(dbg);
         }
 
-
-
         if (gameOver) {
             drawGameOver(dbg);
         }
@@ -395,6 +392,8 @@ public class GamePanel extends JPanel implements Runnable, KeyListener {
     public Image getDbImage() {
         return dbImage;
     }
+
+    public static boolean isResumeGame() {return resumeGame;}
 
     private void drawMenu(Graphics dbg) {
         Graphics2D g = (Graphics2D)dbg;

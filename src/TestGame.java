@@ -1,6 +1,5 @@
 import javax.swing.*;
 import java.awt.*;
-import java.awt.event.KeyListener;
 
 public class TestGame extends JFrame {
     private GamePanel gamePanel;
