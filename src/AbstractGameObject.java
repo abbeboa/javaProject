@@ -46,7 +46,7 @@ public abstract class AbstractGameObject {
                 break;
             case BASICENEMY:
                 this.speed = 1.0;
-                this.image = GamePanel.imgPlayer1;
+                this.image = GamePanel.imgBasicEnemy;
                 this.hp = 2;
                 break;
             default:
