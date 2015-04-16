@@ -1,5 +1,8 @@
+import javax.swing.*;
 import java.awt.*;
 import java.awt.image.BufferedImage;
+import java.util.ArrayList;
+import java.util.List;
 
 public abstract class AbstractGameObject {
     protected double x, y, speed;
@@ -8,6 +11,7 @@ public abstract class AbstractGameObject {
     protected Type type;
     protected BufferedImage image;
     protected Rectangle rectangle;
+    protected Direction direction;
     private int counter = 0;
     private int id;
 
@@ -22,8 +26,8 @@ public abstract class AbstractGameObject {
         counter++;
     }
 
-    public void drawGameObject(Graphics dbg) {
-        //dbg.drawImage(this.getImage(), (int) this.getX(), (int) this.getY(), this);
+    public void drawGameObject(Graphics dbg, JPanel panel) {
+        dbg.drawImage(this.getImage(), (int) this.getX(), (int) this.getY(), panel);
     }
 
     private void setInitialValues(Type type) {
@@ -121,10 +125,11 @@ public abstract class AbstractGameObject {
         return speed;
     }
 
-    public void shoot(Type type, Direction direction) {
+    public void shoot(Type type, Direction direction, List<AbstractGameObject> gameObjects, List<Projectile> projectileList) {
         Position pos = calculateShootPos(direction, type);
-        Projectile projectile = new Projectile(pos.getX(), pos.getY(), true, type, direction, this.id);
-        GamePanel.projectileList.add(projectile);
+        Projectile newProjectile = new Projectile(pos.getX(), pos.getY(), true, type, direction, this.id);
+        gameObjects.add(newProjectile);
+        projectileList.add(newProjectile);
     }
 
     private Position calculateShootPos(Direction direction, Type bulletType) {
@@ -176,6 +181,10 @@ public abstract class AbstractGameObject {
 
     public BufferedImage getImage() {
         return image;
+    }
+
+    public Direction getDirection() {
+        return direction;
     }
 
     public Rectangle getRectangle() {

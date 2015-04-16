@@ -43,6 +43,7 @@ public class GamePanel extends JPanel implements Runnable, KeyListener {
     //private Enemy basicEnemy;
 
     private static List<AbstractGameObject> gameObjects = new ArrayList<>();
+    private static List<Projectile> projectileList = new ArrayList<Projectile>();
     private int basicEnemyInitialHP = 1;
     private int basicEnemySpeed = 10;
     private int currentShootingDelay = 30;
@@ -61,7 +62,7 @@ public class GamePanel extends JPanel implements Runnable, KeyListener {
     private int clickableTop = (Menu.height + JPWIDTH / 20);
     private int clickableBottom = Menu.height;
 
-    public static List<Projectile> projectileList = new ArrayList<Projectile>();
+
 
     //image variables
     public static BufferedImage imgBackground;
@@ -249,7 +250,7 @@ public class GamePanel extends JPanel implements Runnable, KeyListener {
                 if (keyCode == KeyEvent.VK_SPACE) {
                     shootingDelayCounter -= 1;
                     if (shootingDelayCounter <= 0) {
-                        player1.shoot(Type.BULLET, Direction.UP);
+                        player1.shoot(Type.BULLET, Direction.UP, gameObjects, projectileList);
                         shootingDelayCounter += currentShootingDelay;
                     }
                 }
@@ -312,6 +313,7 @@ public class GamePanel extends JPanel implements Runnable, KeyListener {
 
             if (state == STATE.GAME) {
                 gameUpdate(); // update game events
+            }
                 //gameRender(); // render image
                 //paintImage(); // paint image on screen
                 // repaint(); replaced by paintImage
@@ -326,7 +328,7 @@ public class GamePanel extends JPanel implements Runnable, KeyListener {
                     Thread.sleep(sleepTime); // frees the CPU to perform other tasks
                 } catch (InterruptedException ex) {
                 }
-            }
+
             startTime = System.currentTimeMillis();
         }
         System.exit(0); // exits JFrame
@@ -348,7 +350,10 @@ public class GamePanel extends JPanel implements Runnable, KeyListener {
             // update game state ...
             handleKeyEvents();
             moveBackgroundImages();
-            moveProjectiles();
+            for (int i = 0; i < projectileList.size(); i++) {
+                //projectileList.get(i).updateProjectile(gameObjects, projectileList, gameField);
+            }
+            //moveProjectiles();
             if (currentWave != null) {
                 currentWave.handleWave(System.currentTimeMillis());
             }
@@ -381,7 +386,7 @@ public class GamePanel extends JPanel implements Runnable, KeyListener {
         dbg.drawImage(imgBackground, 0, backgroundImageY2, this);
         if (state == STATE.GAME) {
             for (int i = 0; i < gameObjects.size(); i++) {
-                gameObjects.get(i).drawGameObject(dbg);
+                gameObjects.get(i).drawGameObject(dbg, this);
             }
             //drawPlayer();
             //drawProjectiles();
@@ -450,7 +455,7 @@ public class GamePanel extends JPanel implements Runnable, KeyListener {
         }
     }
 
-    private void drawProjectiles() {
+    /*private void drawProjectiles() {
         List<Projectile> projectileListCopy = new ArrayList<Projectile>(projectileList);
 
         for (Projectile p : projectileListCopy) {
@@ -459,7 +464,7 @@ public class GamePanel extends JPanel implements Runnable, KeyListener {
         for (Projectile p : projectileListCopy) {
             dbg.drawImage(p.getImage(), (int) p.getX(), (int) p.getY(), this);
         }
-    }
+    }*/
 
     /*private List<Projectile> cloneList(List<Projectile> original) {
         List<Projectile> copy = new ArrayList<Projectile>();
@@ -477,7 +482,7 @@ public class GamePanel extends JPanel implements Runnable, KeyListener {
         }
     }
 
-    private void moveProjectiles() {
+    /*private void moveProjectiles() {
         List<Integer> outsideProjectiles = new ArrayList<Integer>();
         for (Projectile p : projectileList) {
             p.move(p.getDirection(), p.getSpeed());
@@ -497,7 +502,7 @@ public class GamePanel extends JPanel implements Runnable, KeyListener {
             }
 
         }
-    }
+    }*/
 
     private void drawGameOver(Graphics g) {
         // should be replaced by drawImage, using drawString for now
