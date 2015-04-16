@@ -1,3 +1,5 @@
+import jdk.nashorn.internal.ir.WhileNode;
+
 import javax.imageio.ImageIO;
 import javax.swing.*;
 import java.awt.*;
@@ -93,6 +95,7 @@ public class GamePanel extends JPanel implements Runnable, KeyListener {
                     }
                 } else if (x > clickableLeft && x < clickableRight && y > clickableBottom + 100 &&
                         y < clickableTop + 100) { // new game button
+                    resetGame();
                     newGame = true;
                     state = STATE.GAME;
                 } else if (x > clickableLeft && x < clickableRight && y > clickableBottom + 200 &&
@@ -271,6 +274,12 @@ public class GamePanel extends JPanel implements Runnable, KeyListener {
         }
 
         // more methods
+    }
+
+    private void resetGame() {
+        while (gameObjects.size() > 0) {
+            gameObjects.remove(0);
+        }
     }
 
     private void gameRender() {
