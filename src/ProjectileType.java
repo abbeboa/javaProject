@@ -1,2 +1,1 @@
-public enum ProjectileType
-{BULLET, MISSILE}
+public enum ProjectileType {BULLET, MISSILE}

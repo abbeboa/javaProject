@@ -17,7 +17,7 @@ public abstract class AbstractGameObject {
         setInitialValues(type);
         this.indestructible = indestructible;
         this.type = type;
-        this.rectangle = new Rectangle((int)x, (int)y, image.getWidth(), image.getHeight());
+        this.rectangle = new Rectangle((int) x, (int) y, image.getWidth(), image.getHeight());
         this.id = counter;
         counter++;
     }
@@ -85,7 +85,7 @@ public abstract class AbstractGameObject {
                 break;
         }
         if (this.type == Type.PLAYER1) {
-            Rectangle testRectangle = new Rectangle((int)newX, (int)newY, image.getWidth(), image.getHeight());
+            Rectangle testRectangle = new Rectangle((int) newX, (int) newY, image.getWidth(), image.getHeight());
             if (GamePanel.gameField.contains(testRectangle)) {
                 x = newX;
                 y = newY;
@@ -94,7 +94,7 @@ public abstract class AbstractGameObject {
             x = newX;
             y = newY;
         }
-        updateRectangle((int)x, (int)y);
+        updateRectangle((int) x, (int) y);
     }
 
     private void updateRectangle(int newX, int newY) {
