@@ -6,9 +6,9 @@ import java.awt.image.BufferedImage;
 import java.io.File;
 import java.io.IOException;
 import java.util.ArrayList;
-import java.util.ConcurrentModificationException;
 import java.util.List;
 import java.awt.Rectangle;
+import java.util.Random;
 
 public class GamePanel extends JPanel implements Runnable, KeyListener {
 
@@ -40,6 +40,9 @@ public class GamePanel extends JPanel implements Runnable, KeyListener {
     private Image dbImage;
 
     private Player player1;
+    private Enemy basicEnemy;
+    private int basicEnemyInitialHP = 1;
+    private int basicEnemySpeed = 10;
     private int currentShootingDelay = 30;
     private int shootingDelayCounter = 0;
     private EnemyWave currentWave;
@@ -55,10 +58,6 @@ public class GamePanel extends JPanel implements Runnable, KeyListener {
     private int clickableRight = (JPWIDTH / 2 + JPWIDTH / 10 + JPWIDTH / 5);
     private int clickableTop = (Menu.height + JPWIDTH / 20);
     private int clickableBottom = Menu.height;
-
-    //test variables
-    private int testX;
-    private int testY;
 
     public static List<Projectile> projectileList = new ArrayList<Projectile>();
 
@@ -82,6 +81,13 @@ public class GamePanel extends JPanel implements Runnable, KeyListener {
         requestFocus(); // enables key events for JPanel
 
         // create / add game components
+
+        //addKeyListener_();
+        this.addKeyListener(this);
+        addMouseListener_();
+
+        // create / add game components
+
 
         //addKeyListener_();
         this.addKeyListener(this);
@@ -214,52 +220,54 @@ public class GamePanel extends JPanel implements Runnable, KeyListener {
             keysToHandle.add(pressedKeys.get(i));
         }
 
-        try {
-            if (state == STATE.GAME) {
-                for (int keyCode : keysToHandle) {
+        if (state == STATE.GAME) {
+            for (int keyCode : keysToHandle) {
 
-                    if (keyCode == KeyEvent.VK_LEFT) {
-                        if (gameField.contains(player1.getRectangle())) {
-                            player1.move(Direction.LEFT, player1.getSpeed());
-                        }
+                if (keyCode == KeyEvent.VK_LEFT) {
+                    if (gameField.contains(player1.getRectangle())) {
+                        player1.move(Direction.LEFT, player1.getSpeed());
+                    }
 
-                    }
-                    if (keyCode == KeyEvent.VK_RIGHT) {
-                        if (gameField.contains(player1.getRectangle())) {
-                            player1.move(Direction.RIGHT, player1.getSpeed());
-                        }
-                    }
-                    if (keyCode == KeyEvent.VK_UP) {
-                        if (gameField.contains(player1.getRectangle())) {
-                            player1.move(Direction.UP, player1.getSpeed());
-                        }
-                    }
-                    if (keyCode == KeyEvent.VK_DOWN) {
-                        if (gameField.contains(player1.getRectangle())) {
-                            player1.move(Direction.DOWN, player1.getSpeed());
-                        }
-                    }
-                    if (keyCode == KeyEvent.VK_SPACE) {
-                        shootingDelayCounter -= 1;
-                        if (shootingDelayCounter <= 0) {
-                            player1.shoot(Type.BULLET, Direction.UP);
-                            shootingDelayCounter += currentShootingDelay;
-                        }
-                    }
-                    if (keyCode == KeyEvent.VK_P) {
-                        state = STATE.MENU;
+                }
+                if (keyCode == KeyEvent.VK_RIGHT) {
+                    if (gameField.contains(player1.getRectangle())) {
+                        player1.move(Direction.RIGHT, player1.getSpeed());
                     }
                 }
-            } else if (state == STATE.MENU) {
-                for (int keyCode : pressedKeys) {
-                    if (keyCode == KeyEvent.VK_P) {
-                        System.out.println("start game with P");
-                        state = STATE.GAME;
+                if (keyCode == KeyEvent.VK_UP) {
+                    if (gameField.contains(player1.getRectangle())) {
+                        player1.move(Direction.UP, player1.getSpeed());
                     }
+                }
+                if (keyCode == KeyEvent.VK_DOWN) {
+                    if (gameField.contains(player1.getRectangle())) {
+                        player1.move(Direction.DOWN, player1.getSpeed());
+                    }
+                }
+                if (keyCode == KeyEvent.VK_SPACE) {
+                    shootingDelayCounter -= 1;
+                    if (shootingDelayCounter <= 0) {
+                        player1.shoot(Type.BULLET, Direction.UP);
+                        shootingDelayCounter += currentShootingDelay;
+                    }
+                }
+                if (keyCode == KeyEvent.VK_P) {
+                    state = STATE.MENU;
                 }
             }
-        } catch (ConcurrentModificationException e) {
-            System.out.println("handleKeyEvents error: " + e);
+        } else if (state == STATE.MENU) {
+            for (int keyCode : pressedKeys) {
+                if (keyCode == KeyEvent.VK_P) {
+                    System.out.println("start game with P");
+                    state = STATE.GAME;
+                }
+            }
+        }
+    }
+
+    private void enemyMovement() {
+        if (state == STATE.GAME) {
+            basicEnemy.x += 1;
         }
     }
 
@@ -289,6 +297,13 @@ public class GamePanel extends JPanel implements Runnable, KeyListener {
     private void createWave() {
         currentWave = new EnemyWave(1);
     }
+
+    private void createBasicEnemy() {
+        Random rnd = new Random();
+        int randomNum = rnd.nextInt((JPWIDTH) + 1);
+        basicEnemy = new Enemy(randomNum, 0, false, Type.BASICENEMY);
+    }
+
 
     public void run() {
         long startTime, timeSinceStart, sleepTime;
@@ -342,6 +357,19 @@ public class GamePanel extends JPanel implements Runnable, KeyListener {
                 currentWave.handleWave(System.currentTimeMillis());
             }
         }
+        if (newGame) {
+            createPlayer1();
+            createBasicEnemy();
+            newGame = false;
+            resumeGame = true;
+        }
+        if (!gameOver) {
+            // update game state ...
+            handleKeyEvents();
+            moveBackgroundImages();
+            moveProjectiles();
+
+        }
 
         // more methods
     }
@@ -378,6 +406,38 @@ public class GamePanel extends JPanel implements Runnable, KeyListener {
         if (gameOver) {
             drawGameOver(dbg);
         }
+        //for double buffering (draw frame to image buffer)
+        if (dbImage == null) {
+            dbImage = createImage(JPWIDTH, JPHEIGHT);
+            if (dbImage == null) {
+                System.out.println("dbImage is null");
+                return;
+            } else {
+                dbg = dbImage.getGraphics();
+            }
+        }
+
+        // clear JFrame
+        dbg.setColor(Color.BLACK);
+        dbg.fillRect(0, 0, JPWIDTH, JPHEIGHT);
+
+        // draw all game objects ...
+        dbg.setColor(bgColor);
+        dbg.fillRect(0, 0, JPWIDTH, JPHEIGHT);
+
+        dbg.drawImage(imgBackground, 0, backgroundImageY1, this);
+        dbg.drawImage(imgBackground, 0, backgroundImageY2, this);
+        if (state == STATE.GAME) {
+            drawPlayer();
+            drawBasicEnemy();
+            drawProjectiles();
+        } else if (state == STATE.MENU) {
+            drawMenu(dbg);
+        }
+
+        if (gameOver) {
+            drawGameOver(dbg);
+        }
     }
 
     private void paintImage() {
@@ -396,6 +456,12 @@ public class GamePanel extends JPanel implements Runnable, KeyListener {
     private void drawPlayer() {
         if (player1 != null) {
             dbg.drawImage(player1.getImage(), (int) player1.getX(), (int) player1.getY(), this);
+        }
+    }
+
+    private void drawBasicEnemy() {
+        if (basicEnemy != null) {
+            dbg.drawImage(basicEnemy.getImage(), (int) basicEnemy.getX(), (int) basicEnemy.getY(), this);
         }
     }
 
@@ -436,7 +502,15 @@ public class GamePanel extends JPanel implements Runnable, KeyListener {
         for (Projectile p : projectileListCopy) {
             dbg.drawImage(p.getImage(), (int) p.getX(), (int) p.getY(), this);
         }
+        for (Projectile p : projectileListCopy) {
+            dbg.drawImage(p.getImage(), (int) p.getX(), (int) p.getY(), this);
+        }
     }
+
+    /*private List<Projectile> cloneList(List<Projectile> original) {
+        List<Projectile> copy = new ArrayList<Projectile>();
+
+    }*/
 
     private void moveBackgroundImages() {
         backgroundImageY1 += 5;
