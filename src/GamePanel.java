@@ -16,36 +16,18 @@ public class GamePanel extends JPanel implements Runnable, KeyListener {
     public static final int JPHEIGHT = 720;
     private static final int PERIOD = 10; // time in ms for each game update
     public static final Rectangle gameField = new Rectangle(0, 0, JPWIDTH, JPHEIGHT);
-
-    public static int getJpwidth() {
-        return JPWIDTH;
-    }
-
-    public static int getJpheight() {
-        return JPHEIGHT;
-    }
-
     private static Color bgColor = Color.BLACK;
-
     private Thread graphicsThread;
     private boolean gameRunning = false;
     private boolean gameOver = false;
     private boolean newGame = true;
     private static boolean resumeGame = false;
-
     private static List<Integer> pressedKeys = new ArrayList<Integer>();
-
     //double buffering variables
     private Graphics dbg;
     private Image dbImage;
-
-    //private Player player1;
-    //private Enemy basicEnemy;
-
     private static List<AbstractGameObject> gameObjects = new ArrayList<>();
     private static List<Projectile> projectileList = new ArrayList<Projectile>();
-    private int basicEnemyInitialHP = 1;
-    private int basicEnemySpeed = 10;
     private int currentShootingDelay = 30;
     private int shootingDelayCounter = 0;
     private EnemyWave currentWave;
@@ -61,16 +43,12 @@ public class GamePanel extends JPanel implements Runnable, KeyListener {
     private int clickableRight = (JPWIDTH / 2 + JPWIDTH / 10 + JPWIDTH / 5);
     private int clickableTop = (Menu.height + JPWIDTH / 20);
     private int clickableBottom = Menu.height;
-
-
-
     //image variables
     public static BufferedImage imgBackground;
     public static BufferedImage imgPlayer1;
     public static BufferedImage imgBullet;
     public static BufferedImage imgBasicEnemy;
     public static Image imgMenuBackground;
-
 
     private int backgroundImageY1 = -JPHEIGHT;
     private int backgroundImageY2 = 0;
@@ -85,14 +63,6 @@ public class GamePanel extends JPanel implements Runnable, KeyListener {
 
         // create / add game components
 
-        //addKeyListener_();
-        this.addKeyListener(this);
-        addMouseListener_();
-
-        // create / add game components
-
-
-        //addKeyListener_();
         this.addKeyListener(this);
         addMouseListener_();
     }
@@ -140,61 +110,6 @@ public class GamePanel extends JPanel implements Runnable, KeyListener {
         addMouseListener(mouseAdapter);
     }
 
-    /*private void addKeyListener_() {
-    KeyAdapter keyAdapter = new KeyAdapter() {
-            public void keyPressed(KeyEvent e) {
-                handleKey("keyPressed", e);
-                System.out.println("KeyEvent is: " + e);
-                int keyCode = e.getKeyCode();
-                if ((keyCode == KeyEvent.VK_ESCAPE) || (keyCode == KeyEvent.VK_C && e.isControlDown())) {
-                    gameRunning = false;
-                }
-                if (keyCode == KeyEvent.VK_A) {
-                    bgColor = Color.PINK;
-                }
-                if (keyCode == KeyEvent.VK_S) {
-                    bgColor = Color.YELLOW;
-                }
-                if (keyCode == KeyEvent.VK_D) {
-                    bgColor = Color.WHITE;
-                }
-                if (keyCode == KeyEvent.VK_F) {
-                    bgColor = Color.BLACK;
-                }
-                if (keyCode == KeyEvent.VK_LEFT) {
-                    if (gameField.contains(player1.getRectangle())) {
-                        player1.move(Direction.LEFT, player1.getSpeed());
-                    }
-
-                }
-                if (keyCode == KeyEvent.VK_RIGHT) {
-                    if (gameField.contains(player1.getRectangle())) {
-                        player1.move(Direction.RIGHT, player1.getSpeed());
-                    }
-                }
-                if (keyCode == KeyEvent.VK_UP) {
-                    if (gameField.contains(player1.getRectangle())) {
-                        player1.move(Direction.UP, player1.getSpeed());
-                    }
-                }
-                if (keyCode == KeyEvent.VK_DOWN) {
-                    if (gameField.contains(player1.getRectangle())) {
-                        player1.move(Direction.DOWN, player1.getSpeed());
-                    }
-                }
-                if (keyCode == KeyEvent.VK_SPACE) {
-                        player1.shoot(Type.BULLET, Direction.UP);
-                }
-            }
-            public void keyReleased(KeyEvent e) {
-                handleKey("keyReleased", e);
-                System.out.println("KEY was released!!");
-            }
-
-        };
-        addKeyListener(keyAdapter);
-    }*/
-
     public void keyPressed(KeyEvent e) {
         handleKey("keyPressed", e.getKeyCode());
     }
@@ -222,15 +137,15 @@ public class GamePanel extends JPanel implements Runnable, KeyListener {
         for (int i = 0; i < pressedKeys.size(); i++) {
             keysToHandle.add(pressedKeys.get(i));
         }
-
-        if (state == STATE.GAME) {
-            for (int keyCode : keysToHandle) {
-
+        for (int keyCode : keysToHandle) {
+            if (keyCode == KeyEvent.VK_ESCAPE) {
+                gameRunning = false;
+            }
+            if (state == STATE.GAME) {
                 if (keyCode == KeyEvent.VK_LEFT) {
                     if (gameField.contains(player1.getRectangle())) {
                         player1.move(Direction.LEFT, player1.getSpeed());
                     }
-
                 }
                 if (keyCode == KeyEvent.VK_RIGHT) {
                     if (gameField.contains(player1.getRectangle())) {
@@ -257,9 +172,7 @@ public class GamePanel extends JPanel implements Runnable, KeyListener {
                 if (keyCode == KeyEvent.VK_P) {
                     state = STATE.MENU;
                 }
-            }
-        } else if (state == STATE.MENU) {
-            for (int keyCode : pressedKeys) {
+            } else if (state == STATE.MENU) {
                 if (keyCode == KeyEvent.VK_P) {
                     System.out.println("start game with P");
                     state = STATE.GAME;
@@ -300,7 +213,6 @@ public class GamePanel extends JPanel implements Runnable, KeyListener {
         gameObjects.add(new Enemy(randomNum, 0, false, Type.BASICENEMY));
     }
 
-
     public void run() {
         long startTime, timeSinceStart, sleepTime;
 
@@ -314,20 +226,17 @@ public class GamePanel extends JPanel implements Runnable, KeyListener {
             if (state == STATE.GAME) {
                 gameUpdate(); // update game events
             }
-                //gameRender(); // render image
-                //paintImage(); // paint image on screen
-                // repaint(); replaced by paintImage
 
-                timeSinceStart = System.currentTimeMillis() - startTime;
-                sleepTime = PERIOD - timeSinceStart;
+            timeSinceStart = System.currentTimeMillis() - startTime;
+            sleepTime = PERIOD - timeSinceStart;
 
-                if (sleepTime <= 0) {
-                    sleepTime = 5; // a little bit of sleep is always needed
-                }
-                try {
-                    Thread.sleep(sleepTime); // frees the CPU to perform other tasks
-                } catch (InterruptedException ex) {
-                }
+            if (sleepTime <= 0) {
+                sleepTime = 5; // a little bit of sleep is always needed
+            }
+            try {
+                Thread.sleep(sleepTime); // frees the CPU to perform other tasks
+            } catch (InterruptedException ex) {
+            }
 
             startTime = System.currentTimeMillis();
         }
@@ -351,9 +260,8 @@ public class GamePanel extends JPanel implements Runnable, KeyListener {
             handleKeyEvents();
             moveBackgroundImages();
             for (int i = 0; i < projectileList.size(); i++) {
-                //projectileList.get(i).updateProjectile(gameObjects, projectileList, gameField);
+                projectileList.get(i).updateProjectile(gameObjects, projectileList, gameField, i);
             }
-            //moveProjectiles();
             if (currentWave != null) {
                 currentWave.handleWave(System.currentTimeMillis());
             }
@@ -388,12 +296,9 @@ public class GamePanel extends JPanel implements Runnable, KeyListener {
             for (int i = 0; i < gameObjects.size(); i++) {
                 gameObjects.get(i).drawGameObject(dbg, this);
             }
-            //drawPlayer();
-            //drawProjectiles();
         } else if (state == STATE.MENU) {
             drawMenu(dbg);
         }
-
         if (gameOver) {
             drawGameOver(dbg);
         }
@@ -412,17 +317,37 @@ public class GamePanel extends JPanel implements Runnable, KeyListener {
         }
     }
 
-    /*private void drawPlayer() {
-        if (player1 != null) {
-            dbg.drawImage(player1.getImage(), (int) player1.getX(), (int) player1.getY(), this);
+    private void drawMenu(Graphics dbg) {
+        Graphics2D g = (Graphics2D) dbg;
+        if (state == STATE.MENU) {
+            menu.render(g);
         }
     }
 
-    private void drawBasicEnemy() {
-        if (basicEnemy != null) {
-            dbg.drawImage(basicEnemy.getImage(), (int) basicEnemy.getX(), (int) basicEnemy.getY(), this);
+    private void moveBackgroundImages() {
+        backgroundImageY1 += 5;
+        backgroundImageY2 += 5;
+        if (backgroundImageY1 > JPHEIGHT) {
+            backgroundImageY1 = -JPHEIGHT;
         }
-    }*/
+        if (backgroundImageY2 > JPHEIGHT) {
+            backgroundImageY2 = -JPHEIGHT;
+        }
+    }
+
+    private void drawGameOver(Graphics g) {
+        // should be replaced by drawImage, using drawString for now
+        String msg = "You lost";
+        g.drawString(msg, JPWIDTH / 2, JPHEIGHT / 2);
+    }
+
+    public static int getJpwidth() {
+        return JPWIDTH;
+    }
+
+    public static int getJpheight() {
+        return JPHEIGHT;
+    }
 
     public Image getDbImage() {
         return dbImage;
@@ -448,73 +373,4 @@ public class GamePanel extends JPanel implements Runnable, KeyListener {
         return clickableBottom;
     }
 
-    private void drawMenu(Graphics dbg) {
-        Graphics2D g = (Graphics2D) dbg;
-        if (state == STATE.MENU) {
-            menu.render(g);
-        }
-    }
-
-    /*private void drawProjectiles() {
-        List<Projectile> projectileListCopy = new ArrayList<Projectile>(projectileList);
-
-        for (Projectile p : projectileListCopy) {
-            dbg.drawImage(p.getImage(), (int) p.getX(), (int) p.getY(), this);
-        }
-        for (Projectile p : projectileListCopy) {
-            dbg.drawImage(p.getImage(), (int) p.getX(), (int) p.getY(), this);
-        }
-    }*/
-
-    /*private List<Projectile> cloneList(List<Projectile> original) {
-        List<Projectile> copy = new ArrayList<Projectile>();
-
-    }*/
-
-    private void moveBackgroundImages() {
-        backgroundImageY1 += 5;
-        backgroundImageY2 += 5;
-        if (backgroundImageY1 > JPHEIGHT) {
-            backgroundImageY1 = -JPHEIGHT;
-        }
-        if (backgroundImageY2 > JPHEIGHT) {
-            backgroundImageY2 = -JPHEIGHT;
-        }
-    }
-
-    /*private void moveProjectiles() {
-        List<Integer> outsideProjectiles = new ArrayList<Integer>();
-        for (Projectile p : projectileList) {
-            p.move(p.getDirection(), p.getSpeed());
-            if (!gameField.contains(p.getRectangle())) {
-                outsideProjectiles.add(projectileList.indexOf(p));
-            }
-        }
-        removeProjectiles(outsideProjectiles);
-    }
-
-    private void removeProjectiles(List<Integer> outsideProjectiles) {
-        for (int i = 0; i < outsideProjectiles.size(); i++) {
-            try {
-                projectileList.remove(i);
-            } catch (IndexOutOfBoundsException e) {
-                System.out.println("removeProjectiles: " + e);
-            }
-
-        }
-    }*/
-
-    private void drawGameOver(Graphics g) {
-        // should be replaced by drawImage, using drawString for now
-        String msg = "You lost";
-        g.drawString(msg, JPWIDTH / 2, JPHEIGHT / 2);
-    }
-
-    /* replaced by paintImage method
-    public void paintComponent(Graphics g) {
-        super.paintComponent(g);
-        if (dbImage != null) {
-            g.drawImage(dbImage, 0, 0, null);
-        }
-    } */
 }

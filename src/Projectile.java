@@ -5,7 +5,6 @@ import java.util.List;
 public class Projectile extends AbstractGameObject {
 
     private int ownerID;
-    private Direction direction;
 
     public Projectile(final double x, final double y, final Boolean indestructible,
                       final Type type, final Direction direction, final int ownerID) {
@@ -14,28 +13,29 @@ public class Projectile extends AbstractGameObject {
         this.ownerID = ownerID;
     }
 
-    public void updateProjectile(List<AbstractGameObject> gameObjects, Rectangle gameField) {
+    public void updateProjectile(List<AbstractGameObject> gameObjects, List<Projectile> projectileList, Rectangle gameField, int pListIndex) {
         List<Integer> outsideProjectiles = new ArrayList<Integer>();
-        for (int i = 0; i < gameObjects.size(); i++) {
-            if (gameObjects.get(i).getClass() == Projectile.class) {
-                AbstractGameObject p = gameObjects.get(i);
-                p.move(p.getDirection(), p.getSpeed());
-                if (!gameField.contains(p.getRectangle())) {
-                    outsideProjectiles.add(gameObjects.indexOf(p));
-                }
-            }
+        List<Integer> outsideProjectilesIds = new ArrayList<Integer>();
+        this.move(direction, speed);
+        if (!gameField.contains(rectangle)) {
+            outsideProjectiles.add(projectileList.indexOf(pListIndex));
+            outsideProjectilesIds.add(this.getId());
         }
-        removeProjectiles(outsideProjectiles, gameObjects);
+        removeProjectiles(outsideProjectiles, gameObjects, projectileList, outsideProjectilesIds);
     }
 
-    private void removeProjectiles(List<Integer> outsideProjectiles, List<AbstractGameObject> gameObjects) {
+    private void removeProjectiles(List<Integer> outsideProjectiles, List<AbstractGameObject> gameObjects, List<Projectile> projectileList, List<Integer> outsideProjectilesIds) {
         for (int i = 0; i < outsideProjectiles.size(); i++) {
             try {
-                gameObjects.remove(i);
+                projectileList.remove(i);
             } catch (IndexOutOfBoundsException e) {
                 System.out.println("removeProjectiles: " + e);
             }
-
+        }
+        for (int i = 0; i < gameObjects.size(); i++) {
+            if (outsideProjectilesIds.contains(gameObjects.get(i).getId())) {
+                gameObjects.remove(i);
+            }
         }
     }
 

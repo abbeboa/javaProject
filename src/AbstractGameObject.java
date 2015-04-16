@@ -12,7 +12,7 @@ public abstract class AbstractGameObject {
     protected BufferedImage image;
     protected Rectangle rectangle;
     protected Direction direction;
-    private int counter = 0;
+    private static int counter = 0;
     private int id;
 
     public AbstractGameObject(final double x, final double y, final Boolean indestructible, final Type type) {
@@ -109,22 +109,6 @@ public abstract class AbstractGameObject {
         this.rectangle = new Rectangle(newX, newY, image.getWidth(), image.getHeight());
     }
 
-    public double getX() {
-        return x;
-    }
-
-    public double getY() {
-        return y;
-    }
-
-    public int getHP() {
-        return hp;
-    }
-
-    public double getSpeed() {
-        return speed;
-    }
-
     public void shoot(Type type, Direction direction, List<AbstractGameObject> gameObjects, List<Projectile> projectileList) {
         Position pos = calculateShootPos(direction, type);
         Projectile newProjectile = new Projectile(pos.getX(), pos.getY(), true, type, direction, this.id);
@@ -179,6 +163,22 @@ public abstract class AbstractGameObject {
         }
     }
 
+    public double getX() {
+        return x;
+    }
+
+    public double getY() {
+        return y;
+    }
+
+    public int getHP() {
+        return hp;
+    }
+
+    public double getSpeed() {
+        return speed;
+    }
+
     public BufferedImage getImage() {
         return image;
     }
@@ -189,5 +189,21 @@ public abstract class AbstractGameObject {
 
     public Rectangle getRectangle() {
         return rectangle;
+    }
+
+    public int getId() {
+        return id;
+    }
+
+    public Type getType() {
+        return type;
+    }
+
+    public Boolean getIndestructible() {
+        return indestructible;
+    }
+
+    public int getHp() {
+        return hp;
     }
 }
