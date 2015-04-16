@@ -41,8 +41,6 @@ public class GamePanel extends JPanel implements Runnable, KeyListener
     private Image dbImage;
 
     private Player player1;
-    private int playerInitialHP = 1;
-    private int playerInitialSpeed = 10;
     private int currentShootingDelay = 30;
     private int shootingDelayCounter = 0;
 
@@ -84,9 +82,7 @@ public class GamePanel extends JPanel implements Runnable, KeyListener
 	setFocusable(true);
 	requestFocus(); // enables key events for JPanel
 
-
 	// create / add game components
-
 
 	//addKeyListener_();
 	this.addKeyListener(this);
@@ -215,9 +211,14 @@ public class GamePanel extends JPanel implements Runnable, KeyListener
 
     private void handleKeyEvents() {
 
+        List<Integer> keysToHandle = new ArrayList<Integer>();
+        for (int i = 0; i < pressedKeys.size(); i++) {
+            keysToHandle.add(pressedKeys.get(i));
+        }
+
 	try {
 	    if (state == STATE.GAME) {
-		for (int keyCode : pressedKeys) {
+		for (int keyCode : keysToHandle) {
 
 		    if (keyCode == KeyEvent.VK_LEFT) {
 			if (gameField.contains(player1.getRectangle())) {
@@ -388,11 +389,9 @@ public class GamePanel extends JPanel implements Runnable, KeyListener
     }
 
     private void drawPlayer() {
-	try {
-	    dbg.drawImage(player1.getImage(), (int) player1.getX(), (int) player1.getY(), this);
-	} catch (Exception e) {
-	    System.out.println("drawPlayer graphics error:" + e);
-	}
+        if (player1 != null) {
+            dbg.drawImage(player1.getImage(), (int) player1.getX(), (int) player1.getY(), this);
+        }
     }
 
     public Image getDbImage() {
@@ -430,13 +429,7 @@ public class GamePanel extends JPanel implements Runnable, KeyListener
 	for (Projectile p : projectileListCopy) {
 	    dbg.drawImage(p.getImage(), (int) p.getX(), (int) p.getY(), this);
 	}
-
     }
-
-    /*private List<Projectile> cloneList(List<Projectile> original) {
-        List<Projectile> copy = new ArrayList<Projectile>();
-
-    }*/
 
     private void moveBackgroundImages() {
 	backgroundImageY1 += 5;
