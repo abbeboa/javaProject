@@ -382,12 +382,12 @@ public class GamePanel extends JPanel implements Runnable, KeyListener {
     }
 
     private void drawPlayer() {
-        //try {
+        try {
             dbg.drawImage(player1.getImage(), (int) player1.getX(), (int) player1.getY(), this);
-           // }
-   //catch (Exception e) {
-       //     System.out.println("drawPlayer graphics error:" + e);
-     //   }
+            }
+   catch (Exception e) {
+            System.out.println("drawPlayer graphics error:" + e);
+        }
     }
 
     public Image getDbImage() {
