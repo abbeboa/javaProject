@@ -39,8 +39,10 @@ public class GamePanel extends JPanel implements Runnable, KeyListener {
     private Graphics dbg;
     private Image dbImage;
 
-    private Player player1;
-    private Enemy basicEnemy;
+    //private Player player1;
+    //private Enemy basicEnemy;
+
+    private static List<AbstractGameObject> gameObjects = new ArrayList<>();
     private int basicEnemyInitialHP = 1;
     private int basicEnemySpeed = 10;
     private int currentShootingDelay = 30;
@@ -214,7 +216,7 @@ public class GamePanel extends JPanel implements Runnable, KeyListener {
     }
 
     private void handleKeyEvents() {
-
+        AbstractGameObject player1 = gameObjects.get(0);
         List<Integer> keysToHandle = new ArrayList<Integer>();
         for (int i = 0; i < pressedKeys.size(); i++) {
             keysToHandle.add(pressedKeys.get(i));
@@ -265,13 +267,6 @@ public class GamePanel extends JPanel implements Runnable, KeyListener {
         }
     }
 
-    private void enemyMovement() {
-        if (state == STATE.GAME) {
-            basicEnemy.x += 1;
-        }
-    }
-
-
     public void addNotify() {
      /* Makes sure JPanel and JFrame is ready
      before starting the game. */
@@ -291,7 +286,7 @@ public class GamePanel extends JPanel implements Runnable, KeyListener {
     private void createPlayer1() {
         double playerStartPosX = JPWIDTH / 2 - (imgPlayer1.getWidth() / 2);
         double playerStartPosY = JPHEIGHT - imgPlayer1.getHeight();
-        player1 = new Player(playerStartPosX, playerStartPosY, false, Type.PLAYER1);
+        gameObjects.add(new Player(playerStartPosX, playerStartPosY, false, Type.PLAYER1));
     }
 
     private void createWave() {
@@ -301,7 +296,7 @@ public class GamePanel extends JPanel implements Runnable, KeyListener {
     private void createBasicEnemy() {
         Random rnd = new Random();
         int randomNum = rnd.nextInt((JPWIDTH) + 1);
-        basicEnemy = new Enemy(randomNum, 0, false, Type.BASICENEMY);
+        gameObjects.add(new Enemy(randomNum, 0, false, Type.BASICENEMY));
     }
 
 
@@ -385,40 +380,11 @@ public class GamePanel extends JPanel implements Runnable, KeyListener {
         dbg.drawImage(imgBackground, 0, backgroundImageY1, this);
         dbg.drawImage(imgBackground, 0, backgroundImageY2, this);
         if (state == STATE.GAME) {
-            drawPlayer();
-            drawProjectiles();
-        } else if (state == STATE.MENU) {
-            drawMenu(dbg);
-        }
-
-        if (gameOver) {
-            drawGameOver(dbg);
-        }
-        //for double buffering (draw frame to image buffer)
-        if (dbImage == null) {
-            dbImage = createImage(JPWIDTH, JPHEIGHT);
-            if (dbImage == null) {
-                System.out.println("dbImage is null");
-                return;
-            } else {
-                dbg = dbImage.getGraphics();
+            for (int i = 0; i < gameObjects.size(); i++) {
+                gameObjects.get(i).drawGameObject(dbg);
             }
-        }
-
-        // clear JFrame
-        dbg.setColor(Color.BLACK);
-        dbg.fillRect(0, 0, JPWIDTH, JPHEIGHT);
-
-        // draw all game objects ...
-        dbg.setColor(bgColor);
-        dbg.fillRect(0, 0, JPWIDTH, JPHEIGHT);
-
-        dbg.drawImage(imgBackground, 0, backgroundImageY1, this);
-        dbg.drawImage(imgBackground, 0, backgroundImageY2, this);
-        if (state == STATE.GAME) {
-            drawPlayer();
-            drawBasicEnemy();
-            drawProjectiles();
+            //drawPlayer();
+            //drawProjectiles();
         } else if (state == STATE.MENU) {
             drawMenu(dbg);
         }
@@ -441,7 +407,7 @@ public class GamePanel extends JPanel implements Runnable, KeyListener {
         }
     }
 
-    private void drawPlayer() {
+    /*private void drawPlayer() {
         if (player1 != null) {
             dbg.drawImage(player1.getImage(), (int) player1.getX(), (int) player1.getY(), this);
         }
@@ -451,7 +417,7 @@ public class GamePanel extends JPanel implements Runnable, KeyListener {
         if (basicEnemy != null) {
             dbg.drawImage(basicEnemy.getImage(), (int) basicEnemy.getX(), (int) basicEnemy.getY(), this);
         }
-    }
+    }*/
 
     public Image getDbImage() {
         return dbImage;

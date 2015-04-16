@@ -22,6 +22,10 @@ public abstract class AbstractGameObject {
         counter++;
     }
 
+    public void drawGameObject(Graphics dbg) {
+        //dbg.drawImage(this.getImage(), (int) this.getX(), (int) this.getY(), this);
+    }
+
     private void setInitialValues(Type type) {
         switch (type) {
             case PLAYER1:
