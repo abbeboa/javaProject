@@ -1,15 +1,11 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <project version="4">
   <component name="ChangeListManager">
-    <list default="true" id="0140d6da-d072-4a34-bc7e-d86f31676f05" name="Default" comment="-More pictures for player&#10;">
-      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/src/images/basicEnemy.png" />
-      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/src/images/player2.png" />
-      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/src/images/player3.png" />
+    <list default="true" id="0140d6da-d072-4a34-bc7e-d86f31676f05" name="Default" comment="">
       <change type="MODIFICATION" beforePath="$PROJECT_DIR$/out/production/javaProject/EnemyWave.class" afterPath="$PROJECT_DIR$/out/production/javaProject/EnemyWave.class" />
       <change type="MODIFICATION" beforePath="$PROJECT_DIR$/out/production/javaProject/GamePanel$1.class" afterPath="$PROJECT_DIR$/out/production/javaProject/GamePanel$1.class" />
       <change type="MODIFICATION" beforePath="$PROJECT_DIR$/out/production/javaProject/GamePanel.class" afterPath="$PROJECT_DIR$/out/production/javaProject/GamePanel.class" />
       <change type="MODIFICATION" beforePath="$PROJECT_DIR$/out/production/javaProject/Menu.class" afterPath="$PROJECT_DIR$/out/production/javaProject/Menu.class" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/GamePanel.java" afterPath="$PROJECT_DIR$/src/GamePanel.java" />
       <change type="MODIFICATION" beforePath="$PROJECT_DIR$/javaProject.iws" afterPath="$PROJECT_DIR$/javaProject.iws" />
     </list>
     <ignored path="javaProject.iws" />
@@ -594,7 +590,7 @@
       <workItem from="1429042326429" duration="346000" />
       <workItem from="1429109463630" duration="3393000" />
       <workItem from="1429113246588" duration="3546000" />
-      <workItem from="1429183899825" duration="1810000" />
+      <workItem from="1429183899825" duration="2226000" />
     </task>
     <task id="LOCAL-00001" summary="småfixar som fixat det Chriz fuckat upp">
       <created>1429113767273</created>
@@ -614,11 +610,17 @@
       <option name="project" value="LOCAL" />
       <updated>1429116785487</updated>
     </task>
-    <option name="localTasksCounter" value="4" />
+    <task id="LOCAL-00004" summary="-More pictures&#10;">
+      <created>1429187444392</created>
+      <option name="number" value="00004" />
+      <option name="project" value="LOCAL" />
+      <updated>1429187444392</updated>
+    </task>
+    <option name="localTasksCounter" value="5" />
     <servers />
   </component>
   <component name="TimeTrackingManager">
-    <option name="totallyTimeSpent" value="28955000" />
+    <option name="totallyTimeSpent" value="29371000" />
   </component>
   <component name="ToolWindowManager">
     <frame x="0" y="0" width="1926" height="1177" extended-state="6" />
@@ -670,7 +672,8 @@
     </option>
     <MESSAGE value="småfixar som fixat det Chriz fuckat upp" />
     <MESSAGE value="-More readable code for the menu&#10;-Added basicEnemy picture&#10;" />
-    <option name="LAST_COMMIT_MESSAGE" value="-More readable code for the menu&#10;-Added basicEnemy picture&#10;" />
+    <MESSAGE value="-More pictures&#10;" />
+    <option name="LAST_COMMIT_MESSAGE" value="-More pictures&#10;" />
   </component>
   <component name="XDebuggerManager">
     <breakpoint-manager />
