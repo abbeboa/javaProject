@@ -176,7 +176,6 @@ public class GamePanel extends JPanel implements Runnable, KeyListener {
                 }
             } else if (state == STATE.MENU) {
                 if (keyCode == KeyEvent.VK_P) {
-                    System.out.println("start game with P");
                     state = STATE.GAME;
                 }
             }
@@ -253,7 +252,6 @@ public class GamePanel extends JPanel implements Runnable, KeyListener {
         if (newGame) {
             createPlayer1();
             createWave();
-            createBasicEnemy();
             newGame = false;
             resumeGame = true;
         }
@@ -262,7 +260,7 @@ public class GamePanel extends JPanel implements Runnable, KeyListener {
             handleKeyEvents();
             moveBackgroundImages();
             for (int i = 0; i < projectileList.size(); i++) {
-                projectileList.get(i).updateProjectile(gameObjects, projectileList, i);
+                    projectileList.get(i).updateProjectile(gameObjects, projectileList, i);
             }
             for (int i = 0; i < enemyList.size(); i++) {
                 enemyList.get(i).update();
