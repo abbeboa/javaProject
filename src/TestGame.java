@@ -2,7 +2,6 @@ import javax.swing.*;
 import java.awt.*;
 
 public class TestGame extends JFrame {
-    private GamePanel gamePanel;
 
     public TestGame() {
         super("TestGame");
@@ -14,7 +13,7 @@ public class TestGame extends JFrame {
 
     private void createGUI() {
         Container c = getContentPane();
-        gamePanel = new GamePanel();
+        GamePanel gamePanel = new GamePanel();
         c.add(gamePanel, "Center");
     }
 
