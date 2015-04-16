@@ -9,6 +9,7 @@ import java.util.ArrayList;
 import java.util.ConcurrentModificationException;
 import java.util.List;
 import java.awt.Rectangle;
+import java.util.Random;
 
 public class GamePanel extends JPanel implements Runnable, KeyListener
 {
@@ -41,16 +42,15 @@ public class GamePanel extends JPanel implements Runnable, KeyListener
     private Image dbImage;
 
     private Player player1;
-    private int playerInitialHP = 1;
-    private int playerInitialSpeed = 10;
+    private Enemy basicEnemy;
+    private int basicEnemyInitialHP = 1;
+    private int basicEnemySpeed = 10;
+    private int playerInitialHP = 3;
     private int currentShootingDelay = 30;
     private int shootingDelayCounter = 0;
 
     //menu
-    private enum STATE
-    {
-	MENU, GAME
-    }
+    private enum STATE {MENU, GAME}
 
     private STATE state = STATE.MENU;
     private Menu menu;
@@ -264,6 +264,12 @@ public class GamePanel extends JPanel implements Runnable, KeyListener
 	}
     }
 
+    private void enemyMovement() {
+    	if (state == STATE.GAME) {
+    	    basicEnemy.x += 1;
+    	}
+    }
+
 
     public void addNotify() {
      /* Makes sure JPanel and JFrame is ready
@@ -286,6 +292,13 @@ public class GamePanel extends JPanel implements Runnable, KeyListener
 	double playerStartPosY = JPHEIGHT - imgPlayer1.getHeight();
 	player1 = new Player(playerStartPosX, playerStartPosY, false, Type.PLAYER1);
     }
+
+    private void createBasicEnemy() {
+    	Random rnd = new Random();
+    	int randomNum = rnd.nextInt((JPWIDTH) + 1);
+        	basicEnemy = new Enemy(randomNum,0 , false, Type.BASICENEMY);
+            }
+
 
     public void run() {
 	long startTime, timeSinceStart, sleepTime;
@@ -326,6 +339,7 @@ public class GamePanel extends JPanel implements Runnable, KeyListener
     private void gameUpdate() {
 	if (newGame) {
 	    createPlayer1();
+	    createBasicEnemy();
 	    newGame = false;
 	    resumeGame = true;
 	}
@@ -364,6 +378,7 @@ public class GamePanel extends JPanel implements Runnable, KeyListener
 	dbg.drawImage(imgBackground, 0, backgroundImageY2, this);
 	if (state == STATE.GAME) {
 	    drawPlayer();
+	    drawBasicEnemy();
 	    drawProjectiles();
 	} else if (state == STATE.MENU) {
 	    drawMenu(dbg);
@@ -394,6 +409,14 @@ public class GamePanel extends JPanel implements Runnable, KeyListener
 	    System.out.println("drawPlayer graphics error:" + e);
 	}
     }
+
+    private void drawBasicEnemy() {
+        	try {
+        	    dbg.drawImage(basicEnemy.getImage(), (int) basicEnemy.getX(), (int) basicEnemy.getY(), this);
+        	} catch (Exception e) {
+        	    System.out.println("drawBasicEnemy graphics error:" + e);
+        	}
+            }
 
     public Image getDbImage() {
 	return dbImage;

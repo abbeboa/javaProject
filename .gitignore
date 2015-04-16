@@ -1,1 +1,5 @@
 *.iws
+*.class
+out/production/javaProject/GamePanel$1.class
+out/production/javaProject/GamePanel.class
+out/production/javaProject/GamePanel.class
