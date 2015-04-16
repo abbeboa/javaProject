@@ -345,6 +345,7 @@ public class GamePanel extends JPanel implements Runnable, KeyListener {
         if (newGame) {
             createPlayer1();
             createWave();
+            createBasicEnemy();
             newGame = false;
             resumeGame = true;
         }
@@ -356,19 +357,6 @@ public class GamePanel extends JPanel implements Runnable, KeyListener {
             if (currentWave != null) {
                 currentWave.handleWave(System.currentTimeMillis());
             }
-        }
-        if (newGame) {
-            createPlayer1();
-            createBasicEnemy();
-            newGame = false;
-            resumeGame = true;
-        }
-        if (!gameOver) {
-            // update game state ...
-            handleKeyEvents();
-            moveBackgroundImages();
-            moveProjectiles();
-
         }
 
         // more methods
