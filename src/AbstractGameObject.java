@@ -1,7 +1,6 @@
 import javax.swing.*;
 import java.awt.*;
 import java.awt.image.BufferedImage;
-import java.util.ArrayList;
 import java.util.List;
 
 public abstract class AbstractGameObject {
@@ -27,7 +26,7 @@ public abstract class AbstractGameObject {
     }
 
     public void drawGameObject(Graphics dbg, JPanel panel) {
-        dbg.drawImage(this.getImage(), (int) this.getX(), (int) this.getY(), panel);
+        dbg.drawImage(image, (int) x, (int) y, panel);
     }
 
     private void setInitialValues(Type type) {
@@ -119,46 +118,46 @@ public abstract class AbstractGameObject {
     private Position calculateShootPos(Direction direction, Type bulletType) {
         double posX;
         double posY;
-        int playerWidth = this.getImage().getWidth();
-        int playerHeight = this.getImage().getHeight();
+        int playerWidth = image.getWidth();
+        int playerHeight = image.getHeight();
         //int bulletWidth = getInitialImage(bulletType).getWidth();
         //int bulletHeight = getInitialImage(bulletType).getHeight();
         switch (direction) {
             case UP:
-                posX = this.getX() + (playerWidth / 2);
-                posY = this.getY();
+                posX = x + (playerWidth / 2);
+                posY = y;
                 return new Position(posX, posY);
             case DOWN:
-                posX = this.getX() + (playerWidth / 2);
-                posY = this.getY() + playerHeight;
+                posX = x + (playerWidth / 2);
+                posY = y + playerHeight;
                 return new Position(posX, posY);
             case LEFT:
-                posX = this.getX();
-                posY = this.getY() + (playerHeight / 2);
+                posX = x;
+                posY = y + (playerHeight / 2);
                 return new Position(posX, posY);
             case RIGHT:
-                posX = this.getX() + playerWidth;
-                posY = this.getY() + (playerHeight / 2);
+                posX = x + playerWidth;
+                posY = y + (playerHeight / 2);
                 return new Position(posX, posY);
             case UP_LEFT:
-                posX = this.getX();
-                posY = this.getY();
+                posX = x;
+                posY = y;
                 return new Position(posX, posY);
             case UP_RIGHT:
-                posX = this.getX();
-                posY = this.getY();
+                posX = x;
+                posY = y;
                 return new Position(posX, posY);
             case DOWN_LEFT:
-                posX = this.getX();
-                posY = this.getY();
+                posX = x;
+                posY = y;
                 return new Position(posX, posY);
             case DOWN_RIGHT:
-                posX = this.getX();
-                posY = this.getY();
+                posX = x;
+                posY = y;
                 return new Position(posX, posY);
             default:
-                posX = this.getX();
-                posY = this.getY();
+                posX = x;
+                posY = y;
                 return new Position(posX, posY);
         }
     }

@@ -1,5 +1,3 @@
-import jdk.nashorn.internal.ir.WhileNode;
-
 import javax.imageio.ImageIO;
 import javax.swing.*;
 import java.awt.*;
@@ -9,7 +7,6 @@ import java.io.File;
 import java.io.IOException;
 import java.util.ArrayList;
 import java.util.List;
-import java.awt.Rectangle;
 import java.util.Random;
 
 public class GamePanel extends JPanel implements Runnable, KeyListener {
@@ -32,7 +29,6 @@ public class GamePanel extends JPanel implements Runnable, KeyListener {
     private static List<AbstractGameObject> gameObjects = new ArrayList<>();
     private static List<Projectile> projectileList = new ArrayList<>();
     private static List<Enemy> enemyList = new ArrayList<>();
-    private int currentShootingDelay = 30;
     private int shootingDelayCounter = 0;
     private EnemyWave currentWave;
 
@@ -43,10 +39,10 @@ public class GamePanel extends JPanel implements Runnable, KeyListener {
 
     private STATE state = STATE.MENU;
     private Menu menu;
-    private int clickableLeft = (JPWIDTH / 2 + JPWIDTH / 10);
-    private int clickableRight = (JPWIDTH / 2 + JPWIDTH / 10 + JPWIDTH / 5);
-    private int clickableTop = (Menu.height + JPWIDTH / 20);
-    private int clickableBottom = Menu.height;
+    private int clickableLeft = Menu.buttonLeft;
+    private int clickableRight = Menu.buttonRight;
+    private int clickableTop = Menu.buttonTop;
+    private int clickableBottom = Menu.buttonBottom;
     //image variables
     public static BufferedImage imgBackground;
     public static BufferedImage imgPlayer1;
@@ -171,6 +167,7 @@ public class GamePanel extends JPanel implements Runnable, KeyListener {
                     shootingDelayCounter -= 1;
                     if (shootingDelayCounter <= 0) {
                         player1.shoot(Type.BULLET, Direction.UP, gameObjects, projectileList);
+                        int currentShootingDelay = 30;
                         shootingDelayCounter += currentShootingDelay;
                     }
                 }
@@ -239,7 +236,7 @@ public class GamePanel extends JPanel implements Runnable, KeyListener {
             }
             try {
                 Thread.sleep(sleepTime); // frees the CPU to perform other tasks
-            } catch (InterruptedException ex) {
+            } catch (InterruptedException ignored) {
             }
 
             startTime = System.currentTimeMillis();
@@ -277,7 +274,7 @@ public class GamePanel extends JPanel implements Runnable, KeyListener {
     }
 
     private void resetGame() {
-        while (gameObjects.size() > 0) {
+        while (!gameObjects.isEmpty()) {
             gameObjects.remove(0);
         }
     }
@@ -324,7 +321,7 @@ public class GamePanel extends JPanel implements Runnable, KeyListener {
                 g.drawImage(dbImage, 0, 0, null);
                 g.dispose();
             }
-        } catch (Exception e) {
+        } catch (RuntimeException e) {
             System.out.println("drawImage graphics error:" + e);
         }
     }
