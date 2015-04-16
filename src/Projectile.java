@@ -13,11 +13,11 @@ public class Projectile extends AbstractGameObject {
         this.ownerID = ownerID;
     }
 
-    public void updateProjectile(List<AbstractGameObject> gameObjects, List<Projectile> projectileList, Rectangle gameField, int pListIndex) {
+    public void updateProjectile(List<AbstractGameObject> gameObjects, List<Projectile> projectileList, int pListIndex) {
         List<Integer> outsideProjectiles = new ArrayList<Integer>();
         List<Integer> outsideProjectilesIds = new ArrayList<Integer>();
         this.move(direction, speed);
-        if (!gameField.contains(rectangle)) {
+        if (!GamePanel.gameField.contains(rectangle)) {
             outsideProjectiles.add(projectileList.indexOf(pListIndex));
             outsideProjectilesIds.add(this.getId());
         }

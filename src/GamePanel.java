@@ -11,11 +11,12 @@ import java.awt.Rectangle;
 import java.util.Random;
 
 public class GamePanel extends JPanel implements Runnable, KeyListener {
-
     public static final int JPWIDTH = 1280; // JPanel size
     public static final int JPHEIGHT = 720;
     private static final int PERIOD = 10; // time in ms for each game update
     public static final Rectangle gameField = new Rectangle(0, 0, JPWIDTH, JPHEIGHT);
+    private static final int enemyMargin = 100;
+    private static final Rectangle enemiesGameField = new Rectangle(-enemyMargin, -enemyMargin, JPWIDTH + enemyMargin, JPHEIGHT + enemyMargin);
     private static Color bgColor = Color.BLACK;
     private Thread graphicsThread;
     private boolean gameRunning = false;
@@ -27,7 +28,8 @@ public class GamePanel extends JPanel implements Runnable, KeyListener {
     private Graphics dbg;
     private Image dbImage;
     private static List<AbstractGameObject> gameObjects = new ArrayList<>();
-    private static List<Projectile> projectileList = new ArrayList<Projectile>();
+    private static List<Projectile> projectileList = new ArrayList<>();
+    private static List<Enemy> enemyList = new ArrayList<>();
     private int currentShootingDelay = 30;
     private int shootingDelayCounter = 0;
     private EnemyWave currentWave;
@@ -260,10 +262,13 @@ public class GamePanel extends JPanel implements Runnable, KeyListener {
             handleKeyEvents();
             moveBackgroundImages();
             for (int i = 0; i < projectileList.size(); i++) {
-                projectileList.get(i).updateProjectile(gameObjects, projectileList, gameField, i);
+                projectileList.get(i).updateProjectile(gameObjects, projectileList, i);
+            }
+            for (int i = 0; i < enemyList.size(); i++) {
+                enemyList.get(i).update();
             }
             if (currentWave != null) {
-                currentWave.handleWave(System.currentTimeMillis());
+                currentWave.handleWave(System.currentTimeMillis(), gameObjects, enemyList, JPWIDTH);
             }
         }
 
