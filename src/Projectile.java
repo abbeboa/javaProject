@@ -12,30 +12,12 @@ public class Projectile extends AbstractGameObject {
         this.ownerID = ownerID;
     }
 
-    public void updateProjectile(List<AbstractGameObject> gameObjects, List<Projectile> projectileList, int pListIndex) {
-        List<Integer> outsideProjectiles = new ArrayList<Integer>();
-        List<Integer> outsideProjectilesIds = new ArrayList<Integer>();
+    public List<Integer> updateProjectile(List<Integer> gameObjectIdsToRemove) {
         this.move(direction, speed);
         if (!GamePanel.gameField.contains(rectangle)) {
-            outsideProjectiles.add(projectileList.indexOf(pListIndex));
-            outsideProjectilesIds.add(this.getId());
+            gameObjectIdsToRemove.add(this.getId());
         }
-        removeProjectiles(outsideProjectiles, gameObjects, projectileList, outsideProjectilesIds);
-    }
-
-    private void removeProjectiles(List<Integer> outsideProjectiles, List<AbstractGameObject> gameObjects, List<Projectile> projectileList, List<Integer> outsideProjectilesIds) {
-        for (int i = 0; i < outsideProjectiles.size(); i++) {
-            try {
-                projectileList.remove(i);
-            } catch (IndexOutOfBoundsException e) {
-                System.out.println("removeProjectiles: " + e);
-            }
-        }
-        for (int i = 0; i < gameObjects.size(); i++) {
-            if (outsideProjectilesIds.contains(gameObjects.get(i).getId())) {
-                gameObjects.remove(i);
-            }
-        }
+        return gameObjectIdsToRemove;
     }
 
     public int getOwnerID() {

@@ -3,13 +3,14 @@ import java.util.Random;
 
 public class EnemyWave {
     private long waveStartTime = System.currentTimeMillis();
-    private int waveInterval;
-    private int spawnEnemiesInterval;
-    private int numberOfWaves;
-    private int waveNumber;
-    private int enemiesPerWave;
-    private int n;
-    private boolean progressive = false;
+    private static int waveInterval;
+    private static int spawnEnemiesInterval;
+    private static int numberOfWaves;
+    private static int waveNumber;
+    private static int enemiesPerWave;
+    private static int n = 1;
+    private static boolean waveActive = false;
+    private static boolean progressive = false;
 
     public EnemyWave(int waveNumber) {
         this.waveNumber = waveNumber;
@@ -25,7 +26,7 @@ public class EnemyWave {
             this.spawnEnemiesInterval = 1000;
             this.enemiesPerWave = 4;
         } else if (waveNumber == 1) {
-            this.numberOfWaves = 4;
+            this.numberOfWaves = 1000;
             this.waveInterval = 6000;
             this.spawnEnemiesInterval = 1000;
             this.enemiesPerWave = 4;
@@ -35,22 +36,25 @@ public class EnemyWave {
     public void handleWave(long currentTime, List<AbstractGameObject> gameObjects, List<Enemy> enemyList, int JPWIDTH) {
         if (currentTime > waveStartTime + waveInterval) {
             n = 1;
-            System.out.println("WAVE ACTIVATE!!!");
             waveStartTime = currentTime;
             numberOfWaves--;
         }
-        if (enemiesPerWave > 0 || currentTime > waveStartTime + spawnEnemiesInterval * n) {
+        spawnEnemies(JPWIDTH, enemiesPerWave, gameObjects, enemyList);
+        if (numberOfWaves <= 0) {
+            waveNumber++;
+            setVariables(waveNumber);
+        }
+    }
+
+    private void spawnEnemies(int JPWIDTH, int enemyWavesLeft, List<AbstractGameObject> gameObjects, List<Enemy> enemyList) {
+        if (enemyWavesLeft > 0 && System.currentTimeMillis() > waveStartTime + spawnEnemiesInterval * n) {
             Random rnd = new Random();
             int randomNum = rnd.nextInt((JPWIDTH) + 1);
             Enemy newEnemy = new Enemy(randomNum, 0, false, Type.BASICENEMY);
             gameObjects.add(newEnemy);
             enemyList.add(newEnemy);
-            enemiesPerWave--;
+            enemyWavesLeft--;
             n++;
-        }
-        if (numberOfWaves <= 0) {
-            waveNumber++;
-            setVariables(waveNumber);
         }
     }
 

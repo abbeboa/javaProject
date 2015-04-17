@@ -11,6 +11,8 @@ public abstract class AbstractGameObject {
     protected BufferedImage image;
     protected Rectangle rectangle;
     protected Direction direction;
+    protected int damage;
+    protected GameObjectType gameObjectType;
     private static int counter = 0;
     private int id;
 
@@ -35,26 +37,32 @@ public abstract class AbstractGameObject {
                 this.speed = 3.0;
                 this.image = GamePanel.imgPlayer1;
                 this.hp = 100;
+                this.gameObjectType = GameObjectType.PLAYER;
                 break;
             case PLAYER2:
                 this.speed = 1.0;
                 this.image = GamePanel.imgPlayer1;
                 this.hp = 100;
+                this.gameObjectType = GameObjectType.PLAYER;
                 break;
             case BULLET:
                 this.speed = 5.0;
                 this.image = GamePanel.imgBullet;
                 this.hp = 0;
+                this.damage = 1;
+                this.gameObjectType = GameObjectType.PROJECTILE;
                 break;
             case MISSILE:
                 this.speed = 5.0;
                 this.image = GamePanel.imgBullet;
                 this.hp = 0;
+                this.gameObjectType = GameObjectType.PROJECTILE;
                 break;
             case BASICENEMY:
                 this.speed = 1.0;
                 this.image = GamePanel.imgBasicEnemy;
                 this.hp = 2;
+                this.gameObjectType = GameObjectType.ENEMY;
                 break;
             default:
                 System.out.println("getInitialValues fault");
@@ -204,5 +212,13 @@ public abstract class AbstractGameObject {
 
     public int getHp() {
         return hp;
+    }
+
+    public int getDamage() {
+        return damage;
+    }
+
+    public GameObjectType getGameObjectType() {
+        return gameObjectType;
     }
 }
