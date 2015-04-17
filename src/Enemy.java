@@ -1,10 +1,4 @@
-import java.util.Random;
-
 public class Enemy extends AbstractGameObject {
-
-
-    private int timeToMove = 0;
-    Random rnd = new Random();
 
 
     public Enemy(final double x, final double y, final Boolean indestructible, final Type type) {
@@ -14,12 +8,8 @@ public class Enemy extends AbstractGameObject {
     public void update() {
         if (type == Type.BASICENEMY) {
             this.move(Direction.DOWN, speed);
-            //if (timeToMove % 100 == 0) {// For every second (since it's 100 fps)
-            int changeDirection = rnd.nextInt(3) - 1;
-
-                this.move(Direction.LEFT, changeDirection);
-            //}
-            timeToMove++;
+            }
         }
     }
-}
+
+

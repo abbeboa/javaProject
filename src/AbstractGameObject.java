@@ -31,7 +31,7 @@ public abstract class AbstractGameObject {
         dbg.drawImage(image, (int) x, (int) y, panel);
     }
 
-    private void setInitialValues(Type type) {
+    public void setInitialValues(Type type) {
         switch (type) {
             case PLAYER1:
                 this.speed = 3.0;
@@ -61,7 +61,7 @@ public abstract class AbstractGameObject {
             case BASICENEMY:
                 this.speed = 1.0;
                 this.image = GamePanel.imgBasicEnemy;
-                this.hp = 2;
+                this.hp = 1;
                 this.gameObjectType = GameObjectType.ENEMY;
                 break;
             default:
@@ -178,9 +178,7 @@ public abstract class AbstractGameObject {
         return y;
     }
 
-    public int getHP() {
-        return hp;
-    }
+    //public int getHP() {return hp;}
 
     public double getSpeed() {
         return speed;

@@ -23,6 +23,9 @@ public class GamePanel extends JPanel implements Runnable, KeyListener {
     private boolean newGame = true;
     private static boolean resumeGame = false;
     private static List<Integer> pressedKeys = new ArrayList<Integer>();
+    //score
+    private int score1 = 0;
+    private int score2 = 0;
     //double buffering variables
     private Graphics dbg;
     private Image dbImage;
@@ -32,12 +35,8 @@ public class GamePanel extends JPanel implements Runnable, KeyListener {
     private static List<Integer> gameObjectIdsToRemove = new ArrayList<>();
     private int shootingDelayCounter = 0;
     private EnemyWave currentWave;
-
     //menu
-    private enum STATE {
-        MENU, GAME
-    }
-
+    private enum STATE {MENU, GAME}
     private STATE state = STATE.MENU;
     private Menu menu;
     private int clickableLeft = Menu.buttonLeft;
@@ -222,6 +221,7 @@ public class GamePanel extends JPanel implements Runnable, KeyListener {
 
         gameRunning = true;
         while (gameRunning) {
+
             gameRender(); // render image
             paintImage(); // paint image on screen
 
@@ -251,6 +251,8 @@ public class GamePanel extends JPanel implements Runnable, KeyListener {
 
     private void gameUpdate() {
         if (newGame) {
+            score1 = 0;
+            score2 = 0;
             createPlayer1();
             createWave();
             newGame = false;
@@ -302,8 +304,15 @@ public class GamePanel extends JPanel implements Runnable, KeyListener {
                         break;
                     case ENEMY:
                         gameObjectIdsToRemove.add(objectA.getId());
+                        changeStats(objectA,objectB);
+
+                        //gameObjectIdsToRemove.add(objectB.getId());
+                        // reducehp(objectB.objectA.getDamage)
                         break;
                     case PROJECTILE:
+                        gameObjectIdsToRemove.add(objectA.getId());
+                        changeStats(objectA,objectB);
+                        //gameObjectIdsToRemove.add(objectB.getId());
                     break;
                     default:
                         System.out.println("handleCollision fault!");
@@ -337,6 +346,23 @@ public class GamePanel extends JPanel implements Runnable, KeyListener {
         }
     }
 
+    private void changeStats(AbstractGameObject objectA, AbstractGameObject objectB) {
+        objectA.hp--;
+        objectB.hp--;
+        checkIfDead(objectA);
+        checkIfDead(objectB);
+    }
+
+    private void checkIfDead(AbstractGameObject objectA) {
+        if (objectA.hp <= 0) {
+            if (objectA instanceof Enemy){
+                score1 += 100;
+                System.out.println("Score: "+score1);
+            }
+            gameObjectIdsToRemove.add(objectA.getId());
+        }
+    }
+
     private void resetGame() {
         while (!gameObjects.isEmpty()) {
             gameObjects.remove(0);
@@ -365,6 +391,7 @@ public class GamePanel extends JPanel implements Runnable, KeyListener {
 
         dbg.drawImage(imgBackground, 0, backgroundImageY1, this);
         dbg.drawImage(imgBackground, 0, backgroundImageY2, this);
+
         if (state == STATE.GAME) {
             for (int i = 0; i < gameObjects.size(); i++) {
                 gameObjects.get(i).drawGameObject(dbg, this);
@@ -393,7 +420,7 @@ public class GamePanel extends JPanel implements Runnable, KeyListener {
     private void drawMenu(Graphics dbg) {
         Graphics2D g = (Graphics2D) dbg;
         if (state == STATE.MENU) {
-            menu.render(g);
+            menu.render(g,score1, score2);
         }
     }
 
