@@ -29,6 +29,7 @@ public class GamePanel extends JPanel implements Runnable, KeyListener {
     private static List<AbstractGameObject> gameObjects = new ArrayList<>();
     private static List<Projectile> projectileList = new ArrayList<>();
     private static List<Enemy> enemyList = new ArrayList<>();
+    private static List<Integer> gameObjectIdsToRemove = new ArrayList<>();
     private int shootingDelayCounter = 0;
     private EnemyWave currentWave;
 
@@ -260,7 +261,7 @@ public class GamePanel extends JPanel implements Runnable, KeyListener {
             handleKeyEvents();
             moveBackgroundImages();
             for (int i = 0; i < projectileList.size(); i++) {
-                    projectileList.get(i).updateProjectile(gameObjects, projectileList, i);
+                gameObjectIdsToRemove = projectileList.get(i).updateProjectile(gameObjectIdsToRemove);
             }
             for (int i = 0; i < enemyList.size(); i++) {
                 enemyList.get(i).update();
@@ -268,9 +269,72 @@ public class GamePanel extends JPanel implements Runnable, KeyListener {
             if (currentWave != null) {
                 currentWave.handleWave(System.currentTimeMillis(), gameObjects, enemyList, JPWIDTH);
             }
+            checkForCollisions(gameObjectIdsToRemove);
+            removeGameObjects(gameObjectIdsToRemove);
         }
 
         // more methods
+    }
+
+    private void checkForCollisions(List<Integer> gameObjectIdsToRemove) {
+        for (int i = 0; i < gameObjects.size(); i++) {
+            for (int j = 0; j < gameObjects.size(); j++) {
+                //do not check collision with oneself
+                if (i != j) {
+                    if (gameObjects.get(i).rectangle.intersects(gameObjects.get(j).rectangle)) {
+                        handleCollision(gameObjects.get(i), gameObjects.get(j), gameObjectIdsToRemove);
+                        //System.out.println("THIS IS A COLLISION!");
+                    }
+                }
+            }
+        }
+    }
+
+    private void handleCollision(AbstractGameObject objectA, AbstractGameObject objectB, List<Integer> gameObjectIdsToRemove) {
+        switch(objectA.getGameObjectType()) {
+            case PLAYER:
+                break;
+            case ENEMY:
+                break;
+            case PROJECTILE:
+                switch(objectB.getGameObjectType()) {
+                    case PLAYER:
+                        break;
+                    case ENEMY:
+                        gameObjectIdsToRemove.add(objectA.getId());
+                        break;
+                    case PROJECTILE:
+                    break;
+                    default:
+                        System.out.println("handleCollision fault!");
+                }
+                break;
+            default:
+                System.out.println("handleCollision fault!");
+
+        }
+
+    }
+
+    private void removeGameObjects(List<Integer> gameObjectsIdsToRemove) {
+        for (int i = 0; i < gameObjects.size(); i++) {
+            if (gameObjectsIdsToRemove.contains(gameObjects.get(i).getId())) {
+                gameObjects.remove(i);
+            }
+        }
+        for (int i = 0; i < projectileList.size(); i++) {
+            if (gameObjectsIdsToRemove.contains(projectileList.get(i).getId())) {
+                projectileList.remove(i);
+            }
+        }
+        for (int i = 0; i < enemyList.size(); i++) {
+            if (gameObjectsIdsToRemove.contains(enemyList.get(i).getId())) {
+                enemyList.remove(i);
+            }
+        }
+        while (!gameObjectsIdsToRemove.isEmpty()) {
+            gameObjectsIdsToRemove.remove(0);
+        }
     }
 
     private void resetGame() {

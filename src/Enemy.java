@@ -6,7 +6,7 @@ public class Enemy extends AbstractGameObject {
 
     public void update() {
         if (type == Type.BASICENEMY) {
-            y += speed;
+            this.move(Direction.DOWN, speed);
         }
     }
 }
