@@ -211,6 +211,7 @@ public class GamePanel extends JPanel implements Runnable, KeyListener {
     private void createBasicEnemy() {
         Random rnd = new Random();
         int randomNum = rnd.nextInt((JPWIDTH) + 1);
+
         gameObjects.add(new Enemy(randomNum, 0, false, Type.BASICENEMY));
     }
 
@@ -274,6 +275,24 @@ public class GamePanel extends JPanel implements Runnable, KeyListener {
             checkForCollisions(gameObjectIdsToRemove);
             removeGameObjects(gameObjectIdsToRemove);
         }
+        if (gameOver) {
+            JFrame frame = new JFrame("Save Highscore");
+            String player1 = JOptionPane.showInputDialog(frame, "Please type in your name");
+            Highscore hs = new Highscore(score1, player1);
+            HighscoreList.addHighscore(hs);
+            int answer = JOptionPane.showConfirmDialog(null, "Do you want to play again?", "Confirm", JOptionPane.YES_NO_OPTION);
+            if (answer == JOptionPane.YES_OPTION) {
+                resetGame();
+                gameOver = false;
+                newGame = true;
+                resumeGame = false;
+                state = STATE.MENU;
+
+            }
+            else {
+                System.exit(0);
+            }
+        }
 
         // more methods
     }
@@ -297,21 +316,26 @@ public class GamePanel extends JPanel implements Runnable, KeyListener {
             case PLAYER:
                 break;
             case ENEMY:
+                switch(objectB.getGameObjectType()) {
+                    case PLAYER:
+                        gameObjectIdsToRemove.add(objectA.getId());
+                        changeStats(objectA, objectB);
+                }
                 break;
             case PROJECTILE:
                 switch(objectB.getGameObjectType()) {
                     case PLAYER:
+                        gameObjectIdsToRemove.add(objectA.getId());
+                        changeStats(objectA, objectB);
                         break;
                     case ENEMY:
                         gameObjectIdsToRemove.add(objectA.getId());
                         changeStats(objectA,objectB);
 
                         //gameObjectIdsToRemove.add(objectB.getId());
-                        // reducehp(objectB.objectA.getDamage)
                         break;
                     case PROJECTILE:
                         gameObjectIdsToRemove.add(objectA.getId());
-                        changeStats(objectA,objectB);
                         //gameObjectIdsToRemove.add(objectB.getId());
                     break;
                     default:
@@ -347,25 +371,42 @@ public class GamePanel extends JPanel implements Runnable, KeyListener {
     }
 
     private void changeStats(AbstractGameObject objectA, AbstractGameObject objectB) {
+        if (objectA instanceof Player|| objectB instanceof Player){
+            System.out.println("You've been hit!");
+        }
         objectA.hp--;
         objectB.hp--;
         checkIfDead(objectA);
         checkIfDead(objectB);
     }
 
-    private void checkIfDead(AbstractGameObject objectA) {
-        if (objectA.hp <= 0) {
-            if (objectA instanceof Enemy){
+    private void checkIfDead(AbstractGameObject objectX) {
+        if (objectX.hp <= 0) {
+            if (objectX instanceof Enemy){
                 score1 += 100;
-                System.out.println("Score: "+score1);
+                gameObjectIdsToRemove.add(objectX.getId());
             }
-            gameObjectIdsToRemove.add(objectA.getId());
+            if (objectX instanceof Projectile){
+                gameObjectIdsToRemove.add(objectX.getId());
+            }
+            if (objectX instanceof Player) {
+
+                gameOver = true;
+            }
         }
     }
 
     private void resetGame() {
+        score1 = 0;
+        score2 = 0;
         while (!gameObjects.isEmpty()) {
             gameObjects.remove(0);
+        }
+        while (!projectileList.isEmpty()) {
+            projectileList.remove(0);
+        }
+        while (!enemyList.isEmpty()){
+            enemyList.remove(0);
         }
     }
 
@@ -436,7 +477,9 @@ public class GamePanel extends JPanel implements Runnable, KeyListener {
     }
 
     private void drawGameOver(Graphics g) {
+        gameRunning = false;
         // should be replaced by drawImage, using drawString for now
+        System.out.println("You lost");
         String msg = "You lost";
         g.drawString(msg, JPWIDTH / 2, JPHEIGHT / 2);
     }
@@ -457,9 +500,13 @@ public class GamePanel extends JPanel implements Runnable, KeyListener {
         return resumeGame;
     }
 
-    public int getClickableLeft() {
-        return clickableLeft;
-    }
+    public static List<AbstractGameObject> getGameObjects() {return gameObjects; }
+
+    public static List<Projectile> getProjectileList() {return projectileList;  }
+
+    public static List<Enemy> getEnemyList() {return enemyList; }
+
+    public int getClickableLeft() {return clickableLeft;  }
 
     public int getClickableRight() {
         return clickableRight;

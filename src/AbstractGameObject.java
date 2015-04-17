@@ -36,7 +36,7 @@ public abstract class AbstractGameObject {
             case PLAYER1:
                 this.speed = 3.0;
                 this.image = GamePanel.imgPlayer1;
-                this.hp = 100;
+                this.hp = 3;
                 this.gameObjectType = GameObjectType.PLAYER;
                 break;
             case PLAYER2:
@@ -177,8 +177,6 @@ public abstract class AbstractGameObject {
     public double getY() {
         return y;
     }
-
-    //public int getHP() {return hp;}
 
     public double getSpeed() {
         return speed;

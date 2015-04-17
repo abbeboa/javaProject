@@ -29,7 +29,5 @@ public class Menu {
        }
         g.drawString("New Game", buttonLeft, buttonTop  + 100);
         g.drawString("Quit Game", buttonLeft, buttonTop + 200);
-
-
     }
 }
