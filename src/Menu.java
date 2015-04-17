@@ -17,8 +17,12 @@ public class Menu {
         g.drawString("Space Duck Shooter", GamePanel.JPWIDTH / 3, 100);
         Font fnt1 = new Font("arial", Font.BOLD, 30);
         g.setFont(fnt1);
-        g.drawString("Player1 score: " + s1, 50 , buttonTop+300);
-        g.drawString("Player2 score: " + s2, 50 , buttonTop+400);
+        if (s1 > 0) {
+            g.drawString("Player1 score: " + s1, 50, buttonTop + 300);
+        }
+        if (s2 > 0) {
+            g.drawString("Player2 score: " + s2, 50, buttonTop + 400);
+        }
         g.setFont(fnt0);
        if (GamePanel.isResumeGame()) {
             g.drawString("Resume", buttonLeft, buttonTop);
