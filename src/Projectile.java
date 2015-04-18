@@ -3,7 +3,7 @@ import java.util.List;
 
 public class Projectile extends AbstractGameObject {
 
-    private int ownerID;
+    private static int ownerID;
 
     public Projectile(final double x, final double y, final Boolean indestructible,
                       final Type type, final Direction direction, final int ownerID) {
@@ -20,7 +20,7 @@ public class Projectile extends AbstractGameObject {
         return gameObjectIdsToRemove;
     }
 
-    public int getOwnerID() {
+    public static int getOwnerID() {
         return ownerID;
     }
 }

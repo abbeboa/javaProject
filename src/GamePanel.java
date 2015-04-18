@@ -371,11 +371,10 @@ public class GamePanel extends JPanel implements Runnable, KeyListener {
     }
 
     private void changeStats(AbstractGameObject objectA, AbstractGameObject objectB) {
-        if (objectA instanceof Player|| objectB instanceof Player){
-            System.out.println("You've been hit!");
+        if (Projectile.getOwnerID() != objectB.getId()){ // You can not hurt yourself
+            objectA.hp--;
+            objectB.hp--;
         }
-        objectA.hp--;
-        objectB.hp--;
         checkIfDead(objectA);
         checkIfDead(objectB);
     }
@@ -390,7 +389,7 @@ public class GamePanel extends JPanel implements Runnable, KeyListener {
                 gameObjectIdsToRemove.add(objectX.getId());
             }
             if (objectX instanceof Player) {
-
+                System.out.println("Game over");
                 gameOver = true;
             }
         }
