@@ -1,4 +1,7 @@
+import javafx.scene.media.AudioClip;
+
 import javax.imageio.ImageIO;
+import javax.sound.sampled.AudioInputStream;
 import javax.swing.*;
 import java.awt.*;
 import java.awt.event.*;
@@ -43,6 +46,17 @@ public class GamePanel extends JPanel implements Runnable, KeyListener {
     private int clickableRight = Menu.buttonRight;
     private int clickableTop = Menu.buttonTop;
     private int clickableBottom = Menu.buttonBottom;
+    //sound
+    private String s = "src/sounds/";
+    private String soundBackground = s+"backgroundSound.wav"; // jobbig.
+    private String takenHit = s+"takenHit1.wav"; // lite jobbig
+    private String reloading = s+"reloading1.wav"; // jobbig.
+    private String weapenChange = s+"weaponChange1.wav"; // denna bör vi har när vi byter mellan vapen
+    private String explosion = s+"explosion.wav";
+    private String blaster = s+"blaster.wav";
+    //private String enemyBlaster = s+"enemyBlaster.wav"; // ligger just nu i enemy-klassen istället
+    private String youLost = s+"youLost.wav";
+
     //image variables
     public static BufferedImage imgBackground;
     public static BufferedImage imgPlayer1;
@@ -166,6 +180,7 @@ public class GamePanel extends JPanel implements Runnable, KeyListener {
                 if (keyCode == KeyEvent.VK_SPACE) {
                     shootingDelayCounter -= 1;
                     if (shootingDelayCounter <= 0) {
+                        Sound.play(blaster);
                         player1.shoot(Type.BULLET, Direction.UP, gameObjects, projectileList);
                         int currentShootingDelay = 30;
                         shootingDelayCounter += currentShootingDelay;
@@ -208,12 +223,13 @@ public class GamePanel extends JPanel implements Runnable, KeyListener {
         currentWave = new EnemyWave(1);
     }
 
-    private void createBasicEnemy() {
+   /** private void createBasicEnemy() {
         Random rnd = new Random();
         int randomNum = rnd.nextInt((JPWIDTH) + 1);
 
         gameObjects.add(new Enemy(randomNum, 0, false, Type.BASICENEMY));
     }
+    */
 
     public void run() {
         long startTime, timeSinceStart, sleepTime;
@@ -276,6 +292,7 @@ public class GamePanel extends JPanel implements Runnable, KeyListener {
             removeGameObjects(gameObjectIdsToRemove);
         }
         if (gameOver) {
+            Sound.play(youLost);
             JFrame frame = new JFrame("Save Highscore");
             String player1 = JOptionPane.showInputDialog(frame, "Please type in your name");
             Highscore hs = new Highscore(score1, player1);
@@ -313,19 +330,22 @@ public class GamePanel extends JPanel implements Runnable, KeyListener {
 
     private void handleCollision(AbstractGameObject objectA, AbstractGameObject objectB, List<Integer> gameObjectIdsToRemove) {
         switch(objectA.getGameObjectType()) {
-            case PLAYER:
-                break;
+            //case PLAYER:
+            //    break;
             case ENEMY:
                 switch(objectB.getGameObjectType()) {
                     case PLAYER:
                         gameObjectIdsToRemove.add(objectA.getId());
+                        Sound.play(takenHit);
                         changeStats(objectA, objectB);
+
                 }
                 break;
             case PROJECTILE:
                 switch(objectB.getGameObjectType()) {
                     case PLAYER:
                         gameObjectIdsToRemove.add(objectA.getId());
+                        Sound.play(takenHit);
                         changeStats(objectA, objectB);
                         break;
                     case ENEMY:
@@ -383,12 +403,14 @@ public class GamePanel extends JPanel implements Runnable, KeyListener {
         if (objectX.hp <= 0) {
             if (objectX instanceof Enemy){
                 score1 += 100;
+                Sound.play(explosion);
                 gameObjectIdsToRemove.add(objectX.getId());
             }
             if (objectX instanceof Projectile){
                 gameObjectIdsToRemove.add(objectX.getId());
             }
             if (objectX instanceof Player) {
+                Sound.play(explosion);
                 System.out.println("Game over");
                 gameOver = true;
             }
@@ -438,6 +460,8 @@ public class GamePanel extends JPanel implements Runnable, KeyListener {
             }
         } else if (state == STATE.MENU) {
             drawMenu(dbg);
+            //Sound.play(soundBackground); // jobbigt..
+
         }
         if (gameOver) {
             drawGameOver(dbg);

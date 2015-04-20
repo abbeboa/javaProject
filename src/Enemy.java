@@ -15,6 +15,7 @@ public class Enemy extends AbstractGameObject {
             this.move(Direction.DOWN, speed);
             int timeToShoot = rnd.nextInt(20);  // It's not always time to shoot
             if (timeToShoot == 0 && (timer&300) == 0) { // Maximum one shot every third second
+                Sound.play("src/sounds/enemyBlaster.wav");
                 shoot(Type.BULLET, Direction.DOWN, GamePanel.getGameObjects(), GamePanel.getProjectileList());
                 }
             }
