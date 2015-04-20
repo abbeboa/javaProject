@@ -345,13 +345,14 @@ public class GamePanel extends JPanel implements Runnable, KeyListener {
                 switch(objectB.getGameObjectType()) {
                     case PLAYER:
                         gameObjectIdsToRemove.add(objectA.getId());
-                        Sound.play(takenHit);
                         changeStats(objectA, objectB);
+                        if (Projectile.getOwnerID() != objectB.getId()) { // You can not hurt yourself
+                            Sound.play(takenHit);
+                        }
                         break;
                     case ENEMY:
                         gameObjectIdsToRemove.add(objectA.getId());
                         changeStats(objectA,objectB);
-
                         //gameObjectIdsToRemove.add(objectB.getId());
                         break;
                     case PROJECTILE:
