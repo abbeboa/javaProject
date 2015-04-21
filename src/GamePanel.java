@@ -1,7 +1,4 @@
-import javafx.scene.media.AudioClip;
-
 import javax.imageio.ImageIO;
-import javax.sound.sampled.AudioInputStream;
 import javax.swing.*;
 import java.awt.*;
 import java.awt.event.*;
@@ -9,8 +6,8 @@ import java.awt.image.BufferedImage;
 import java.io.File;
 import java.io.IOException;
 import java.util.ArrayList;
+import java.util.Collection;
 import java.util.List;
-import java.util.Random;
 
 public class GamePanel extends JPanel implements Runnable, KeyListener
 {
@@ -27,7 +24,7 @@ public class GamePanel extends JPanel implements Runnable, KeyListener
     private boolean gameOver = false;
     private boolean newGame = true;
     private static boolean resumeGame = false;
-    private static List<Integer> pressedKeys = new ArrayList<Integer>();
+    private static List<Integer> pressedKeys = new ArrayList<>();
     //score
     private int score1 = 0;
     private int score2 = 0;
@@ -53,7 +50,7 @@ public class GamePanel extends JPanel implements Runnable, KeyListener
     private String soundBackground = s + "backgroundSound.wav"; // jobbig.
     private String takenHit = s + "takenHit1.wav"; // lite jobbig
     private String reloading = s + "reloading1.wav"; // jobbig.
-    private String weapenChange = s + "weaponChange1.wav"; // denna bör vi har när vi byter mellan vapen
+    private String weaponChange = s + "weaponChange1.wav"; // denna bör vi har när vi byter mellan vapen
     private String explosion = s + "explosion.wav";
     private String blaster = s + "blaster.wav";
     //private String enemyBlaster = s+"enemyBlaster.wav"; // ligger just nu i enemy-klassen istället
@@ -151,7 +148,7 @@ public class GamePanel extends JPanel implements Runnable, KeyListener
 
     private void handleKeyEvents() {
 	AbstractGameObject player1 = gameObjects.get(0);
-	List<Integer> keysToHandle = new ArrayList<>();
+	Collection<Integer> keysToHandle = new ArrayList<>();
 	for (int i = 0; i < pressedKeys.size(); i++) {
 	    keysToHandle.add(pressedKeys.get(i));
 	}
@@ -329,7 +326,7 @@ public class GamePanel extends JPanel implements Runnable, KeyListener
 	}
     }
 
-    private void handleCollision(AbstractGameObject objectA, AbstractGameObject objectB, List<Integer> gameObjectIdsToRemove) {
+    private void handleCollision(AbstractGameObject objectA, AbstractGameObject objectB, Collection<Integer> gameObjectIdsToRemove) {
         switch(objectA.getGameObjectType()) {
             case PLAYER:
                 break;
@@ -352,7 +349,7 @@ public class GamePanel extends JPanel implements Runnable, KeyListener
                         break;
                     case ENEMY:
 			if (Projectile.getOwnerID() == 0) { // only players need score
-			    changeStats(objectA,objectB);
+			    changeStats(objectA, objectB);
 			}
                         gameObjectIdsToRemove.add(objectA.getId());
                         break;
@@ -525,9 +522,9 @@ public class GamePanel extends JPanel implements Runnable, KeyListener
 	return resumeGame;
     }
 
-    public static List<AbstractGameObject> getGameObjects() {return gameObjects; }
+    public static Collection<AbstractGameObject> getGameObjects() {return gameObjects; }
 
-    public static List<Projectile> getProjectileList() {return projectileList; }
+    public static Collection<Projectile> getProjectileList() {return projectileList; }
 
     public static List<Enemy> getEnemyList() {return enemyList; }
 
