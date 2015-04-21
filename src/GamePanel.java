@@ -8,6 +8,7 @@ import java.io.IOException;
 import java.util.ArrayList;
 import java.util.Collection;
 import java.util.List;
+import java.util.Objects;
 
 public class GamePanel extends JPanel implements Runnable, KeyListener {
     public static final int JPWIDTH = 1280; // JPanel size
@@ -139,12 +140,12 @@ public class GamePanel extends JPanel implements Runnable, KeyListener {
     }
 
     private void handleKey(String eventType, int keyCode) {
-        if (eventType == "keyPressed") {
+        if (Objects.equals(eventType, "keyPressed")) {
             if (!pressedKeys.contains(keyCode)) {
                 pressedKeys.add(keyCode);
             }
         } else {
-            while (pressedKeys.contains(new Integer(keyCode))) pressedKeys.remove(new Integer(keyCode));
+            while (pressedKeys.contains(Integer.valueOf(keyCode))) pressedKeys.remove(Integer.valueOf(keyCode));
         }
     }
 
@@ -216,7 +217,7 @@ public class GamePanel extends JPanel implements Runnable, KeyListener {
     }
 
     private void createPlayer1() {
-        double playerStartPosX = JPWIDTH / 2 - (imgPlayer1.getWidth() / 2);
+        double playerStartPosX = JPWIDTH / 2.0 - (imgPlayer1.getWidth() / 2.0);
         double playerStartPosY = JPHEIGHT - imgPlayer1.getHeight();
         gameObjects.add(new Player(playerStartPosX, playerStartPosY, false, Type.PLAYER1));
     }

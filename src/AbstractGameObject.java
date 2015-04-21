@@ -136,20 +136,20 @@ public abstract class AbstractGameObject {
         //int bulletHeight = getInitialImage(bulletType).getHeight();
         switch (direction) {
             case UP:
-                posX = x + (playerWidth / 2);
+                posX = x + (playerWidth / 2.0);
                 posY = y;
                 return new Position(posX, posY);
             case DOWN:
-                posX = x + (playerWidth / 2);
+                posX = x + (playerWidth / 2.0);
                 posY = y + playerHeight;
                 return new Position(posX, posY);
             case LEFT:
                 posX = x;
-                posY = y + (playerHeight / 2);
+                posY = y + (playerHeight / 2.0);
                 return new Position(posX, posY);
             case RIGHT:
                 posX = x + playerWidth;
-                posY = y + (playerHeight / 2);
+                posY = y + (playerHeight / 2.0);
                 return new Position(posX, posY);
             case UP_LEFT:
                 posX = x;
