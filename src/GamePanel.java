@@ -392,9 +392,6 @@ public class GamePanel extends JPanel implements Runnable, KeyListener {
                 enemyList.remove(i);
             }
         }
-        while (!gameObjectsIdsToRemove.isEmpty()) {
-            gameObjectsIdsToRemove.remove(0);
-        }
     }
 
     private void changeStats(AbstractGameObject objectA, AbstractGameObject objectB) {
