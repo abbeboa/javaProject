@@ -338,7 +338,6 @@ public class GamePanel extends JPanel implements Runnable, KeyListener {
                         gameObjectIdsToRemove.add(objectA.getId());
                         Sound.play(takenHit);
                         changeStats(objectA, objectB);
-
                 }
                 break;
             case PROJECTILE:
