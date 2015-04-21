@@ -57,11 +57,11 @@ public class GamePanel extends JPanel implements Runnable, KeyListener
     private String youLost = s + "youLost.wav";
 
     //image variables
-    public static BufferedImage imgBackground;
-    public static BufferedImage imgPlayer1;
-    public static BufferedImage imgBullet;
-    public static BufferedImage imgBasicEnemy;
-    public static Image imgMenuBackground;
+    private static BufferedImage imgBackground;
+    private static BufferedImage imgPlayer1;
+    private static BufferedImage imgBullet;
+    private static BufferedImage imgBasicEnemy;
+    private static Image imgMenuBackground;
 
     private int backgroundImageY1 = -JPHEIGHT;
     private int backgroundImageY2 = 0;
@@ -230,7 +230,7 @@ public class GamePanel extends JPanel implements Runnable, KeyListener
      */
 
     public void run() {
-	long startTime, timeSinceStart, sleepTime;
+	long startTime;
 
 	startTime = System.currentTimeMillis();
 
@@ -244,8 +244,8 @@ public class GamePanel extends JPanel implements Runnable, KeyListener
 		gameUpdate(); // update game events
 	    }
 
-	    timeSinceStart = System.currentTimeMillis() - startTime;
-	    sleepTime = PERIOD - timeSinceStart;
+	    long timeSinceStart = System.currentTimeMillis() - startTime;
+	    long sleepTime = PERIOD - timeSinceStart;
 
 	    if (sleepTime <= 0) {
 		sleepTime = 5; // a little bit of sleep is always needed
@@ -474,9 +474,8 @@ public class GamePanel extends JPanel implements Runnable, KeyListener
     }
 
     private void paintImage() {
-	Graphics g;
 	try {
-	    g = this.getGraphics();
+	    Graphics g = this.getGraphics();
 	    if ((g != null) && (dbImage != null)) {
 		g.drawImage(dbImage, 0, 0, null);
 		g.dispose();
@@ -548,4 +547,7 @@ public class GamePanel extends JPanel implements Runnable, KeyListener
 	return clickableBottom;
     }
 
+    public static Image getImgMenuBackground() {
+	return imgMenuBackground;
+    }
 }

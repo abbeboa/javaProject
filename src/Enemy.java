@@ -2,8 +2,8 @@ import java.util.Random;
 
 public class Enemy extends AbstractGameObject {
 
-    Random rnd = new Random();
-    int timer = 0;
+    private Random rnd = new Random();
+    private int timer = 0;
 
     public Enemy(final double x, final double y, final Boolean indestructible, final Type type) {
         super(x, y, indestructible, type);

@@ -17,6 +17,8 @@ public final class Sound {
                 sound.start();
             } catch (IOException e) {
                 e.printStackTrace();
+            } catch (IOException e) {
+                e.printStackTrace();
             } catch (Exception e) {
                 System.out.println("play sound error: " + e.getMessage());
             }

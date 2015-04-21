@@ -5,13 +5,13 @@ import java.io.File;
  * This is where the menu is created
  */
 public class Menu {
-    public static int buttonTop = 270;
-    public static int buttonBottom = 220;
-    public static int buttonLeft = 768;
-    public static int buttonRight = 1024;
+    private static int buttonTop = 270;
+    private static int buttonBottom = 220;
+    private static int buttonLeft = 768;
+    private static int buttonRight = 1024;
 
     public void render(Graphics2D g, int s1, int s2) {
-        g.drawImage(GamePanel.imgMenuBackground, 0, 0, null);
+        g.drawImage(GamePanel.getImgMenuBackground(), 0, 0, null);
         Font fnt0 = new Font("arial", Font.BOLD, 50);
         g.setFont(fnt0);
         g.setColor(Color.WHITE);
