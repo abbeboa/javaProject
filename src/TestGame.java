@@ -9,13 +9,13 @@ public class TestGame extends JFrame {
         pack();
         setResizable(false);
         setVisible(true);
-	this.setDefaultCloseOperation(WindowConstants.EXIT_ON_CLOSE);
+        this.setDefaultCloseOperation(WindowConstants.EXIT_ON_CLOSE);
     }
 
     private void createGUI() {
-        Container c = getContentPane();
+        Container container = getContentPane();
         GamePanel gamePanel = new GamePanel();
-        c.add(gamePanel, "Center");
+        container.add(gamePanel, "Center");
     }
 
     public static void main(String[] args) {

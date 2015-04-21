@@ -32,23 +32,23 @@ public class EnemyWave {
         }
     }
 
-    public void handleWave(long currentTime, Collection<AbstractGameObject> gameObjects, Collection<Enemy> enemyList, int JPWIDTH) {
+    public void handleWave(long currentTime, Collection<AbstractGameObject> gameObjects, Collection<Enemy> enemyList, int jpWidth) {
         if (currentTime > waveStartTime + waveInterval) {
             n = 1;
             waveStartTime = currentTime;
             numberOfWaves--;
         }
-        spawnEnemies(JPWIDTH, enemiesPerWave, gameObjects, enemyList);
+        spawnEnemies(jpWidth, enemiesPerWave, gameObjects, enemyList);
         if (numberOfWaves <= 0) {
             waveNumber++;
             setVariables(waveNumber);
         }
     }
 
-    private void spawnEnemies(int JPWIDTH, int enemyWavesLeft, Collection<AbstractGameObject> gameObjects, Collection<Enemy> enemyList) {
+    private void spawnEnemies(int jpWidth, int enemyWavesLeft, Collection<AbstractGameObject> gameObjects, Collection<Enemy> enemyList) {
         if (enemyWavesLeft > 0 && System.currentTimeMillis() > waveStartTime + spawnEnemiesInterval * n) {
             Random rnd = new Random();
-            int randomNum = rnd.nextInt((JPWIDTH) + 1);
+            int randomNum = rnd.nextInt((jpWidth) + 1);
             Enemy newEnemy = new Enemy(randomNum, 0, false, Type.BASICENEMY);
             gameObjects.add(newEnemy);
             enemyList.add(newEnemy);

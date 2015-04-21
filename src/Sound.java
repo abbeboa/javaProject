@@ -1,12 +1,11 @@
-import javax.sound.sampled.AudioInputStream;
-import javax.sound.sampled.AudioSystem;
-import javax.sound.sampled.Clip;
+import javax.sound.sampled.*;
 import java.io.File;
 import java.io.IOException;
 
 public final class Sound {
 
-    private Sound() {}
+    private Sound() {
+    }
 
     public static synchronized void play(final String soundToPlay) {
         new Thread(() -> { // to make the sound run alongside the game's thread
@@ -15,10 +14,8 @@ public final class Sound {
                 AudioInputStream input = AudioSystem.getAudioInputStream(new File(soundToPlay));
                 sound.open(input);
                 sound.start();
-            } catch (IOException e) {
+            } catch (IOException | UnsupportedAudioFileException | LineUnavailableException e) {
                 e.printStackTrace();
-            } catch (Exception e) {
-                System.out.println("play sound error: " + e.getMessage());
             }
         }
         ).start();

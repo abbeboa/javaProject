@@ -14,11 +14,11 @@ public class Enemy extends AbstractGameObject {
             timer++;
             this.move(Direction.DOWN, speed);
             int timeToShoot = rnd.nextInt(3);  // It's not always time to shoot
-            if (timeToShoot == 0 && ((timer%100) == 0)) { // Maximum one shot every second
+            if (timeToShoot == 0 && ((timer % 100) == 0)) { // Maximum one shot every second
                 Sound.play("src/sounds/enemyBlaster.wav");
                 shoot(Type.BULLET, Direction.DOWN, GamePanel.getGameObjects(), GamePanel.getProjectileList());
-		timer = 0;
-                }
+                timer = 0;
             }
         }
     }
+}

@@ -1,5 +1,4 @@
 import java.awt.*;
-import java.io.File;
 
 /**
  * This is where the menu is created
@@ -25,10 +24,10 @@ public class Menu {
             g.drawString("Player2 score: " + s2, 50, buttonTop + 400);
         }
         g.setFont(fnt0);
-       if (GamePanel.isResumeGame()) {
+        if (GamePanel.isResumeGame()) {
             g.drawString("Resume", buttonLeft, buttonTop);
-       }
-        g.drawString("New Game", buttonLeft, buttonTop  + 100);
+        }
+        g.drawString("New Game", buttonLeft, buttonTop + 100);
         g.drawString("Quit Game", buttonLeft, buttonTop + 200);
     }
 

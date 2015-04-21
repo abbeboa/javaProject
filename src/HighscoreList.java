@@ -15,5 +15,6 @@ final class HighscoreList {
         }
     }
 
-    private HighscoreList() {}
+    private HighscoreList() {
+    }
 }

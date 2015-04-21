@@ -8,14 +8,15 @@ public abstract class AbstractGameObject {
     protected int hp;
     protected Boolean indestructible;
     protected Type type;
-    protected BufferedImage image;
+    protected BufferedImage image = null;
     protected Rectangle rectangle;
     protected int damage;
-    protected GameObjectType gameObjectType;
+    protected GameObjectType gameObjectType = null;
     private static int counter = 0;
     private int id;
+    private int ownerID;
 
-    public AbstractGameObject(final double x, final double y, final Boolean indestructible, final Type type) {
+    protected AbstractGameObject(final double x, final double y, final Boolean indestructible, final Type type) {
         this.x = x;
         this.y = y;
         setInitialValues(type);
@@ -34,7 +35,7 @@ public abstract class AbstractGameObject {
         dbg.drawImage(image, (int) x, (int) y, panel);
     }
 
-    public void setInitialValues(Type type) {
+    private void setInitialValues(Type type) {
         switch (type) {
             case PLAYER1:
                 this.speed = 3.0;
@@ -104,7 +105,7 @@ public abstract class AbstractGameObject {
         }
         if (this.type == Type.PLAYER1) {
             Rectangle testRectangle = new Rectangle((int) newX, (int) newY, image.getWidth(), image.getHeight());
-            if (GamePanel.gameField.contains(testRectangle)) {
+            if (GamePanel.GAMEFIELD.contains(testRectangle)) {
                 x = newX;
                 y = newY;
             }
@@ -215,5 +216,13 @@ public abstract class AbstractGameObject {
 
     public GameObjectType getGameObjectType() {
         return gameObjectType;
+    }
+
+    public int getOwnerID() {
+        return ownerID;
+    }
+
+    public void setOwnerID(int ownerID) {
+        this.ownerID = ownerID;
     }
 }
