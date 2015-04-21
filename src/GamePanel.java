@@ -330,8 +330,8 @@ public class GamePanel extends JPanel implements Runnable, KeyListener {
 
     private void handleCollision(AbstractGameObject objectA, AbstractGameObject objectB, List<Integer> gameObjectIdsToRemove) {
         switch(objectA.getGameObjectType()) {
-            //case PLAYER:
-            //    break;
+            case PLAYER:
+                break;
             case ENEMY:
                 switch(objectB.getGameObjectType()) {
                     case PLAYER:
@@ -351,8 +351,13 @@ public class GamePanel extends JPanel implements Runnable, KeyListener {
                         }
                         break;
                     case ENEMY:
+			if (Projectile.getOwnerID() == 0) {
+			    System.out.println("score += 100");
+			    changeStats(objectA,objectB);
+			}
+
                         gameObjectIdsToRemove.add(objectA.getId());
-                        changeStats(objectA,objectB);
+                        //changeStats(objectA,objectB); // enemies don't need score
                         //gameObjectIdsToRemove.add(objectB.getId());
                         break;
                     case PROJECTILE:
