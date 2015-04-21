@@ -1,6 +1,8 @@
 import javax.swing.*;
 import java.awt.*;
 import java.awt.image.BufferedImage;
+import java.awt.image.ImageObserver;
+import java.util.Collection;
 import java.util.List;
 
 public abstract class AbstractGameObject {
@@ -27,7 +29,7 @@ public abstract class AbstractGameObject {
         counter++;
     }
 
-    public void drawGameObject(Graphics dbg, JPanel panel) {
+    public void drawGameObject(Graphics dbg, ImageObserver panel) {
         dbg.drawImage(image, (int) x, (int) y, panel);
     }
 
@@ -116,7 +118,7 @@ public abstract class AbstractGameObject {
         this.rectangle = new Rectangle(newX, newY, image.getWidth(), image.getHeight());
     }
 
-    public void shoot(Type type, Direction direction, List<AbstractGameObject> gameObjects, List<Projectile> projectileList) {
+    public void shoot(Type type, Direction direction, Collection<AbstractGameObject> gameObjects, Collection<Projectile> projectileList) {
         Position pos = calculateShootPos(direction, type);
         Projectile newProjectile = new Projectile(pos.getX(), pos.getY(), true, type, direction, this.id);
         gameObjects.add(newProjectile);
