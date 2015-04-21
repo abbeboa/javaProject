@@ -2,6 +2,7 @@ import javax.sound.sampled.AudioInputStream;
 import javax.sound.sampled.AudioSystem;
 import javax.sound.sampled.Clip;
 import java.io.File;
+import java.io.IOException;
 
 public final class Sound {
 
@@ -14,6 +15,8 @@ public final class Sound {
                 AudioInputStream input = AudioSystem.getAudioInputStream(new File(soundToPlay));
                 sound.open(input);
                 sound.start();
+            } catch (IOException e) {
+                e.printStackTrace();
             } catch (Exception e) {
                 System.out.println("play sound error: " + e.getMessage());
             }
