@@ -304,7 +304,6 @@ public class GamePanel extends JPanel implements Runnable, KeyListener {
                 newGame = true;
                 resumeGame = false;
                 state = STATE.MENU;
-
             }
             else {
                 System.exit(0);
