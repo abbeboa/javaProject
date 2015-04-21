@@ -334,46 +334,52 @@ public class GamePanel extends JPanel implements Runnable, KeyListener {
             case PLAYER:
                 break;
             case ENEMY:
-                switch (objectB.getGameObjectType()) {
-                    case PLAYER:
-                        gameObjectIdsToRemove.add(objectA.getId());
-                        Sound.play(takenHit);
-                        changeStats(objectA, objectB);
-                        break;
-                    case ENEMY:
-                        break;
-                    case PROJECTILE:
-                        break;
-                    default:
-                }
+                enemyCollisionActions(objectA, objectB);
                 break;
             case PROJECTILE:
-                switch (objectB.getGameObjectType()) {
-                    case PLAYER:
-                        gameObjectIdsToRemove.add(objectA.getId());
-                        changeStats(objectA, objectB);
-                        if (objectA.getOwnerID() != objectB.getId()) { // You can not hurt yourself
-                            Sound.play(takenHit);
-                        }
-                        break;
-                    case ENEMY:
-                        if (objectA.getOwnerID() == 0) { // only players need score
-                            changeStats(objectA, objectB);
-                        }
-                        gameObjectIdsToRemove.add(objectA.getId());
-                        break;
-                    case PROJECTILE:
-                        gameObjectIdsToRemove.add(objectA.getId());
-                        break;
-                    default:
-                        System.out.println("handleCollision fault!");
-                }
+                projectileCollisionActions(objectA, objectB);
                 break;
             default:
                 System.out.println("handleCollision fault!");
-
         }
+    }
 
+    private void enemyCollisionActions(AbstractGameObject objectA, AbstractGameObject objectB) {
+        switch (objectB.getGameObjectType()) {
+            case PLAYER:
+                gameObjectIdsToRemove.add(objectA.getId());
+                Sound.play(takenHit);
+                changeStats(objectA, objectB);
+                break;
+            case ENEMY:
+                break;
+            case PROJECTILE:
+                break;
+            default:
+        }
+    }
+
+    private void projectileCollisionActions(AbstractGameObject objectA, AbstractGameObject objectB) {
+        switch (objectB.getGameObjectType()) {
+            case PLAYER:
+                gameObjectIdsToRemove.add(objectA.getId());
+                changeStats(objectA, objectB);
+                if (objectA.getOwnerID() != objectB.getId()) { // You can not hurt yourself
+                    Sound.play(takenHit);
+                }
+                break;
+            case ENEMY:
+                if (objectA.getOwnerID() == 0) { // only players need score
+                    changeStats(objectA, objectB);
+                }
+                gameObjectIdsToRemove.add(objectA.getId());
+                break;
+            case PROJECTILE:
+                gameObjectIdsToRemove.add(objectA.getId());
+                break;
+            default:
+                System.out.println("handleCollision fault!");
+        }
     }
 
     private void removeGameObjects(List<Integer> gameObjectsIdsToRemove) {
