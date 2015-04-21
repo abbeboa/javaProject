@@ -3,7 +3,9 @@ import javax.sound.sampled.AudioSystem;
 import javax.sound.sampled.Clip;
 import java.io.File;
 
-public class Sound {
+public final class Sound {
+
+    private Sound() {}
 
     public static synchronized void play(final String soundToPlay) {
         new Thread(() -> { // to make the sound run alongside the game's thread

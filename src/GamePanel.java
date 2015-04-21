@@ -312,7 +312,7 @@ public class GamePanel extends JPanel implements Runnable, KeyListener
 	// more methods
     }
 
-    private void checkForCollisions(List<Integer> gameObjectIdsToRemove) {
+    private void checkForCollisions(Collection<Integer> gameObjectIdsToRemove) {
 	for (int i = 0; i < gameObjects.size(); i++) {
 	    for (int j = 0; j < gameObjects.size(); j++) {
 		//do not check collision with oneself
@@ -336,6 +336,12 @@ public class GamePanel extends JPanel implements Runnable, KeyListener
                         gameObjectIdsToRemove.add(objectA.getId());
                         Sound.play(takenHit);
                         changeStats(objectA, objectB);
+			break;
+		    case ENEMY:
+			break;
+		    case PROJECTILE:
+			break;
+		    default:
                 }
                 break;
             case PROJECTILE:

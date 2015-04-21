@@ -1,9 +1,7 @@
-import javax.swing.*;
 import java.awt.*;
 import java.awt.image.BufferedImage;
 import java.awt.image.ImageObserver;
 import java.util.Collection;
-import java.util.List;
 
 public abstract class AbstractGameObject {
     protected double x, y, speed;
@@ -12,7 +10,6 @@ public abstract class AbstractGameObject {
     protected Type type;
     protected BufferedImage image;
     protected Rectangle rectangle;
-    protected Direction direction;
     protected int damage;
     protected GameObjectType gameObjectType;
     private static int counter = 0;
@@ -190,10 +187,6 @@ public abstract class AbstractGameObject {
 
     public BufferedImage getImage() {
         return image;
-    }
-
-    public Direction getDirection() {
-        return direction;
     }
 
     public Rectangle getRectangle() {
