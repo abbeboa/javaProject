@@ -1,3 +1,4 @@
+import java.util.Collection;
 import java.util.List;
 import java.util.Random;
 
@@ -46,7 +47,7 @@ public class EnemyWave {
         }
     }
 
-    private void spawnEnemies(int JPWIDTH, int enemyWavesLeft, List<AbstractGameObject> gameObjects, List<Enemy> enemyList) {
+    private void spawnEnemies(int JPWIDTH, int enemyWavesLeft, Collection<AbstractGameObject> gameObjects, Collection<Enemy> enemyList) {
         if (enemyWavesLeft > 0 && System.currentTimeMillis() > waveStartTime + spawnEnemiesInterval * n) {
             Random rnd = new Random();
             int randomNum = rnd.nextInt((JPWIDTH) + 1);
