@@ -351,18 +351,13 @@ public class GamePanel extends JPanel implements Runnable, KeyListener {
                         }
                         break;
                     case ENEMY:
-			if (Projectile.getOwnerID() == 0) {
-			    System.out.println("score += 100");
+			if (Projectile.getOwnerID() == 0) { // only players need score
 			    changeStats(objectA,objectB);
 			}
-
                         gameObjectIdsToRemove.add(objectA.getId());
-                        //changeStats(objectA,objectB); // enemies don't need score
-                        //gameObjectIdsToRemove.add(objectB.getId());
                         break;
                     case PROJECTILE:
                         gameObjectIdsToRemove.add(objectA.getId());
-                        //gameObjectIdsToRemove.add(objectB.getId());
                     break;
                     default:
                         System.out.println("handleCollision fault!");
