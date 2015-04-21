@@ -38,39 +38,39 @@ public abstract class AbstractGameObject {
         switch (type) {
             case PLAYER1:
                 this.speed = 3.0;
-                this.image = GamePanel.imgPlayer1;
+                this.image = GamePanel.getImgPlayer1();
                 this.hp = 3;
                 this.gameObjectType = GameObjectType.PLAYER;
                 break;
             case PLAYER2:
                 this.speed = 1.0;
-                this.image = GamePanel.imgPlayer1;
+                this.image = GamePanel.getImgPlayer1();
                 this.hp = 100;
                 this.gameObjectType = GameObjectType.PLAYER;
                 break;
             case BULLET:
                 this.speed = 5.0;
-                this.image = GamePanel.imgBullet;
+                this.image = GamePanel.getImgBullet();
                 this.hp = 0;
                 this.damage = 1;
                 this.gameObjectType = GameObjectType.PROJECTILE;
                 break;
             case MISSILE:
                 this.speed = 5.0;
-                this.image = GamePanel.imgBullet;
+                this.image = GamePanel.getImgBullet();
                 this.hp = 0;
                 this.gameObjectType = GameObjectType.PROJECTILE;
                 break;
             case BASICENEMY:
                 this.speed = 1.0;
-                this.image = GamePanel.imgBasicEnemy;
+                this.image = GamePanel.getImgBasicEnemy();
                 this.hp = 1;
                 this.gameObjectType = GameObjectType.ENEMY;
                 break;
             default:
                 System.out.println("getInitialValues fault");
                 this.speed = 1.0;
-                this.image = GamePanel.imgBullet;
+                this.image = GamePanel.getImgBullet();
                 this.hp = 1;
         }
     }

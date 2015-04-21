@@ -31,4 +31,20 @@ public class Menu {
         g.drawString("New Game", buttonLeft, buttonTop  + 100);
         g.drawString("Quit Game", buttonLeft, buttonTop + 200);
     }
+
+    public static int getButtonTop() {
+        return buttonTop;
+    }
+
+    public static int getButtonBottom() {
+        return buttonBottom;
+    }
+
+    public static int getButtonLeft() {
+        return buttonLeft;
+    }
+
+    public static int getButtonRight() {
+        return buttonRight;
+    }
 }

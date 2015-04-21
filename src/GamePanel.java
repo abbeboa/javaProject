@@ -41,10 +41,10 @@ public class GamePanel extends JPanel implements Runnable, KeyListener
     private enum STATE {MENU, GAME}
     private STATE state = STATE.MENU;
     private Menu menu;
-    private int clickableLeft = Menu.buttonLeft;
-    private int clickableRight = Menu.buttonRight;
-    private int clickableTop = Menu.buttonTop;
-    private int clickableBottom = Menu.buttonBottom;
+    private int clickableLeft = Menu.getButtonLeft();
+    private int clickableRight = Menu.getButtonRight();
+    private int clickableTop = Menu.getButtonTop();
+    private int clickableBottom = Menu.getButtonBottom();
     //sound
     private String s = "src/sounds/";
     private String soundBackground = s + "backgroundSound.wav"; // jobbig.
@@ -549,5 +549,21 @@ public class GamePanel extends JPanel implements Runnable, KeyListener
 
     public static Image getImgMenuBackground() {
 	return imgMenuBackground;
+    }
+
+    public static BufferedImage getImgBackground() {
+        return imgBackground;
+    }
+
+    public static BufferedImage getImgPlayer1() {
+        return imgPlayer1;
+    }
+
+    public static BufferedImage getImgBullet() {
+        return imgBullet;
+    }
+
+    public static BufferedImage getImgBasicEnemy() {
+        return imgBasicEnemy;
     }
 }
