@@ -26,6 +26,10 @@ public abstract class AbstractGameObject {
         this.type = type;
         this.rectangle = new Rectangle((int) x, (int) y, image.getWidth(), image.getHeight());
         this.id = counter;
+        increaseCounter();
+    }
+
+    private static void increaseCounter() {
         counter++;
     }
 

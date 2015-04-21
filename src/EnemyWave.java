@@ -1,24 +1,22 @@
 import java.util.Collection;
-import java.util.List;
 import java.util.Random;
 
 public class EnemyWave {
     private long waveStartTime = System.currentTimeMillis();
-    private static int waveInterval;
-    private static int spawnEnemiesInterval;
-    private static int numberOfWaves;
-    private static int waveNumber;
-    private static int enemiesPerWave;
-    private static int n = 1;
-    private static boolean waveActive = false;
-    private static boolean progressive = false;
+    private int waveInterval;
+    private int spawnEnemiesInterval;
+    private int numberOfWaves;
+    private int waveNumber;
+    private int enemiesPerWave;
+    private int n = 1;
+    private boolean progressive = false;
 
     public EnemyWave(int waveNumber) {
         this.waveNumber = waveNumber;
         setVariables(waveNumber);
     }
 
-    private void setVariables(int number) {
+    private void setVariables(int waveNumber) {
         // waveNumber 0 is progressive mode
         if (waveNumber == 0) {
             this.progressive = true;
@@ -34,7 +32,7 @@ public class EnemyWave {
         }
     }
 
-    public void handleWave(long currentTime, List<AbstractGameObject> gameObjects, List<Enemy> enemyList, int JPWIDTH) {
+    public void handleWave(long currentTime, Collection<AbstractGameObject> gameObjects, Collection<Enemy> enemyList, int JPWIDTH) {
         if (currentTime > waveStartTime + waveInterval) {
             n = 1;
             waveStartTime = currentTime;
