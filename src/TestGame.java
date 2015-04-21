@@ -9,6 +9,7 @@ public class TestGame extends JFrame {
         pack();
         setResizable(false);
         setVisible(true);
+	this.setDefaultCloseOperation(WindowConstants.EXIT_ON_CLOSE);
     }
 
     private void createGUI() {
