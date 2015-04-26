@@ -21,13 +21,14 @@ public class GamePanel extends JPanel implements Runnable, KeyListener {
     private static Color bgColor = Color.BLACK;
     private Thread graphicsThread = null;
     private boolean gameRunning = false;
-    private boolean gameOver = false;
+    private static boolean gameOver = false;
     private boolean newGame = true;
     private static boolean resumeGame = false;
     private static List<Integer> pressedKeys = new ArrayList<>();
+    private CollisionHandler collisionHandler;
     //score
-    private int score1 = 0;
-    private int score2 = 0;
+    private static int score1 = 0;
+    private static int score2 = 0;
     //double buffering variables
     private Graphics dbg = null;
     private Image dbImage = null;
@@ -50,15 +51,15 @@ public class GamePanel extends JPanel implements Runnable, KeyListener {
     private int clickableTop = Menu.getButtonTop();
     private int clickableBottom = Menu.getButtonBottom();
     //sound
-    private String s = "src/sounds/";
-    private String soundBackground = s + "backgroundSound.wav"; // jobbig.
-    private String takenHit = s + "takenHit1.wav"; // lite jobbig
-    private String reloading = s + "reloading1.wav"; // jobbig.
-    private String weaponChange = s + "weaponChange1.wav"; // denna bör vi har när vi byter mellan vapen
-    private String explosion = s + "explosion.wav";
-    private String blaster = s + "blaster.wav";
+    private static String soundFolder = "src/sounds/";
+    private static String soundBackground = soundFolder + "backgroundSound.wav"; // jobbig.
+    private static String takenHit = soundFolder + "takenHit1.wav"; // lite jobbig
+    private static String reloading = soundFolder + "reloading1.wav"; // jobbig.
+    private static String weaponChange = soundFolder + "weaponChange1.wav"; // denna bör vi har när vi byter mellan vapen
+    private static String explosion = soundFolder + "explosion.wav";
+    private static String blaster = soundFolder + "blaster.wav";
     //private String enemyBlaster = s+"enemyBlaster.wav"; // ligger just nu i enemy-klassen istället
-    private String youLost = s + "youLost.wav";
+    private static String youLost = soundFolder + "youLost.wav";
 
     //image variables
     private static BufferedImage imgBackground = null;
@@ -212,6 +213,7 @@ public class GamePanel extends JPanel implements Runnable, KeyListener {
         if (graphicsThread == null || !gameRunning) {
             graphicsThread = new Thread(this);
             menu = new Menu();
+            collisionHandler = new CollisionHandler();
             graphicsThread.start();
         }
     }
@@ -289,7 +291,7 @@ public class GamePanel extends JPanel implements Runnable, KeyListener {
             if (currentWave != null) {
                 currentWave.handleWave(System.currentTimeMillis(), gameObjects, enemyList, JPWIDTH);
             }
-            checkForCollisions(gameObjectIdsToRemove);
+            collisionHandler.checkForCollisions(gameObjects);
             removeGameObjects(gameObjectIdsToRemove);
         }
         if (gameOver) {
@@ -315,73 +317,6 @@ public class GamePanel extends JPanel implements Runnable, KeyListener {
         // more methods
     }
 
-    private void checkForCollisions(Collection<Integer> gameObjectIdsToRemove) {
-        for (int i = 0; i < gameObjects.size(); i++) {
-            for (int j = 0; j < gameObjects.size(); j++) {
-                //do not check collision with oneself
-                if (i != j) {
-                    if (gameObjects.get(i).rectangle.intersects(gameObjects.get(j).rectangle)) {
-                        handleCollision(gameObjects.get(i), gameObjects.get(j), gameObjectIdsToRemove);
-                        //System.out.println("THIS IS A COLLISION!");
-                    }
-                }
-            }
-        }
-    }
-
-    private void handleCollision(AbstractGameObject objectA, AbstractGameObject objectB, Collection<Integer> gameObjectIdsToRemove) {
-        switch (objectA.getGameObjectType()) {
-            case PLAYER:
-                break;
-            case ENEMY:
-                enemyCollisionActions(objectA, objectB);
-                break;
-            case PROJECTILE:
-                projectileCollisionActions(objectA, objectB);
-                break;
-            default:
-                System.out.println("handleCollision fault!");
-        }
-    }
-
-    private void enemyCollisionActions(AbstractGameObject objectA, AbstractGameObject objectB) {
-        switch (objectB.getGameObjectType()) {
-            case PLAYER:
-                gameObjectIdsToRemove.add(objectA.getId());
-                Sound.play(takenHit);
-                changeStats(objectA, objectB);
-                break;
-            case ENEMY:
-                break;
-            case PROJECTILE:
-                break;
-            default:
-        }
-    }
-
-    private void projectileCollisionActions(AbstractGameObject objectA, AbstractGameObject objectB) {
-        switch (objectB.getGameObjectType()) {
-            case PLAYER:
-                gameObjectIdsToRemove.add(objectA.getId());
-                changeStats(objectA, objectB);
-                if (objectA.getOwnerID() != objectB.getId()) { // You can not hurt yourself
-                    Sound.play(takenHit);
-                }
-                break;
-            case ENEMY:
-                if (objectA.getOwnerID() == 0) { // only players need score
-                    changeStats(objectA, objectB);
-                }
-                gameObjectIdsToRemove.add(objectA.getId());
-                break;
-            case PROJECTILE:
-                gameObjectIdsToRemove.add(objectA.getId());
-                break;
-            default:
-                System.out.println("handleCollision fault!");
-        }
-    }
-
     private void removeGameObjects(List<Integer> gameObjectsIdsToRemove) {
         for (int i = 0; i < gameObjects.size(); i++) {
             if (gameObjectsIdsToRemove.contains(gameObjects.get(i).getId())) {
@@ -396,34 +331,6 @@ public class GamePanel extends JPanel implements Runnable, KeyListener {
         for (int i = 0; i < enemyList.size(); i++) {
             if (gameObjectsIdsToRemove.contains(enemyList.get(i).getId())) {
                 enemyList.remove(i);
-            }
-        }
-    }
-
-    private void changeStats(AbstractGameObject objectA, AbstractGameObject objectB) {
-        if (objectA.getOwnerID() != objectB.getId()) { // You can not hurt yourself
-            objectA.hp--;
-            objectB.hp--;
-        }
-        checkIfDead(objectA);
-        checkIfDead(objectB);
-    }
-
-    private void checkIfDead(AbstractGameObject objectX) {
-        if (objectX.hp <= 0) {
-            switch (objectX.getGameObjectType()) {
-                case ENEMY:
-                    score1 += 100;
-                    Sound.play(explosion);
-                    gameObjectIdsToRemove.add(objectX.getId());
-                    break;
-                case PROJECTILE:
-                    gameObjectIdsToRemove.add(objectX.getId());
-                    break;
-                case PLAYER:
-                    Sound.play(explosion);
-                    System.out.println("Game over");
-                    gameOver = true;
             }
         }
     }
@@ -517,6 +424,26 @@ public class GamePanel extends JPanel implements Runnable, KeyListener {
         g.drawString(msg, JPWIDTH / 2, JPHEIGHT / 2);
     }
 
+    public static void addGameObjectIdToRemove(int id) {
+        gameObjectIdsToRemove.add(id);
+    }
+
+    public static void addScore(int points) {
+        GamePanel.score1 += points;
+    }
+
+    public static void setGameOver(boolean gameOver) {
+        GamePanel.gameOver = gameOver;
+    }
+
+    public static void playSoundTakenHit() {
+        Sound.play(takenHit);
+    }
+
+    public static void playSoundExplosion() {
+        Sound.play(explosion);
+    }
+
     public static int getJpwidth() {
         return JPWIDTH;
     }
@@ -580,4 +507,5 @@ public class GamePanel extends JPanel implements Runnable, KeyListener {
     public static BufferedImage getImgBasicEnemy() {
         return imgBasicEnemy;
     }
+
 }
