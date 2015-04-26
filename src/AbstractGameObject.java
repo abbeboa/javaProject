@@ -67,6 +67,7 @@ public abstract class AbstractGameObject {
                 this.image = GamePanel.getImgBasicEnemy();
                 this.hp = 1;
                 this.gameObjectType = GameObjectType.ENEMY;
+                this.damage = 40;
                 break;
             default:
                 System.out.println("getInitialValues fault");

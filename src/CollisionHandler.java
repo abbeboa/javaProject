@@ -40,6 +40,7 @@ public class CollisionHandler {
             case PLAYER:
                 GamePanel.addGameObjectIdToRemove(objectA.getId());
                 GamePanel.playSoundTakenHit();
+                GamePanel.playSoundExplosion();
                 changeStats(objectA, objectB);
                 break;
             case ENEMY:
@@ -53,9 +54,9 @@ public class CollisionHandler {
     private void projectileCollisionActions(AbstractGameObject objectA, AbstractGameObject objectB) {
         switch (objectB.getGameObjectType()) {
             case PLAYER:
-                GamePanel.addGameObjectIdToRemove(objectA.getId());
-                changeStats(objectA, objectB);
                 if (objectA.getOwnerID() != objectB.getId()) { // You can not hurt yourself
+                    GamePanel.addGameObjectIdToRemove(objectA.getId());
+                    changeStats(objectA, objectB);
                     GamePanel.playSoundTakenHit();
                 }
                 break;
@@ -74,9 +75,7 @@ public class CollisionHandler {
     }
 
     private void changeStats(AbstractGameObject objectA, AbstractGameObject objectB) {
-        if (objectA.getOwnerID() != objectB.getId()) { // You can not hurt yourself
-            objectB.hp -= objectA.getDamage();
-        }
+        objectB.hp -= objectA.getDamage();
         checkIfDead(objectA);
         checkIfDead(objectB);
     }

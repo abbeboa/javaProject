@@ -6,7 +6,6 @@ import java.awt.image.BufferedImage;
 import java.io.File;
 import java.io.IOException;
 import java.util.ArrayList;
-import java.util.Collection;
 import java.util.List;
 import java.util.Objects;
 
@@ -253,7 +252,6 @@ public class GamePanel extends JPanel implements Runnable, KeyListener {
             if (answer == JOptionPane.YES_OPTION) {
                 resetGame();
                 gameOver = false;
-                //newGame = true;
                 resumeGame = false;
                 state = STATE.MENU;
 
@@ -365,11 +363,11 @@ public class GamePanel extends JPanel implements Runnable, KeyListener {
         g.setFont(digital7);
         g.setColor(decideHealthColor(gameObjects.get(0).getHp()));
         String healthStringPlayer1 = "Health: " + gameObjects.get(0).getHp();
-        g.drawString(healthStringPlayer1, (JPWIDTH - JPWIDTH / 9), JPHEIGHT / 11);
+        g.drawString(healthStringPlayer1, (JPWIDTH - JPWIDTH / 9), JPHEIGHT / 16);
         if (playerCount >= 2) {
             g.setColor(decideHealthColor(gameObjects.get(1).getHp()));
             String healthStringPlayer2 = "Health: " + gameObjects.get(1).getHp();
-            g.drawString(healthStringPlayer2, (JPWIDTH / 10), JPHEIGHT / 10);
+            g.drawString(healthStringPlayer2, (JPWIDTH / 9), JPHEIGHT / 16);
         }
     }
 
@@ -449,14 +447,6 @@ public class GamePanel extends JPanel implements Runnable, KeyListener {
 
     public static boolean isResumeGame() {
         return resumeGame;
-    }
-
-    public static Collection<AbstractGameObject> getGameObjects() {
-        return gameObjects;
-    }
-
-    public static Collection<Projectile> getProjectileList() {
-        return projectileList;
     }
 
     public static Image getImgMenuBackground() {
