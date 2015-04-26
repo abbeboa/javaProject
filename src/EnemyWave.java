@@ -56,32 +56,4 @@ public class EnemyWave {
             n++;
         }
     }
-
-    public long getWaveStartTime() {
-        return waveStartTime;
-    }
-
-    public int getWaveInterval() {
-        return waveInterval;
-    }
-
-    public int getSpawnEnemiesInterval() {
-        return spawnEnemiesInterval;
-    }
-
-    public int getNumberOfWaves() {
-        return numberOfWaves;
-    }
-
-    public int getWaveNumber() {
-        return waveNumber;
-    }
-
-    public int getEnemiesPerWave() {
-        return enemiesPerWave;
-    }
-
-    public boolean isProgressive() {
-        return progressive;
-    }
 }

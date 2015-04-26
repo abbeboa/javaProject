@@ -228,12 +228,6 @@ public class GamePanel extends JPanel implements Runnable, KeyListener {
         currentWave = new EnemyWave(1);
     }
 
-    /**
-     * private void createBasicEnemy() { Random rnd = new Random(); int randomNum = rnd.nextInt((JPWIDTH) + 1);
-     * <p/>
-     * gameObjects.add(new Enemy(randomNum, 0, false, Type.BASICENEMY)); }
-     */
-
     public void run() {
         long startTime;
 
@@ -444,18 +438,6 @@ public class GamePanel extends JPanel implements Runnable, KeyListener {
         Sound.play(explosion);
     }
 
-    public static int getJpwidth() {
-        return JPWIDTH;
-    }
-
-    public static int getJpheight() {
-        return JPHEIGHT;
-    }
-
-    public Image getDbImage() {
-        return dbImage;
-    }
-
     public static boolean isResumeGame() {
         return resumeGame;
     }
@@ -468,32 +450,8 @@ public class GamePanel extends JPanel implements Runnable, KeyListener {
         return projectileList;
     }
 
-    public static List<Enemy> getEnemyList() {
-        return enemyList;
-    }
-
-    public int getClickableLeft() {
-        return clickableLeft;
-    }
-
-    public int getClickableRight() {
-        return clickableRight;
-    }
-
-    public int getClickableTop() {
-        return clickableTop;
-    }
-
-    public int getClickableBottom() {
-        return clickableBottom;
-    }
-
     public static Image getImgMenuBackground() {
         return imgMenuBackground;
-    }
-
-    public static BufferedImage getImgBackground() {
-        return imgBackground;
     }
 
     public static BufferedImage getImgPlayer1() {

@@ -173,21 +173,8 @@ public abstract class AbstractGameObject {
                 return new Position(posX, posY);
         }
     }
-
-    public double getX() {
-        return x;
-    }
-
-    public double getY() {
-        return y;
-    }
-
     public double getSpeed() {
         return speed;
-    }
-
-    public BufferedImage getImage() {
-        return image;
     }
 
     public Rectangle getRectangle() {
@@ -196,22 +183,6 @@ public abstract class AbstractGameObject {
 
     public int getId() {
         return id;
-    }
-
-    public Type getType() {
-        return type;
-    }
-
-    public Boolean getIndestructible() {
-        return indestructible;
-    }
-
-    public int getHp() {
-        return hp;
-    }
-
-    public int getDamage() {
-        return damage;
     }
 
     public GameObjectType getGameObjectType() {
