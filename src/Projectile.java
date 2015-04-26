@@ -3,7 +3,6 @@ import java.util.List;
 public class Projectile extends AbstractGameObject {
 
     private Direction direction;
-    private int ownerID;
 
     public Projectile(final double x, final double y, final Boolean indestructible,
                       final Type type, final Direction direction, final int ownerID) {
@@ -18,9 +17,5 @@ public class Projectile extends AbstractGameObject {
             gameObjectIdsToRemove.add(this.getId());
         }
         return gameObjectIdsToRemove;
-    }
-
-    public Direction getDirection() {
-        return direction;
     }
 }

@@ -10,6 +10,9 @@ public class Enemy extends AbstractGameObject {
     }
 
     public void update() {
+        if (!GamePanel.ENEMIESGAMEFIELD.contains(this.rectangle)) {
+            GamePanel.addGameObjectIdToRemove(this.getId());
+        }
         if (type == Type.BASICENEMY) {
             timer++;
             this.move(Direction.DOWN, speed);

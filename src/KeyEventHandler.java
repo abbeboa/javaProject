@@ -9,9 +9,6 @@ import java.util.List;
 public class KeyEventHandler {
     private int shootingDelayCounter = 0;
 
-    public KeyEventHandler() {
-    }
-
     public void handleKeyEvents(List<Integer> pressedKeys) {
         AbstractGameObject player1 = GamePanel.getGameObject(0);
         Collection<Integer> keysToHandle = new ArrayList<>();

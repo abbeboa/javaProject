@@ -4,8 +4,6 @@ import java.util.List;
  * Created by Christian on 2015-04-26.
  */
 public class CollisionHandler {
-    public CollisionHandler() {
-    }
 
     public void checkForCollisions(List<AbstractGameObject> gameObjects) {
         for (int i = 0; i < gameObjects.size(); i++) {
