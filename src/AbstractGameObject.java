@@ -40,7 +40,7 @@ public abstract class AbstractGameObject {
             case PLAYER1:
                 this.speed = 3.0;
                 this.image = GamePanel.getImgPlayer1();
-                this.hp = 3;
+                this.hp = 100;
                 this.gameObjectType = GameObjectType.PLAYER;
                 break;
             case PLAYER2:
@@ -53,7 +53,7 @@ public abstract class AbstractGameObject {
                 this.speed = 5.0;
                 this.image = GamePanel.getImgBullet();
                 this.hp = 0;
-                this.damage = 1;
+                this.damage = 20;
                 this.gameObjectType = GameObjectType.PROJECTILE;
                 break;
             case MISSILE:
@@ -195,5 +195,17 @@ public abstract class AbstractGameObject {
 
     public void setOwnerID(int ownerID) {
         this.ownerID = ownerID;
+    }
+
+    public int getHp() {
+        return hp;
+    }
+
+    public int getDamage() {
+        return damage;
+    }
+
+    public static void setCounter(int counter) {
+        AbstractGameObject.counter = counter;
     }
 }

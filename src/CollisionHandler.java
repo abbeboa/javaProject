@@ -75,8 +75,7 @@ public class CollisionHandler {
 
     private void changeStats(AbstractGameObject objectA, AbstractGameObject objectB) {
         if (objectA.getOwnerID() != objectB.getId()) { // You can not hurt yourself
-            objectA.hp--;
-            objectB.hp--;
+            objectB.hp -= objectA.getDamage();
         }
         checkIfDead(objectA);
         checkIfDead(objectB);

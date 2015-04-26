@@ -24,12 +24,13 @@ public class GamePanel extends JPanel implements Runnable, KeyListener {
     private static boolean gameOver = false;
     private boolean newGame = true;
     private static boolean resumeGame = false;
+    private int playerCount = 1;
     private static List<Integer> pressedKeys = new ArrayList<>();
     private CollisionHandler collisionHandler;
     private KeyEventHandler keyEventHandler;
     //score
-    private static int score1 = 0;
-    private static int score2 = 0;
+    private static int scorePlayer1 = 0;
+    private static int scorePlayer2 = 0;
     //double buffering variables
     private Graphics dbg = null;
     private Image dbImage = null;
@@ -38,6 +39,8 @@ public class GamePanel extends JPanel implements Runnable, KeyListener {
     private static List<Enemy> enemyList = new ArrayList<>();
     private static List<Integer> gameObjectIdsToRemove = new ArrayList<>();
     private EnemyWave currentWave = null;
+    //fonts
+    Font digital7;
 
     //menu
     public enum STATE {
@@ -72,6 +75,7 @@ public class GamePanel extends JPanel implements Runnable, KeyListener {
     private int backgroundImageY2 = 0;
 
     public GamePanel() {
+        registerFontFiles();
         importImages();
         setBackground(bgColor);
         setPreferredSize(new Dimension(JPWIDTH, JPHEIGHT));
@@ -151,57 +155,6 @@ public class GamePanel extends JPanel implements Runnable, KeyListener {
         }
     }
 
-    /*private void handleKeyEvents() {
-        AbstractGameObject player1 = gameObjects.get(0);
-        Collection<Integer> keysToHandle = new ArrayList<>();
-        for (int i = 0; i < pressedKeys.size(); i++) {
-            keysToHandle.add(pressedKeys.get(i));
-        }
-        for (int keyCode : keysToHandle) {
-            if (keyCode == KeyEvent.VK_ESCAPE) {
-                gameRunning = false;
-            }
-            if (state == STATE.GAME) {
-                if (keyCode == KeyEvent.VK_LEFT) {
-                    if (GAMEFIELD.contains(player1.getRectangle())) {
-                        player1.move(Direction.LEFT, player1.getSpeed());
-                    }
-                }
-                if (keyCode == KeyEvent.VK_RIGHT) {
-                    if (GAMEFIELD.contains(player1.getRectangle())) {
-                        player1.move(Direction.RIGHT, player1.getSpeed());
-                    }
-                }
-                if (keyCode == KeyEvent.VK_UP) {
-                    if (GAMEFIELD.contains(player1.getRectangle())) {
-                        player1.move(Direction.UP, player1.getSpeed());
-                    }
-                }
-                if (keyCode == KeyEvent.VK_DOWN) {
-                    if (GAMEFIELD.contains(player1.getRectangle())) {
-                        player1.move(Direction.DOWN, player1.getSpeed());
-                    }
-                }
-                if (keyCode == KeyEvent.VK_SPACE) {
-                    shootingDelayCounter -= 1;
-                    if (shootingDelayCounter <= 0) {
-                        Sound.play(blaster);
-                        player1.shoot(Type.BULLET, Direction.UP, gameObjects, projectileList);
-                        int currentShootingDelay = 30;
-                        shootingDelayCounter += currentShootingDelay;
-                    }
-                }
-                if (keyCode == KeyEvent.VK_P) {
-                    state = STATE.MENU;
-                }
-            } else if (state == STATE.MENU) {
-                if (keyCode == KeyEvent.VK_P) {
-                    state = STATE.GAME;
-                }
-            }
-        }
-    }*/
-
     public void addNotify() {
      /* Makes sure JPanel and JFrame is ready
      before starting the game. */
@@ -266,8 +219,8 @@ public class GamePanel extends JPanel implements Runnable, KeyListener {
 
     private void gameUpdate() {
         if (newGame) {
-            score1 = 0;
-            score2 = 0;
+            scorePlayer1 = 0;
+            scorePlayer2 = 0;
             createPlayer1();
             createWave();
             newGame = false;
@@ -293,14 +246,14 @@ public class GamePanel extends JPanel implements Runnable, KeyListener {
             Sound.play(youLost);
             JFrame frame = new JFrame("Save Highscore");
             String player1 = JOptionPane.showInputDialog(frame, "Please type in your name");
-            Highscore hs = new Highscore(score1, player1);
+            Highscore hs = new Highscore(scorePlayer1, player1);
             HighscoreList.addHighscore(hs);
             int answer =
                     JOptionPane.showConfirmDialog(null, "Do you want to play again?", "Confirm", JOptionPane.YES_NO_OPTION);
             if (answer == JOptionPane.YES_OPTION) {
                 resetGame();
                 gameOver = false;
-                newGame = true;
+                //newGame = true;
                 resumeGame = false;
                 state = STATE.MENU;
 
@@ -331,17 +284,13 @@ public class GamePanel extends JPanel implements Runnable, KeyListener {
     }
 
     private void resetGame() {
-        score1 = 0;
-        score2 = 0;
-        while (!gameObjects.isEmpty()) {
-            gameObjects.remove(0);
-        }
-        while (!projectileList.isEmpty()) {
-            projectileList.remove(0);
-        }
-        while (!enemyList.isEmpty()) {
-            enemyList.remove(0);
-        }
+        scorePlayer1 = 0;
+        scorePlayer2 = 0;
+        gameObjects.clear();
+        projectileList.clear();
+        enemyList.clear();
+        gameObjectIdsToRemove.clear();
+        AbstractGameObject.setCounter(0);
     }
 
     private void gameRender() {
@@ -370,6 +319,7 @@ public class GamePanel extends JPanel implements Runnable, KeyListener {
         if (state == STATE.GAME) {
             for (int i = 0; i < gameObjects.size(); i++) {
                 gameObjects.get(i).drawGameObject(dbg, this);
+                drawHealthCounter(dbg);
             }
         } else if (state == STATE.MENU) {
             drawMenu(dbg);
@@ -396,7 +346,7 @@ public class GamePanel extends JPanel implements Runnable, KeyListener {
     private void drawMenu(Graphics dbg) {
         Graphics2D g = (Graphics2D) dbg;
         if (state == STATE.MENU) {
-            menu.render(g, score1, score2);
+            menu.render(g, scorePlayer1, scorePlayer2);
         }
     }
 
@@ -411,6 +361,28 @@ public class GamePanel extends JPanel implements Runnable, KeyListener {
         }
     }
 
+    private void drawHealthCounter(Graphics g) {
+        g.setFont(digital7);
+        g.setColor(decideHealthColor(gameObjects.get(0).getHp()));
+        String healthStringPlayer1 = "Health: " + gameObjects.get(0).getHp();
+        g.drawString(healthStringPlayer1, (JPWIDTH - JPWIDTH / 9), JPHEIGHT / 11);
+        if (playerCount >= 2) {
+            g.setColor(decideHealthColor(gameObjects.get(1).getHp()));
+            String healthStringPlayer2 = "Health: " + gameObjects.get(1).getHp();
+            g.drawString(healthStringPlayer2, (JPWIDTH / 10), JPHEIGHT / 10);
+        }
+    }
+
+    private Color decideHealthColor(int hp) {
+        if (hp > 60) {
+            return Color.GREEN;
+        } else if (hp > 30) {
+            return Color.YELLOW;
+        } else {
+            return Color.RED;
+        }
+    }
+
     private void drawGameOver(Graphics g) {
         gameRunning = false;
         // should be replaced by drawImage, using drawString for now
@@ -419,12 +391,24 @@ public class GamePanel extends JPanel implements Runnable, KeyListener {
         g.drawString(msg, JPWIDTH / 2, JPHEIGHT / 2);
     }
 
+    private void registerFontFiles() {
+        try {
+            digital7 = Font.createFont(Font.TRUETYPE_FONT, new File("src/fonts/digital-7.ttf")).deriveFont(32f);
+            GraphicsEnvironment ge = GraphicsEnvironment.getLocalGraphicsEnvironment();
+            ge.registerFont(Font.createFont(Font.TRUETYPE_FONT, new File("src/fonts/digital-7.ttf")));
+        } catch (IOException e) {
+            e.printStackTrace();
+        } catch (FontFormatException e) {
+            e.printStackTrace();
+        }
+    }
+
     public static void addGameObjectIdToRemove(int id) {
         gameObjectIdsToRemove.add(id);
     }
 
     public static void addScore(int points) {
-        GamePanel.score1 += points;
+        GamePanel.scorePlayer1 += points;
     }
 
     public static void setGameOver(boolean gameOver) {
