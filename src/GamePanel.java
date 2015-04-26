@@ -20,12 +20,13 @@ public class GamePanel extends JPanel implements Runnable, KeyListener {
             new Rectangle(-ENEMYMARGIN, -ENEMYMARGIN, JPWIDTH + ENEMYMARGIN, JPHEIGHT + ENEMYMARGIN);
     private static Color bgColor = Color.BLACK;
     private Thread graphicsThread = null;
-    private boolean gameRunning = false;
+    private static boolean gameRunning = false;
     private static boolean gameOver = false;
     private boolean newGame = true;
     private static boolean resumeGame = false;
     private static List<Integer> pressedKeys = new ArrayList<>();
     private CollisionHandler collisionHandler;
+    private KeyEventHandler keyEventHandler;
     //score
     private static int score1 = 0;
     private static int score2 = 0;
@@ -36,15 +37,14 @@ public class GamePanel extends JPanel implements Runnable, KeyListener {
     private static List<Projectile> projectileList = new ArrayList<>();
     private static List<Enemy> enemyList = new ArrayList<>();
     private static List<Integer> gameObjectIdsToRemove = new ArrayList<>();
-    private int shootingDelayCounter = 0;
     private EnemyWave currentWave = null;
 
     //menu
-    private enum STATE {
+    public enum STATE {
         MENU, GAME
     }
 
-    private STATE state = STATE.MENU;
+    private static STATE state = STATE.MENU;
     private Menu menu = null;
     private int clickableLeft = Menu.getButtonLeft();
     private int clickableRight = Menu.getButtonRight();
@@ -81,6 +81,7 @@ public class GamePanel extends JPanel implements Runnable, KeyListener {
 
         // create / add game components
 
+        keyEventHandler = new KeyEventHandler();
         this.addKeyListener(this);
         addMouseListenerFn();
     }
@@ -150,7 +151,7 @@ public class GamePanel extends JPanel implements Runnable, KeyListener {
         }
     }
 
-    private void handleKeyEvents() {
+    /*private void handleKeyEvents() {
         AbstractGameObject player1 = gameObjects.get(0);
         Collection<Integer> keysToHandle = new ArrayList<>();
         for (int i = 0; i < pressedKeys.size(); i++) {
@@ -199,7 +200,7 @@ public class GamePanel extends JPanel implements Runnable, KeyListener {
                 }
             }
         }
-    }
+    }*/
 
     public void addNotify() {
      /* Makes sure JPanel and JFrame is ready
@@ -274,7 +275,7 @@ public class GamePanel extends JPanel implements Runnable, KeyListener {
         }
         if (!gameOver) {
             // update game state ...
-            handleKeyEvents();
+            keyEventHandler.handleKeyEvents(pressedKeys);
             moveBackgroundImages();
             for (int i = 0; i < projectileList.size(); i++) {
                 gameObjectIdsToRemove = projectileList.get(i).updateProjectile(gameObjectIdsToRemove);
@@ -438,6 +439,30 @@ public class GamePanel extends JPanel implements Runnable, KeyListener {
         Sound.play(explosion);
     }
 
+    public static void playSoundBlaster() {
+        Sound.play(blaster);
+    }
+
+    public static void addToGameObjectsList(AbstractGameObject gameObject) {
+        gameObjects.add(gameObject);
+    }
+
+    public static void addToProjectileList(Projectile projectile) {
+        projectileList.add(projectile);
+    }
+
+    public static AbstractGameObject getGameObject(int i) {
+        return gameObjects.get(i);
+    }
+
+    public static boolean checkStateEqualsGame() {
+        return state == STATE.GAME;
+    }
+
+    public static boolean checkStateEqualsMenu() {
+        return state == STATE.MENU;
+    }
+
     public static boolean isResumeGame() {
         return resumeGame;
     }
@@ -466,4 +491,11 @@ public class GamePanel extends JPanel implements Runnable, KeyListener {
         return imgBasicEnemy;
     }
 
+    public static void setGameRunning(boolean gameRunning) {
+        GamePanel.gameRunning = gameRunning;
+    }
+
+    public static void setState(STATE state) {
+        GamePanel.state = state;
+    }
 }

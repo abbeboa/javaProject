@@ -120,11 +120,11 @@ public abstract class AbstractGameObject {
         this.rectangle = new Rectangle(newX, newY, image.getWidth(), image.getHeight());
     }
 
-    public void shoot(Type type, Direction direction, Collection<AbstractGameObject> gameObjects, Collection<Projectile> projectileList) {
+    public void shoot(Type type, Direction direction) {
         Position pos = calculateShootPos(direction, type);
         Projectile newProjectile = new Projectile(pos.getX(), pos.getY(), true, type, direction, this.id);
-        gameObjects.add(newProjectile);
-        projectileList.add(newProjectile);
+        GamePanel.addToGameObjectsList(newProjectile);
+        GamePanel.addToProjectileList(newProjectile);
     }
 
     private Position calculateShootPos(Direction direction, Type bulletType) {
