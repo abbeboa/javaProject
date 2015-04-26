@@ -318,7 +318,7 @@ public class GamePanel extends JPanel implements Runnable, KeyListener {
         if (state == STATE.GAME) {
             for (int i = 0; i < gameObjects.size(); i++) {
                 gameObjects.get(i).drawGameObject(dbg, this);
-                drawHealthCounter(dbg);
+                drawPlayerStats(dbg);
             }
         } else if (state == STATE.MENU) {
             drawMenu(dbg);
@@ -360,11 +360,14 @@ public class GamePanel extends JPanel implements Runnable, KeyListener {
         }
     }
 
-    private void drawHealthCounter(Graphics g) {
+    private void drawPlayerStats(Graphics g) {
         g.setFont(digital7);
         g.setColor(decideHealthColor(gameObjects.get(0).getHp()));
-        String healthStringPlayer1 = "Health: " + gameObjects.get(0).getHp();
-        g.drawString(healthStringPlayer1, (JPWIDTH - JPWIDTH / 9), JPHEIGHT / 16);
+        String healthPlayer1 = "Health: " + gameObjects.get(0).getHp();
+        g.drawString(healthPlayer1, (JPWIDTH - JPWIDTH / 9), JPHEIGHT / 16);
+        String scoreStringPlayer1 = "Score: " + scorePlayer1;
+        g.setColor(Color.GREEN);
+        g.drawString(scoreStringPlayer1, (JPWIDTH - JPWIDTH / 9), JPHEIGHT / 10);
         if (playerCount >= 2) {
             g.setColor(decideHealthColor(gameObjects.get(1).getHp()));
             String healthStringPlayer2 = "Health: " + gameObjects.get(1).getHp();
