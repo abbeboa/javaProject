@@ -14,6 +14,7 @@ public abstract class AbstractGameObject {
     private static int counter = 0;
     private int id;
     private int ownerID;
+    private int enemyShootDelay;
 
     protected AbstractGameObject(final double x, final double y, final Boolean indestructible, final Type type) {
         this.x = x;
@@ -67,6 +68,7 @@ public abstract class AbstractGameObject {
                 this.hp = 1;
                 this.gameObjectType = GameObjectType.ENEMY;
                 this.damage = 40;
+                this.enemyShootDelay = 60;
                 break;
             default:
                 System.out.println("getInitialValues fault");
@@ -207,5 +209,9 @@ public abstract class AbstractGameObject {
 
     public static void setCounter(int counter) {
         AbstractGameObject.counter = counter;
+    }
+
+    public int getEnemyShootDelay() {
+        return enemyShootDelay;
     }
 }

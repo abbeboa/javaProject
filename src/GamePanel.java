@@ -15,9 +15,9 @@ public class GamePanel extends JPanel implements Runnable, KeyListener {
     public static final int JPHEIGHT = 720;
     private static final int PERIOD = 10; // time in ms for each game update
     public static final Rectangle GAMEFIELD = new Rectangle(0, 0, JPWIDTH, JPHEIGHT);
-    private static final int ENEMYMARGIN = 100;
+    private static final int ENEMYMARGIN = 50;
     public static final Rectangle ENEMIESGAMEFIELD =
-            new Rectangle(-ENEMYMARGIN, -ENEMYMARGIN, JPWIDTH + ENEMYMARGIN, JPHEIGHT + ENEMYMARGIN);
+            new Rectangle(-ENEMYMARGIN, -ENEMYMARGIN, JPWIDTH + (ENEMYMARGIN * 2), JPHEIGHT + (ENEMYMARGIN * 2));
     private static Color bgColor = Color.BLACK;
     private Thread graphicsThread = null;
     private static boolean gameRunning = false;
@@ -237,7 +237,7 @@ public class GamePanel extends JPanel implements Runnable, KeyListener {
                 enemyList.get(i).update();
             }
             if (currentWave != null) {
-                currentWave.handleWave(System.currentTimeMillis(), gameObjects, enemyList, JPWIDTH);
+                currentWave.handleWave(System.currentTimeMillis());
             }
             collisionHandler.checkForCollisions(gameObjects);
             removeGameObjects(gameObjectIdsToRemove);
@@ -350,8 +350,8 @@ public class GamePanel extends JPanel implements Runnable, KeyListener {
     }
 
     private void moveBackgroundImages() {
-        backgroundImageY1 += 5;
-        backgroundImageY2 += 5;
+        backgroundImageY1 += 2;
+        backgroundImageY2 += 2;
         if (backgroundImageY1 > JPHEIGHT) {
             backgroundImageY1 = -JPHEIGHT;
         }
@@ -432,6 +432,10 @@ public class GamePanel extends JPanel implements Runnable, KeyListener {
         projectileList.add(projectile);
     }
 
+    public static void addToEnemyList(Enemy enemy) {
+        enemyList.add(enemy);
+    }
+
     public static AbstractGameObject getGameObject(int i) {
         return gameObjects.get(i);
     }
@@ -470,5 +474,9 @@ public class GamePanel extends JPanel implements Runnable, KeyListener {
 
     public static void setState(STATE state) {
         GamePanel.state = state;
+    }
+
+    public static int getEnemymargin() {
+        return ENEMYMARGIN;
     }
 }

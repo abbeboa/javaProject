@@ -10,6 +10,7 @@ public class EnemyWave {
     private int enemiesPerWave;
     private int n = 1;
     private boolean progressive = false;
+    private Direction direction;
 
     public EnemyWave(int waveNumber) {
         this.waveNumber = waveNumber;
@@ -24,36 +25,55 @@ public class EnemyWave {
             this.waveInterval = 6000;
             this.spawnEnemiesInterval = 1000;
             this.enemiesPerWave = 4;
+            this.direction = Direction.RIGHT;
         } else if (waveNumber == 1) {
             this.numberOfWaves = 1000;
             this.waveInterval = 6000;
             this.spawnEnemiesInterval = 1000;
             this.enemiesPerWave = 4;
+            this.direction = Direction.RIGHT;
         }
     }
 
-    public void handleWave(long currentTime, Collection<AbstractGameObject> gameObjects, Collection<Enemy> enemyList, int jpWidth) {
+    public void handleWave(long currentTime) {
         if (currentTime > waveStartTime + waveInterval) {
             n = 1;
             waveStartTime = currentTime;
             numberOfWaves--;
+            changeDirection();
         }
-        spawnEnemies(jpWidth, enemiesPerWave, gameObjects, enemyList);
+        spawnEnemies(enemiesPerWave);
         if (numberOfWaves <= 0) {
             waveNumber++;
             setVariables(waveNumber);
         }
     }
 
-    private void spawnEnemies(int jpWidth, int enemyWavesLeft, Collection<AbstractGameObject> gameObjects, Collection<Enemy> enemyList) {
+    private void spawnEnemies(int enemyWavesLeft) {
         if (enemyWavesLeft > 0 && System.currentTimeMillis() > waveStartTime + spawnEnemiesInterval * n) {
-            Random rnd = new Random();
+            Enemy newEnemy;
+            int enemyMargin = GamePanel.getEnemymargin();
+            /*Random rnd = new Random();
             int randomNum = rnd.nextInt((jpWidth) + 1);
-            Enemy newEnemy = new Enemy(randomNum, 0, false, Type.BASICENEMY);
-            gameObjects.add(newEnemy);
-            enemyList.add(newEnemy);
+            Enemy newEnemy = new Enemy(randomNum, 0, false, Type.BASICENEMY);*/
+            if (direction == Direction.RIGHT) {
+                newEnemy = new Enemy(0, -enemyMargin, false, Type.BASICENEMY, direction);
+            } else {
+                newEnemy =
+                        new Enemy(GamePanel.JPWIDTH - enemyMargin, -enemyMargin, false, Type.BASICENEMY, direction);
+            }
+            GamePanel.addToGameObjectsList(newEnemy);
+            GamePanel.addToEnemyList(newEnemy);
             enemyWavesLeft--;
             n++;
+        }
+    }
+
+    private void changeDirection() {
+        if (direction == Direction.RIGHT) {
+            direction = Direction.LEFT;
+        } else {
+            direction = Direction.RIGHT;
         }
     }
 }
