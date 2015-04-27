@@ -25,7 +25,7 @@ public class GamePanel extends JPanel implements Runnable, KeyListener {
     private static boolean newGame = true;
     private static boolean resumeGame = false;
     private static boolean soundEnabled = true;
-    private int playerCount = 1;
+    private static int playerCount = 1;
     private static List<Integer> pressedKeys = new ArrayList<>();
     private CollisionHandler collisionHandler;
     private KeyEventHandler keyEventHandler;
@@ -114,17 +114,23 @@ public class GamePanel extends JPanel implements Runnable, KeyListener {
         if (!gameOver) {
             // actions only performed when game is not over
             if (state == STATE.MENU) {
-                if (x > clickableLeft && x < clickableRight && y > clickableBottom && y < clickableTop) { // resume button
+                if (x > clickableLeft && x < clickableRight && y > (clickableBottom - 100) && y < (clickableTop - 100)) { // resume button
                     if (resumeGame) {
                         state = STATE.GAME;
                     }
-                } else if (x > clickableLeft && x < clickableRight && y > clickableBottom + 100 && y < clickableTop + 100) { // new game button
+                } else if (x > clickableLeft && x < clickableRight && y > clickableBottom && y < clickableTop) { // new game button
                     resetGame();
                     newGame = true;
                     state = STATE.GAME;
-                } else if (x > clickableLeft && x < clickableRight && y > clickableBottom + 200 && y < clickableTop + 200) { // quit game button
+                } else if (x > clickableLeft && x < clickableRight && y > (clickableBottom + 100) && y < (clickableTop + 100)) { // Player count button
+                    if (playerCount == 1) {
+                        playerCount = 2;
+                    } else {
+                        playerCount = 1;
+                    }
+                } else if (x > clickableLeft && x < clickableRight && y > (clickableBottom + 200) && y < (clickableTop + 200)) { // quit game button
                     stopGame();
-                } else if (x > 1200 && x < 1240 && y > 650 && y < 690) {
+                } else if ((x > 1200) && (x < 1240) && (y > 650) && (y < 690)) {
                     if (soundEnabled == true) {
                         soundEnabled = false;
                     } else {
@@ -478,12 +484,12 @@ public class GamePanel extends JPanel implements Runnable, KeyListener {
         return resumeGame;
     }
 
-    public static boolean isSoundEnabled() {
-        return soundEnabled;
+    public static boolean isGameRunning() {
+        return gameRunning;
     }
 
-    public static void setSoundEnabled(boolean soundEnabled) {
-        GamePanel.soundEnabled = soundEnabled;
+    public static boolean isSoundEnabled() {
+        return soundEnabled;
     }
 
     public static Image getImgMenuBackground() {
@@ -520,5 +526,9 @@ public class GamePanel extends JPanel implements Runnable, KeyListener {
 
     public static int getEnemymargin() {
         return ENEMYMARGIN;
+    }
+
+    public static int getPlayerCount() {
+        return playerCount;
     }
 }
