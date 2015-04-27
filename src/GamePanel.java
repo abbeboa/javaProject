@@ -24,6 +24,7 @@ public class GamePanel extends JPanel implements Runnable, KeyListener {
     private static boolean gameOver = false;
     private static boolean newGame = true;
     private static boolean resumeGame = false;
+    private static boolean soundEnabled = true;
     private int playerCount = 1;
     private static List<Integer> pressedKeys = new ArrayList<>();
     private CollisionHandler collisionHandler;
@@ -117,14 +118,18 @@ public class GamePanel extends JPanel implements Runnable, KeyListener {
                     if (resumeGame) {
                         state = STATE.GAME;
                     }
-                } else if (x > clickableLeft && x < clickableRight && y > clickableBottom + 100 &&
-                        y < clickableTop + 100) { // new game button
+                } else if (x > clickableLeft && x < clickableRight && y > clickableBottom + 100 && y < clickableTop + 100) { // new game button
                     resetGame();
                     newGame = true;
                     state = STATE.GAME;
-                } else if (x > clickableLeft && x < clickableRight && y > clickableBottom + 200 &&
-                        y < clickableTop + 200) { // quit game button
+                } else if (x > clickableLeft && x < clickableRight && y > clickableBottom + 200 && y < clickableTop + 200) { // quit game button
                     stopGame();
+                } else if (x > 1200 && x < 1240 && y > 650 && y < 690) {
+                    if (soundEnabled == true) {
+                        soundEnabled = false;
+                    } else {
+                        soundEnabled = true;
+                    }
                 }
             }
         }
@@ -471,6 +476,14 @@ public class GamePanel extends JPanel implements Runnable, KeyListener {
 
     public static boolean isResumeGame() {
         return resumeGame;
+    }
+
+    public static boolean isSoundEnabled() {
+        return soundEnabled;
+    }
+
+    public static void setSoundEnabled(boolean soundEnabled) {
+        GamePanel.soundEnabled = soundEnabled;
     }
 
     public static Image getImgMenuBackground() {

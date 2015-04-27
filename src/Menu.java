@@ -29,11 +29,14 @@ public class Menu {
         }
         g.drawString("New Game", buttonLeft, buttonTop + 100);
         g.drawString("Quit Game", buttonLeft, buttonTop + 200);
+        if (!GamePanel.isSoundEnabled()){
+            g.setColor(Color.RED);
+            g.setStroke(new BasicStroke(3));
+            g.drawLine(1240,690, 1200, 650);
+        }
     }
 
-    public static int getButtonTop() {
-        return buttonTop;
-    }
+    public static int getButtonTop() {return buttonTop; }
 
     public static int getButtonBottom() {
         return buttonBottom;
