@@ -57,6 +57,9 @@ public class PowerUp extends AbstractGameObject {
                 owner.indestructible = true;
                 owner.image = GamePanel.getImgPlayerIndestructible();
                 break;
+            case DOUBLEFIRERATE:
+                owner.setShootingDelay(owner.getShootingDelay() / 2);
+                break;
             default:
                 System.out.println("PowerUp setValues fault!");
         }
@@ -71,6 +74,9 @@ public class PowerUp extends AbstractGameObject {
             case INDESTRUCTIBLE:
                 owner.indestructible = false;
                 setOriginalImage(owner);
+                break;
+            case DOUBLEFIRERATE:
+                owner.setShootingDelay(owner.getShootingDelay() * 2);
                 break;
             default:
                 System.out.println("PowerUp setValues fault!");

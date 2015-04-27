@@ -15,7 +15,7 @@ public abstract class AbstractGameObject {
     private static int counter = 0;
     private int id;
     private int ownerID;
-    private int enemyShootDelay;
+    private int shootingDelay;
     private boolean pickedUp;
     private boolean invisible = false;
 
@@ -46,12 +46,14 @@ public abstract class AbstractGameObject {
                 this.image = GamePanel.getImgPlayer1();
                 this.hp = 100;
                 this.gameObjectType = GameObjectType.PLAYER;
+                this.shootingDelay = 30;
                 break;
             case PLAYER2:
                 this.speed = 1.0;
                 this.image = GamePanel.getImgPlayer1();
                 this.hp = 100;
                 this.gameObjectType = GameObjectType.PLAYER;
+                this.shootingDelay = 30;
                 break;
             case BULLET:
                 this.speed = 5.0;
@@ -72,7 +74,7 @@ public abstract class AbstractGameObject {
                 this.hp = 1;
                 this.gameObjectType = GameObjectType.ENEMY;
                 this.damage = 40;
-                this.enemyShootDelay = 60;
+                this.shootingDelay = 60;
                 break;
             case POWERUP:
                 this.image = GamePanel.getImgBasicEnemy();
@@ -198,8 +200,8 @@ public abstract class AbstractGameObject {
         AbstractGameObject.counter = counter;
     }
 
-    public int getEnemyShootDelay() {
-        return enemyShootDelay;
+    public int getShootingDelay() {
+        return shootingDelay;
     }
 
     public void setInvisible(boolean invisible) {
@@ -214,4 +216,7 @@ public abstract class AbstractGameObject {
         this.pickedUp = pickedUp;
     }
 
+    public void setShootingDelay(int shootingDelay) {
+        this.shootingDelay = shootingDelay;
+    }
 }

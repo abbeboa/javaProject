@@ -44,7 +44,7 @@ public class KeyEventHandler {
                     if (shootingDelayCounter <= 0) {
                         GamePanel.playSoundBlaster();
                         player1.shoot(Type.BULLET, Direction.UP);
-                        int currentShootingDelay = 30;
+                        int currentShootingDelay = player1.getShootingDelay();
                         shootingDelayCounter += currentShootingDelay;
                     }
                 }
