@@ -6,8 +6,8 @@ public class Enemy extends AbstractGameObject {
     private int timer = 0;
     private Direction direction;
 
-    public Enemy(final double x, final double y, final Boolean indestructible, final Type type, Direction direction) {
-        super(x, y, indestructible, type);
+    public Enemy(final double x, final double y, final Type type, Direction direction) {
+        super(x, y, type);
         this.direction = direction;
     }
 

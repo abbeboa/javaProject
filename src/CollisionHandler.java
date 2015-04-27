@@ -21,6 +21,7 @@ public class CollisionHandler {
     private void handleCollision(AbstractGameObject objectA, AbstractGameObject objectB) {
         switch (objectA.getGameObjectType()) {
             case PLAYER:
+                playerCollisionActions(objectA, objectB);
                 break;
             case ENEMY:
                 enemyCollisionActions(objectA, objectB);
@@ -28,8 +29,31 @@ public class CollisionHandler {
             case PROJECTILE:
                 projectileCollisionActions(objectA, objectB);
                 break;
+            case POWERUP:
+                break;
             default:
-                System.out.println("handleCollision fault!");
+                System.out.println("handleCollision fault! 2");
+        }
+    }
+
+    private void playerCollisionActions(AbstractGameObject objectA, AbstractGameObject objectB) {
+        switch (objectB.getGameObjectType()) {
+            case PLAYER:
+                break;
+            case ENEMY:
+                break;
+            case PROJECTILE:
+                break;
+            case POWERUP:
+                System.out.println("PLAYER -- POWER UP -- COLLISION!!");
+                if (!objectB.isPickedUp()) {
+                    objectB.setInvisible(true);
+                    objectB.setPickedUp(true);
+                    objectB.setOwnerID(objectA.getId());
+                }
+                break;
+            default:
+                System.out.println("handleCollision fault! 1");
         }
     }
 
@@ -68,7 +92,7 @@ public class CollisionHandler {
                 GamePanel.addGameObjectIdToRemove(objectA.getId());
                 break;
             default:
-                System.out.println("handleCollision fault!");
+                System.out.println("handleCollision fault! 3");
         }
     }
 

@@ -37,6 +37,7 @@ public class EnemyWave {
 
     public void handleWave(long currentTime) {
         if (currentTime > waveStartTime + waveInterval) {
+            spawnPowerUp();
             n = 1;
             waveStartTime = currentTime;
             numberOfWaves--;
@@ -57,10 +58,10 @@ public class EnemyWave {
             int randomNum = rnd.nextInt((jpWidth) + 1);
             Enemy newEnemy = new Enemy(randomNum, 0, false, Type.BASICENEMY);*/
             if (direction == Direction.RIGHT) {
-                newEnemy = new Enemy(0, -enemyMargin, false, Type.BASICENEMY, direction);
+                newEnemy = new Enemy(0, -enemyMargin, Type.BASICENEMY, direction);
             } else {
                 newEnemy =
-                        new Enemy(GamePanel.JPWIDTH - enemyMargin, -enemyMargin, false, Type.BASICENEMY, direction);
+                        new Enemy(GamePanel.JPWIDTH - enemyMargin, -enemyMargin, Type.BASICENEMY, direction);
             }
             GamePanel.addToGameObjectsList(newEnemy);
             GamePanel.addToEnemyList(newEnemy);
@@ -75,5 +76,11 @@ public class EnemyWave {
         } else {
             direction = Direction.RIGHT;
         }
+    }
+
+    private void spawnPowerUp() {
+        PowerUp newPowerUp = new PowerUp(0, 0, Type.POWERUP);
+        GamePanel.addToGameObjectsList(newPowerUp);
+        GamePanel.addToPowerUps(newPowerUp);
     }
 }

@@ -1,6 +1,7 @@
 import java.awt.*;
 import java.awt.image.BufferedImage;
 import java.awt.image.ImageObserver;
+import java.util.Random;
 
 public abstract class AbstractGameObject {
     protected double x, y, speed;
@@ -9,18 +10,19 @@ public abstract class AbstractGameObject {
     protected Type type;
     protected BufferedImage image = null;
     protected Rectangle rectangle;
-    protected int damage;
+    protected int damage = 0;
     protected GameObjectType gameObjectType = null;
     private static int counter = 0;
     private int id;
     private int ownerID;
     private int enemyShootDelay;
+    private boolean pickedUp;
+    private boolean invisible = false;
 
-    protected AbstractGameObject(final double x, final double y, final Boolean indestructible, final Type type) {
+    protected AbstractGameObject(final double x, final double y, final Type type) {
         this.x = x;
         this.y = y;
         setInitialValues(type);
-        this.indestructible = indestructible;
         this.type = type;
         this.rectangle = new Rectangle((int) x, (int) y, image.getWidth(), image.getHeight());
         this.id = counter;
@@ -31,8 +33,17 @@ public abstract class AbstractGameObject {
         counter++;
     }
 
+    private Position randomPosition() {
+        Random random = new Random();
+        int x = random.nextInt(GamePanel.JPWIDTH - image.getWidth());
+        int y = random.nextInt(GamePanel.JPHEIGHT - image.getHeight());
+        return new Position(x, y);
+    }
+
     public void drawGameObject(Graphics dbg, ImageObserver panel) {
-        dbg.drawImage(image, (int) x, (int) y, panel);
+        if (invisible == false) {
+            dbg.drawImage(image, (int) x, (int) y, panel);
+        }
     }
 
     private void setInitialValues(Type type) {
@@ -70,6 +81,12 @@ public abstract class AbstractGameObject {
                 this.damage = 40;
                 this.enemyShootDelay = 60;
                 break;
+            case POWERUP:
+                this.image = GamePanel.getImgBasicEnemy();
+                this.indestructible = true;
+                this.gameObjectType = GameObjectType.POWERUP;
+                this.pickedUp = false;
+                break;
             default:
                 System.out.println("getInitialValues fault");
                 this.speed = 1.0;
@@ -94,14 +111,6 @@ public abstract class AbstractGameObject {
             case RIGHT:
                 newX += speed;
                 break;
-            case UP_LEFT:
-                break;
-            case UP_RIGHT:
-                break;
-            case DOWN_LEFT:
-                break;
-            case DOWN_RIGHT:
-                break;
             default:
                 break;
         }
@@ -118,13 +127,13 @@ public abstract class AbstractGameObject {
         updateRectangle((int) x, (int) y);
     }
 
-    private void updateRectangle(int newX, int newY) {
+    public void updateRectangle(int newX, int newY) {
         this.rectangle = new Rectangle(newX, newY, image.getWidth(), image.getHeight());
     }
 
     public void shoot(Type type, Direction direction) {
         Position pos = calculateShootPos(direction, type);
-        Projectile newProjectile = new Projectile(pos.getX(), pos.getY(), true, type, direction, this.id);
+        Projectile newProjectile = new Projectile(pos.getX(), pos.getY(), type, direction, this.id);
         GamePanel.addToGameObjectsList(newProjectile);
         GamePanel.addToProjectileList(newProjectile);
     }
@@ -152,22 +161,6 @@ public abstract class AbstractGameObject {
             case RIGHT:
                 posX = x + playerWidth;
                 posY = y + (playerHeight / 2.0);
-                return new Position(posX, posY);
-            case UP_LEFT:
-                posX = x;
-                posY = y;
-                return new Position(posX, posY);
-            case UP_RIGHT:
-                posX = x;
-                posY = y;
-                return new Position(posX, posY);
-            case DOWN_LEFT:
-                posX = x;
-                posY = y;
-                return new Position(posX, posY);
-            case DOWN_RIGHT:
-                posX = x;
-                posY = y;
                 return new Position(posX, posY);
             default:
                 posX = x;
@@ -213,5 +206,25 @@ public abstract class AbstractGameObject {
 
     public int getEnemyShootDelay() {
         return enemyShootDelay;
+    }
+
+    public void setInvisible(boolean invisible) {
+        this.invisible = invisible;
+    }
+
+    public boolean isPickedUp() {
+        return pickedUp;
+    }
+
+    public void setPickedUp(boolean pickedUp) {
+        this.pickedUp = pickedUp;
+    }
+
+    public void setX(double x) {
+        this.x = x;
+    }
+
+    public void setY(double y) {
+        this.y = y;
     }
 }

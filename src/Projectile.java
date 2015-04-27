@@ -4,18 +4,16 @@ public class Projectile extends AbstractGameObject {
 
     private Direction direction;
 
-    public Projectile(final double x, final double y, final Boolean indestructible,
-                      final Type type, final Direction direction, final int ownerID) {
-        super(x, y, indestructible, type);
+    public Projectile(final double x, final double y, final Type type, final Direction direction, final int ownerID) {
+        super(x, y, type);
         this.direction = direction;
         this.setOwnerID(ownerID);
     }
 
-    public List<Integer> updateProjectile(List<Integer> gameObjectIdsToRemove) {
+    public void updateProjectile() {
         this.move(direction, speed);
         if (!GamePanel.GAMEFIELD.contains(rectangle)) {
-            gameObjectIdsToRemove.add(this.getId());
+            GamePanel.addGameObjectIdToRemove(this.getId());
         }
-        return gameObjectIdsToRemove;
     }
 }

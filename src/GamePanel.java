@@ -37,6 +37,7 @@ public class GamePanel extends JPanel implements Runnable, KeyListener {
     private static List<AbstractGameObject> gameObjects = new ArrayList<>();
     private static List<Projectile> projectileList = new ArrayList<>();
     private static List<Enemy> enemyList = new ArrayList<>();
+    private static List<PowerUp> powerUps = new ArrayList<>();
     private static List<Integer> gameObjectIdsToRemove = new ArrayList<>();
     private EnemyWave currentWave = null;
     //fonts
@@ -175,7 +176,7 @@ public class GamePanel extends JPanel implements Runnable, KeyListener {
     private void createPlayer1() {
         double playerStartPosX = JPWIDTH / 2.0 - (imgPlayer1.getWidth() / 2.0);
         double playerStartPosY = JPHEIGHT - imgPlayer1.getHeight();
-        gameObjects.add(new Player(playerStartPosX, playerStartPosY, false, Type.PLAYER1));
+        gameObjects.add(new Player(playerStartPosX, playerStartPosY, Type.PLAYER1));
     }
 
     private void createWave() {
@@ -231,10 +232,13 @@ public class GamePanel extends JPanel implements Runnable, KeyListener {
             keyEventHandler.handleKeyEvents(pressedKeys);
             moveBackgroundImages();
             for (int i = 0; i < projectileList.size(); i++) {
-                gameObjectIdsToRemove = projectileList.get(i).updateProjectile(gameObjectIdsToRemove);
+                projectileList.get(i).updateProjectile();
             }
             for (int i = 0; i < enemyList.size(); i++) {
                 enemyList.get(i).update();
+            }
+            for (int i = 0; i < powerUps.size(); i++) {
+                powerUps.get(i).update();
             }
             if (currentWave != null) {
                 currentWave.handleWave(System.currentTimeMillis());
@@ -289,6 +293,7 @@ public class GamePanel extends JPanel implements Runnable, KeyListener {
         projectileList.clear();
         enemyList.clear();
         gameObjectIdsToRemove.clear();
+        pressedKeys.clear();
         AbstractGameObject.setCounter(0);
     }
 
@@ -437,6 +442,10 @@ public class GamePanel extends JPanel implements Runnable, KeyListener {
 
     public static void addToEnemyList(Enemy enemy) {
         enemyList.add(enemy);
+    }
+
+    public static void addToPowerUps(PowerUp powerUp) {
+        powerUps.add(powerUp);
     }
 
     public static AbstractGameObject getGameObject(int i) {
