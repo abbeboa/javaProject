@@ -29,7 +29,7 @@ public class Enemy extends AbstractGameObject {
             if (timer <= 0) {
                 Sound.play("src/sounds/enemyBlaster.wav");
                 shoot(Type.BULLET, Direction.DOWN);
-                timer += getEnemyShootDelay();
+                timer += getShootingDelay();
             }
             if (timer > 0) {
                 timer--;
