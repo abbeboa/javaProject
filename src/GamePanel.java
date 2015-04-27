@@ -65,6 +65,10 @@ public class GamePanel extends JPanel implements Runnable, KeyListener {
     private static final String BLASTER = SOUNDFOLDER + "blaster.wav";
     //private String enemyBlaster = s+"enemyBlaster.wav"; // ligger just nu i enemy-klassen istället
     private static final String YOULOST = SOUNDFOLDER + "youLost.wav";
+    private static final String INDESTRUCTIBLE = SOUNDFOLDER + "indestructible_new.wav";
+    private static final String DOUBLEFIRERATE = SOUNDFOLDER + "double_firerate.wav";
+    private static final String DOUBLESPEED = SOUNDFOLDER + "double_speed.wav";
+    private static final String EXTRAHEALTH = SOUNDFOLDER + "extra_health.wav";
 
     //image variables
     private static BufferedImage imgBackground = null;
@@ -445,6 +449,14 @@ public class GamePanel extends JPanel implements Runnable, KeyListener {
     public static void playSoundBlaster() {
         Sound.play(BLASTER);
     }
+
+    public static void playSoundIndestructible() { Sound.play(INDESTRUCTIBLE); }
+
+    public static void playSoundDoubleFirerate() { Sound.play(DOUBLEFIRERATE); }
+
+    public static void playSoundDoubleSpeed() { Sound.play(DOUBLESPEED); }
+
+    public static void playSoundExtraHealth() { Sound.play(EXTRAHEALTH); }
 
     public static void addToGameObjectsList(AbstractGameObject gameObject) {
         gameObjects.add(gameObject);

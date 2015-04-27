@@ -51,14 +51,24 @@ public class PowerUp extends AbstractGameObject {
         AbstractGameObject owner = GamePanel.getGameObject(this.getOwnerID());
         switch (powerUpType) {
             case DOUBLESPEED:
+                GamePanel.playSoundDoubleSpeed();
                 owner.speed = owner.speed * 2;
                 break;
             case INDESTRUCTIBLE:
+                GamePanel.playSoundIndestructible();
                 owner.indestructible = true;
                 owner.image = GamePanel.getImgPlayerIndestructible();
                 break;
             case DOUBLEFIRERATE:
+                GamePanel.playSoundDoubleFirerate();
                 owner.setShootingDelay(owner.getShootingDelay() / 2);
+                break;
+            case EXTRAHEALTH:
+                GamePanel.playSoundExtraHealth();
+                owner.hp += 50;
+                if (owner.hp > owner.getMaxHp()) {
+                    owner.setHp(owner.getMaxHp());
+                }
                 break;
             default:
                 System.out.println("PowerUp setValues fault!");
@@ -77,6 +87,8 @@ public class PowerUp extends AbstractGameObject {
                 break;
             case DOUBLEFIRERATE:
                 owner.setShootingDelay(owner.getShootingDelay() * 2);
+                break;
+            case EXTRAHEALTH:
                 break;
             default:
                 System.out.println("PowerUp setValues fault!");

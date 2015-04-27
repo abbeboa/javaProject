@@ -18,6 +18,7 @@ public abstract class AbstractGameObject {
     private int shootingDelay;
     private boolean pickedUp;
     private boolean invisible = false;
+    private int maxHp = 150;
 
     protected AbstractGameObject(final double x, final double y, final Type type) {
         this.x = x;
@@ -218,5 +219,13 @@ public abstract class AbstractGameObject {
 
     public void setShootingDelay(int shootingDelay) {
         this.shootingDelay = shootingDelay;
+    }
+
+    public int getMaxHp() {
+        return maxHp;
+    }
+
+    public void setHp(int hp) {
+        this.hp = hp;
     }
 }
