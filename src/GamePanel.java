@@ -68,8 +68,10 @@ public class GamePanel extends JPanel implements Runnable, KeyListener {
     //image variables
     private static BufferedImage imgBackground = null;
     private static BufferedImage imgPlayer1 = null;
+    private static BufferedImage imgPlayer2 = null;
     private static BufferedImage imgBullet = null;
     private static BufferedImage imgBasicEnemy = null;
+    private static BufferedImage imgPlayerIndestructible = null;
     private static Image imgMenuBackground = null;
 
     private int backgroundImageY1 = -JPHEIGHT;
@@ -97,8 +99,10 @@ public class GamePanel extends JPanel implements Runnable, KeyListener {
             imgBackground = ImageIO.read(new File(imageFolderAddress + "background.jpg"));
             imgMenuBackground = ImageIO.read(new File(imageFolderAddress + "menuBackground.jpg"));
             imgPlayer1 = ImageIO.read(new File(imageFolderAddress + "player3.png"));
+            imgPlayer2 = ImageIO.read(new File(imageFolderAddress + "player2.png"));
             imgBasicEnemy = ImageIO.read(new File(imageFolderAddress + "basicEnemy.png"));
             imgBullet = ImageIO.read(new File(imageFolderAddress + "bullet.png"));
+            imgPlayerIndestructible = ImageIO.read(new File(imageFolderAddress + "playerindestructible.png"));
         } catch (IOException e) {
             e.printStackTrace();
         }
@@ -282,6 +286,11 @@ public class GamePanel extends JPanel implements Runnable, KeyListener {
         for (int i = 0; i < enemyList.size(); i++) {
             if (gameObjectsIdsToRemove.contains(enemyList.get(i).getId())) {
                 enemyList.remove(i);
+            }
+        }
+        for (int i = 0; i < powerUps.size(); i++) {
+            if (gameObjectsIdsToRemove.contains(powerUps.get(i).getId())) {
+                powerUps.remove(i);
             }
         }
     }
@@ -472,12 +481,20 @@ public class GamePanel extends JPanel implements Runnable, KeyListener {
         return imgPlayer1;
     }
 
+    public static BufferedImage getImgPlayer2() {
+        return imgPlayer2;
+    }
+
     public static BufferedImage getImgBullet() {
         return imgBullet;
     }
 
     public static BufferedImage getImgBasicEnemy() {
         return imgBasicEnemy;
+    }
+
+    public static BufferedImage getImgPlayerIndestructible() {
+        return imgPlayerIndestructible;
     }
 
     public static void setGameRunning(boolean gameRunning) {

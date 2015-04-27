@@ -7,10 +7,12 @@ public class PowerUp extends AbstractGameObject {
     private long expireTime;
     private PowerUpType powerUpType;
     private boolean hasSetValues = false;
+    private int idleTime = 10000;
+    private int effectiveTime = 5000;
 
     public PowerUp(double x, double y, Type type) {
         super(x, y, type);
-        expireTime = System.currentTimeMillis() + 10000;
+        expireTime = System.currentTimeMillis() + idleTime;
         setPowerUpType();
         Position randomPos = randomPosition();
         this.x = randomPos.getX();
@@ -32,21 +34,28 @@ public class PowerUp extends AbstractGameObject {
 
     public void update() {
         if (expireTime > System.currentTimeMillis()) {
-            if (hasSetValues == false) {
+            if (hasSetValues == false && isPickedUp()) {
                 setValues();
+                expireTime = System.currentTimeMillis() + effectiveTime;
                 hasSetValues = true;
             }
         } else {
-            restoreValues();
+            if (hasSetValues == true) {
+                restoreValues();
+            }
             GamePanel.addGameObjectIdToRemove(this.getId());
         }
     }
 
     private void setValues() {
+        AbstractGameObject owner = GamePanel.getGameObject(this.getOwnerID());
         switch (powerUpType) {
             case DOUBLESPEED:
+                owner.speed = owner.speed * 2;
                 break;
             case INDESTRUCTIBLE:
+                owner.indestructible = true;
+                owner.image = GamePanel.getImgPlayerIndestructible();
                 break;
             default:
                 System.out.println("PowerUp setValues fault!");
@@ -54,13 +63,26 @@ public class PowerUp extends AbstractGameObject {
     }
 
     private void restoreValues() {
+        AbstractGameObject owner = GamePanel.getGameObject(this.getOwnerID());
         switch (powerUpType) {
             case DOUBLESPEED:
+                owner.speed = owner.speed / 2;
                 break;
             case INDESTRUCTIBLE:
+                owner.indestructible = false;
+                setOriginalImage(owner);
                 break;
             default:
                 System.out.println("PowerUp setValues fault!");
         }
+    }
+
+    private void setOriginalImage(AbstractGameObject owner) {
+        if (owner.type == Type.PLAYER1) {
+            owner.image = GamePanel.getImgPlayer1();
+        } else {
+            owner.image = GamePanel.getImgPlayer2();
+        }
+
     }
 }

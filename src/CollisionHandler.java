@@ -45,7 +45,6 @@ public class CollisionHandler {
             case PROJECTILE:
                 break;
             case POWERUP:
-                System.out.println("PLAYER -- POWER UP -- COLLISION!!");
                 if (!objectB.isPickedUp()) {
                     objectB.setInvisible(true);
                     objectB.setPickedUp(true);
@@ -91,13 +90,17 @@ public class CollisionHandler {
             case PROJECTILE:
                 GamePanel.addGameObjectIdToRemove(objectA.getId());
                 break;
+            case POWERUP:
+                break;
             default:
                 System.out.println("handleCollision fault! 3");
         }
     }
 
     private void changeStats(AbstractGameObject objectA, AbstractGameObject objectB) {
-        objectB.hp -= objectA.getDamage();
+        if (objectB.indestructible == false) {
+            objectB.hp -= objectA.getDamage();
+        }
         checkIfDead(objectA);
         checkIfDead(objectB);
     }

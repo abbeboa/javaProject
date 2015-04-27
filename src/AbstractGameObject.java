@@ -6,7 +6,7 @@ import java.util.Random;
 public abstract class AbstractGameObject {
     protected double x, y, speed;
     protected int hp;
-    protected Boolean indestructible;
+    protected Boolean indestructible = false;
     protected Type type;
     protected BufferedImage image = null;
     protected Rectangle rectangle;
@@ -31,13 +31,6 @@ public abstract class AbstractGameObject {
 
     private static void increaseCounter() {
         counter++;
-    }
-
-    private Position randomPosition() {
-        Random random = new Random();
-        int x = random.nextInt(GamePanel.JPWIDTH - image.getWidth());
-        int y = random.nextInt(GamePanel.JPHEIGHT - image.getHeight());
-        return new Position(x, y);
     }
 
     public void drawGameObject(Graphics dbg, ImageObserver panel) {
@@ -168,6 +161,7 @@ public abstract class AbstractGameObject {
                 return new Position(posX, posY);
         }
     }
+
     public double getSpeed() {
         return speed;
     }
@@ -220,11 +214,4 @@ public abstract class AbstractGameObject {
         this.pickedUp = pickedUp;
     }
 
-    public void setX(double x) {
-        this.x = x;
-    }
-
-    public void setY(double y) {
-        this.y = y;
-    }
 }
