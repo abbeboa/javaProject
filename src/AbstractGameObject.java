@@ -64,7 +64,7 @@ public abstract class AbstractGameObject {
                 break;
             case PLAYER2:
                 this.speed = PLAYERDEFAULTSPEED;
-                this.image = GamePanel.getImgPlayer1();
+                this.image = GamePanel.getImgPlayer2();
                 this.hp = PLAYERDEFAULTHEALTH;
                 this.gameObjectType = GameObjectType.PLAYER;
                 this.shootingDelay = PLAYERDEFAULTSHOOTINGDELAY;

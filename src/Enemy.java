@@ -14,7 +14,12 @@ public class Enemy extends AbstractGameObject {
     public void update() {
         if (!GamePanel.ENEMIESGAMEFIELD.contains(rectangle)) {
             GamePanel.addGameObjectIdToRemove(this.getId());
-        }
+	    GamePanel.addScorePlayer1(-100);
+	    if (GamePanel.getPlayerCount() > 1){
+		GamePanel.addScorePlayer2(-100);
+	    }
+
+    }
         if (x < 0 || x > (GamePanel.JPWIDTH - image.getWidth())) {
             changeDirection();
         }

@@ -107,7 +107,7 @@ public class GamePanel extends JPanel implements Runnable, KeyListener {
             String imageFolderAddress = "src/images/";
             imgBackground = ImageIO.read(new File(imageFolderAddress + "background.jpg"));
             imgMenuBackground = ImageIO.read(new File(imageFolderAddress + "menuBackground.jpg"));
-            imgPlayer1 = ImageIO.read(new File(imageFolderAddress + "player3.png"));
+            imgPlayer1 = ImageIO.read(new File(imageFolderAddress + "player1.png"));
             imgPlayer2 = ImageIO.read(new File(imageFolderAddress + "player2.png"));
             imgBasicEnemy = ImageIO.read(new File(imageFolderAddress + "basicEnemy.png"));
             imgBullet = ImageIO.read(new File(imageFolderAddress + "bullet.png"));
@@ -139,7 +139,7 @@ public class GamePanel extends JPanel implements Runnable, KeyListener {
                 } else if (x > Menu.getQuitbuttonleft() && x < QUITBUTTONRIGHT && y > QUITBUTTONBOTTOM && y < Menu.getQuitbuttontop()) { // quit game button
                     stopGame();
                 } else if ((x > Menu.getSoundbuttonleft()) && (x < Menu.getSoundbuttonright()) && (y > Menu.getSoundbuttontop()) && (y < Menu.getSoundbuttonbottom())) {
-                    if (soundEnabled == true) {
+                    if (soundEnabled) {
                         soundEnabled = false;
                     } else {
                         soundEnabled = true;
@@ -202,6 +202,12 @@ public class GamePanel extends JPanel implements Runnable, KeyListener {
         gameObjects.add(new Player(playerStartPosX, playerStartPosY, Type.PLAYER1));
     }
 
+    private void createPlayer2() {
+           double playerStartPosX = JPWIDTH / 2.0 - (imgPlayer1.getWidth() / 2.0);
+           double playerStartPosY = JPHEIGHT - imgPlayer1.getHeight();
+           gameObjects.add(new Player(playerStartPosX/2, playerStartPosY, Type.PLAYER2));
+       }
+
     private void createWave() {
         currentWave = new EnemyWave(1);
     }
@@ -244,8 +250,11 @@ public class GamePanel extends JPanel implements Runnable, KeyListener {
     private void gameUpdate() {
         if (newGame) {
             scorePlayer1 = 0;
-            scorePlayer2 = 0;
             createPlayer1();
+	    if (playerCount > 1) {
+		createPlayer2();
+		scorePlayer2 = 0;
+	    }
             createWave();
             newGame = false;
             resumeGame = true;
@@ -272,9 +281,17 @@ public class GamePanel extends JPanel implements Runnable, KeyListener {
         if (gameOver) {
             Sound.play(YOULOST);
             JFrame frame = new JFrame("Save Highscore");
-            String player1 = JOptionPane.showInputDialog(frame, "Please type in your name");
-            Highscore hs = new Highscore(scorePlayer1, player1);
-            HighscoreList.addHighscore(hs);
+            String player1 = JOptionPane.showInputDialog(frame, "Please type in Player1 name");
+	    Highscore hs = new Highscore(scorePlayer1, player1);
+	    HighscoreList.addHighscore(hs);
+
+	    if (playerCount > 1) {
+		System.out.println("\n");
+		String player2 = JOptionPane.showInputDialog(frame, "Please type in Player2 name");
+		Highscore hs2 = new Highscore(scorePlayer2, player2);
+		HighscoreList.addHighscore(hs2);
+	    }
+
             int answer =
                     JOptionPane.showConfirmDialog(null, "Do you want to play again?", "Confirm", JOptionPane.YES_NO_OPTION);
             if (answer == JOptionPane.YES_OPTION) {
@@ -444,9 +461,13 @@ public class GamePanel extends JPanel implements Runnable, KeyListener {
         gameObjectIdsToRemove.add(id);
     }
 
-    public static void addScore(int points) {
+    public static void addScorePlayer1(int points) {
         GamePanel.scorePlayer1 += points;
     }
+
+    public static void addScorePlayer2(int points) {
+            GamePanel.scorePlayer2 += points;
+        }
 
     public static void setGameOver(boolean gameOver) {
         GamePanel.gameOver = gameOver;
@@ -495,6 +516,10 @@ public class GamePanel extends JPanel implements Runnable, KeyListener {
     public static AbstractGameObject getGameObject(int i) {
         return gameObjects.get(i);
     }
+
+    public static int getGameObjectSize() {
+            return gameObjects.size();
+        }
 
     public static boolean checkStateEqualsGame() {
         return state == STATE.GAME;
