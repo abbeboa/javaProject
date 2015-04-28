@@ -53,16 +53,24 @@ public class GamePanel extends JPanel implements Runnable, KeyListener {
 
     private static STATE state = STATE.MENU;
     private Menu menu = null;
-    private static int clickableLeft = Menu.getButtonLeft();
-    private static int clickableRight = Menu.getButtonRight();
-    private static int clickableTop = Menu.getButtonTop();
-    private static int clickableBottom = Menu.getButtonBottom();
+    private static final int RESUMEBUTTONRIGHT 	= 1024;
+    private static final int RESUMEBUTTONBOTTOM = 120;
+    private static final int NEWBUTTONRIGHT 	= 1024;
+    private static final int NEWBUTTONBOTTOM 	= 220;
+    private static final int PLAYERBUTTONRIGHT 	= 1024;
+    private static final int PLAYERBUTTONBOTTOM = 320;
+    private static final int QUITBUTTONRIGHT 	= 1024;
+    private static final int QUITBUTTONBOTTOM 	= 420;
+
     //sound
     private static final String SOUNDFOLDER = "src/sounds/";
-    private static final String TAKENHIT = SOUNDFOLDER + "takenhit1.wav";
+    private static final String SOUNDBACKGROUND = SOUNDFOLDER + "backgroundSound.wav"; // jobbig.
+    private static final String TAKENHIT = SOUNDFOLDER + "takenhit1.wav"; // lite jobbig
+    private static final String RELOADING = SOUNDFOLDER + "reloading1.wav"; // jobbig.
+    private static final String WEAPONCHANGE = SOUNDFOLDER + "weaponChange1.wav"; // denna bör vi har när vi byter mellan vapen
     private static final String EXPLOSION = SOUNDFOLDER + "explosion.wav";
     private static final String BLASTER = SOUNDFOLDER + "blaster.wav";
-    private static final String ENEMYBLASTER = SOUNDFOLDER + "enemyBlaster.wav";
+    //private String enemyBlaster = s+"enemyBlaster.wav"; // ligger just nu i enemy-klassen istället
     private static final String YOULOST = SOUNDFOLDER + "youLost.wav";
     private static final String INDESTRUCTIBLE = SOUNDFOLDER + "indestructible_new.wav";
     private static final String DOUBLEFIRERATE = SOUNDFOLDER + "double_firerate.wav";
@@ -117,24 +125,24 @@ public class GamePanel extends JPanel implements Runnable, KeyListener {
         if (!gameOver) {
             // actions only performed when game is not over
             if (state == STATE.MENU) {
-                if (x > clickableLeft && x < clickableRight && y > (clickableBottom - 100) && y < (clickableTop - 100)) { // resume button
+                if (x > Menu.getResumebuttonleft() && x < RESUMEBUTTONRIGHT && y > RESUMEBUTTONBOTTOM && y < Menu.getResumebuttontop()) { // resume button
                     if (resumeGame) {
                         state = STATE.GAME;
                     }
-                } else if (x > clickableLeft && x < clickableRight && y > clickableBottom && y < clickableTop) { // new game button
+                } else if (x > Menu.getNewbuttonleft() && x < NEWBUTTONRIGHT && y > NEWBUTTONBOTTOM && y < Menu.getNewbuttotop()) { // new game button
                     resetGame();
                     newGame = true;
                     state = STATE.GAME;
-                } else if (x > clickableLeft && x < clickableRight && y > (clickableBottom + 100) && y < (clickableTop + 100)) { // Player count button
+                } else if (x > Menu.getPlayerbuttonleft() && x < PLAYERBUTTONRIGHT && y > PLAYERBUTTONBOTTOM && y < Menu.getPlayerbuttontop()) { // Player count button
                     if (playerCount == 1) {
                         playerCount = 2;
                     } else {
                         playerCount = 1;
                     }
-                } else if (x > clickableLeft && x < clickableRight && y > (clickableBottom + 200) && y < (clickableTop + 200)) { // quit game button
+                } else if (x > Menu.getQuitbuttonleft() && x < QUITBUTTONRIGHT && y > QUITBUTTONBOTTOM && y < Menu.getQuitbuttontop()) { // quit game button
                     stopGame();
-                } else if ((x > 1200) && (x < 1240) && (y > 650) && (y < 690)) {
-                    if (soundEnabled) {
+                } else if ((x > Menu.getSoundbuttonleft()) && (x < Menu.getSoundbuttonright()) && (y > Menu.getSoundbuttontop()) && (y < Menu.getSoundbuttonbottom())) {
+                    if (soundEnabled == true) {
                         soundEnabled = false;
                     } else {
                         soundEnabled = true;
@@ -392,14 +400,14 @@ public class GamePanel extends JPanel implements Runnable, KeyListener {
         g.setFont(digital7);
         g.setColor(decideHealthColor(gameObjects.get(0).getHp()));
         String healthPlayer1 = "Health: " + gameObjects.get(0).getHp();
-        g.drawString(healthPlayer1, (JPWIDTH - JPWIDTH / 9), JPHEIGHT / 16);
+	g.drawString(healthPlayer1, (JPWIDTH - JPWIDTH / 9), JPHEIGHT / 16);
         String scoreStringPlayer1 = "Score: " + scorePlayer1;
-        g.setColor(Color.GREEN);
-        g.drawString(scoreStringPlayer1, (JPWIDTH - JPWIDTH / 9), JPHEIGHT / 10);
+	g.setColor(Color.GREEN);
+	g.drawString(scoreStringPlayer1, (JPWIDTH - JPWIDTH / 9), JPHEIGHT / 10);
         if (playerCount >= 2) {
             g.setColor(decideHealthColor(gameObjects.get(1).getHp()));
             String healthStringPlayer2 = "Health: " + gameObjects.get(1).getHp();
-            g.drawString(healthStringPlayer2, (JPWIDTH / 9), JPHEIGHT / 16);
+	    g.drawString(healthStringPlayer2, (JPWIDTH / 9), JPHEIGHT / 16);
         }
     }
 
@@ -459,10 +467,6 @@ public class GamePanel extends JPanel implements Runnable, KeyListener {
         Sound.play(BLASTER);
     }
 
-    public static void playSoundEnemyBlaster() {
-        Sound.play(ENEMYBLASTER);
-    }
-
     public static void playSoundIndestructible() { Sound.play(INDESTRUCTIBLE); }
 
     public static void playSoundDoubleFirerate() { Sound.play(DOUBLEFIRERATE); }
@@ -503,6 +507,10 @@ public class GamePanel extends JPanel implements Runnable, KeyListener {
         return resumeGame;
     }
 
+    public static boolean isGameRunning() {
+        return gameRunning;
+    }
+
     public static boolean isSoundEnabled() {
         return soundEnabled;
     }
@@ -535,12 +543,8 @@ public class GamePanel extends JPanel implements Runnable, KeyListener {
         GamePanel.gameRunning = gameRunning;
     }
 
-    public static void setStateMenu() {
-        GamePanel.state = STATE.MENU;
-    }
-
-    public static void setStateGame() {
-        GamePanel.state = STATE.GAME;
+    public static void setState(STATE state) {
+        GamePanel.state = state;
     }
 
     public static int getEnemymargin() {
