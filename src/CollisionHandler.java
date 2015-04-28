@@ -68,6 +68,8 @@ public class CollisionHandler {
                 break;
             case PROJECTILE:
                 break;
+            case POWERUP:
+                break;
             default:
         }
     }
@@ -98,7 +100,7 @@ public class CollisionHandler {
     }
 
     private void changeStats(AbstractGameObject objectA, AbstractGameObject objectB) {
-        if (objectB.indestructible == false) {
+        if (!objectB.indestructible) {
             objectB.hp -= objectA.getDamage();
         }
         checkIfDead(objectA);
@@ -120,6 +122,11 @@ public class CollisionHandler {
                     GamePanel.playSoundExplosion();
                     System.out.println("Game over");
                     GamePanel.setGameOver(true);
+                    break;
+                case POWERUP:
+                    break;
+                default:
+                    System.out.println("CollisionHandler CHECKIFDEAD fault");
             }
         }
     }

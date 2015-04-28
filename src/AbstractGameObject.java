@@ -5,7 +5,7 @@ import java.util.Random;
 
 public abstract class AbstractGameObject {
     //constants
-    private static final int PLAYERMAXIMUMHEALTH = 150;
+    protected static final int PLAYERMAXIMUMHEALTH = 150;
     private static final double PLAYERDEFAULTSPEED = 3.0;
     private static final int PLAYERDEFAULTHEALTH = 100;
     private static final int PLAYERDEFAULTSHOOTINGDELAY = 30;
@@ -48,7 +48,7 @@ public abstract class AbstractGameObject {
     }
 
     public void drawGameObject(Graphics dbg, ImageObserver panel) {
-        if (invisible == false) {
+        if (!invisible) {
             dbg.drawImage(image, (int) x, (int) y, panel);
         }
     }
@@ -148,21 +148,19 @@ public abstract class AbstractGameObject {
     }
 
     public void shoot(Type type, Direction direction) {
-        Position pos = calculateShootPos(direction, type);
+        Position pos = calculateShootPos(direction);
         Projectile newProjectile = new Projectile(pos.getX(), pos.getY(), type, direction, this.id);
         GamePanel.addToGameObjectsList(newProjectile);
         GamePanel.addToProjectileList(newProjectile);
     }
 
-    private Position calculateShootPos(Direction direction, Type bulletType) {
+    private Position calculateShootPos(Direction direction) {
         double posX;
         double posY;
         int playerWidth = image.getWidth();
         int playerHeight = image.getHeight();
         double halfPlayerWidth = playerWidth / 2.0;
         double halfPlayerHeight = playerHeight / 2.0;
-        //int bulletWidth = getInitialImage(bulletType).getWidth();
-        //int bulletHeight = getInitialImage(bulletType).getHeight();
         switch (direction) {
             case UP:
                 posX = x + halfPlayerWidth;

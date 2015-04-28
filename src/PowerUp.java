@@ -26,13 +26,13 @@ public class PowerUp extends AbstractGameObject {
 
     public void update() {
         if (expireTime > System.currentTimeMillis()) {
-            if (hasSetValues == false && isPickedUp()) {
+            if (!hasSetValues && isPickedUp()) {
                 setValues();
                 expireTime = System.currentTimeMillis() + EFFECTIVETIME;
                 hasSetValues = true;
             }
         } else {
-            if (hasSetValues == true) {
+            if (hasSetValues) {
                 restoreValues();
             }
             GamePanel.addGameObjectIdToRemove(this.getId());
@@ -58,7 +58,7 @@ public class PowerUp extends AbstractGameObject {
             case EXTRAHEALTH:
                 GamePanel.playSoundExtraHealth();
                 owner.hp += DEFAULTEXTRAHEALTH;
-                if (owner.hp > owner.getPlayerMaximumHealth()) {
+                if (owner.hp > owner.PLAYERMAXIMUMHEALTH) {
                     owner.setHp(owner.getPlayerMaximumHealth());
                 }
                 break;
