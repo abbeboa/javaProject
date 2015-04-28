@@ -1,9 +1,22 @@
 import java.awt.*;
 import java.awt.image.BufferedImage;
 import java.awt.image.ImageObserver;
-import java.util.Random;
 
 public abstract class AbstractGameObject {
+    //constants
+    private static final int PLAYERMAXIMUMHEALTH = 150;
+    private static final double PLAYERDEFAULTSPEED = 3.0;
+    private static final int PLAYERDEFAULTHEALTH = 100;
+    private static final int PLAYERDEFAULTSHOOTINGDELAY = 30;
+    private static final double BULLETDEFAULTSPEED = 5.0;
+    private static final int PROJECTILEDEFAULTHEALTH = 0;
+    private static final int BULLETDEFAULTDAMAGE = 20;
+    private static final double MISSILEDEFAULTSPEED = 5.0;
+    private static final double BASICENEMYDEFAULTSPEED = 1.0;
+    private static final int BASICENEMYDEFAULTHP = 1;
+    private static final int BASICENEMYDEFAULTDAMAGE = 40;
+    private static final int BASICENEMYDEFAULTSHOOTINGDELAY = 60;
+
     protected double x, y, speed;
     protected int hp;
     protected Boolean indestructible = false;
@@ -18,7 +31,8 @@ public abstract class AbstractGameObject {
     private int shootingDelay;
     private boolean pickedUp;
     private boolean invisible = false;
-    private int maxHp = 150;
+
+    private int maxHp = PLAYERMAXIMUMHEALTH;
 
     protected AbstractGameObject(final double x, final double y, final Type type) {
         this.x = x;
@@ -43,39 +57,39 @@ public abstract class AbstractGameObject {
     private void setInitialValues(Type type) {
         switch (type) {
             case PLAYER1:
-                this.speed = 3.0;
+                this.speed = PLAYERDEFAULTSPEED;
                 this.image = GamePanel.getImgPlayer1();
-                this.hp = 100;
+                this.hp = PLAYERDEFAULTHEALTH;
                 this.gameObjectType = GameObjectType.PLAYER;
-                this.shootingDelay = 30;
+                this.shootingDelay = PLAYERDEFAULTSHOOTINGDELAY;
                 break;
             case PLAYER2:
-                this.speed = 1.0;
+                this.speed = PLAYERDEFAULTSPEED;
                 this.image = GamePanel.getImgPlayer1();
-                this.hp = 100;
+                this.hp = PLAYERDEFAULTHEALTH;
                 this.gameObjectType = GameObjectType.PLAYER;
-                this.shootingDelay = 30;
+                this.shootingDelay = PLAYERDEFAULTSHOOTINGDELAY;
                 break;
             case BULLET:
-                this.speed = 5.0;
+                this.speed = BULLETDEFAULTSPEED;
                 this.image = GamePanel.getImgBullet();
-                this.hp = 0;
-                this.damage = 20;
+                this.hp = PROJECTILEDEFAULTHEALTH;
+                this.damage = BULLETDEFAULTDAMAGE;
                 this.gameObjectType = GameObjectType.PROJECTILE;
                 break;
             case MISSILE:
-                this.speed = 5.0;
+                this.speed = MISSILEDEFAULTSPEED;
                 this.image = GamePanel.getImgBullet();
-                this.hp = 0;
+                this.hp = PROJECTILEDEFAULTHEALTH;
                 this.gameObjectType = GameObjectType.PROJECTILE;
                 break;
             case BASICENEMY:
-                this.speed = 1.0;
+                this.speed = BASICENEMYDEFAULTSPEED;
                 this.image = GamePanel.getImgBasicEnemy();
-                this.hp = 1;
+                this.hp = BASICENEMYDEFAULTHP;
                 this.gameObjectType = GameObjectType.ENEMY;
-                this.damage = 40;
-                this.shootingDelay = 60;
+                this.damage = BASICENEMYDEFAULTDAMAGE;
+                this.shootingDelay = BASICENEMYDEFAULTSHOOTINGDELAY;
                 break;
             case POWERUP:
                 this.image = GamePanel.getImgBasicEnemy();
@@ -85,9 +99,6 @@ public abstract class AbstractGameObject {
                 break;
             default:
                 System.out.println("getInitialValues fault");
-                this.speed = 1.0;
-                this.image = GamePanel.getImgBullet();
-                this.hp = 1;
         }
     }
 

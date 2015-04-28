@@ -39,7 +39,7 @@ public class GamePanel extends JPanel implements Runnable, KeyListener {
     private static List<Projectile> projectileList = new ArrayList<>();
     private static List<Enemy> enemyList = new ArrayList<>();
     private static List<PowerUp> powerUps = new ArrayList<>();
-    private static List<Integer> gameObjectIdsToRemove = new ArrayList<>();
+    private static Collection<Integer> gameObjectIdsToRemove = new ArrayList<>();
     private EnemyWave currentWave = null;
     //fonts
     private Font digital7;
