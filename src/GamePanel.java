@@ -46,9 +46,9 @@ public class GamePanel extends JPanel implements Runnable, KeyListener {
     private static Collection<Integer> gameObjectIdsToRemove = new ArrayList<>();
     private EnemyWave currentWave = null;
     //fonts
-    private static Font digital7 = null;
-    private static Font headline = null;
-    private static Font menuText = null;
+    private Font digital7 = null;
+    private Font headline = null;
+    private Font menuText = null;
 
     //menu
     public enum STATE {
@@ -57,14 +57,14 @@ public class GamePanel extends JPanel implements Runnable, KeyListener {
 
     private static STATE state = STATE.MENU;
     private Menu menu = null;
-    private static final int RESUMEBUTTONRIGHT 	= 1024;
+    private static final int RESUMEBUTTONRIGHT = 1024;
     private static final int RESUMEBUTTONBOTTOM = 120;
-    private static final int NEWBUTTONRIGHT 	= 1024;
-    private static final int NEWBUTTONBOTTOM 	= 220;
-    private static final int PLAYERBUTTONRIGHT 	= 1024;
+    private static final int NEWBUTTONRIGHT = 1024;
+    private static final int NEWBUTTONBOTTOM = 220;
+    private static final int PLAYERBUTTONRIGHT = 1024;
     private static final int PLAYERBUTTONBOTTOM = 320;
-    private static final int QUITBUTTONRIGHT 	= 1024;
-    private static final int QUITBUTTONBOTTOM 	= 420;
+    private static final int QUITBUTTONRIGHT = 1024;
+    private static final int QUITBUTTONBOTTOM = 420;
     private static final int HEALTHPLAYERSTRINGPLACING = 16;
     private static final int GREENHPCONSTANT = 60;
     private static final int YELLOWHPCONSTANT = 30;
@@ -392,14 +392,14 @@ public class GamePanel extends JPanel implements Runnable, KeyListener {
         g.setFont(digital7);
         g.setColor(decideHealthColor(gameObjects.get(0).getHp()));
         String healthPlayer1 = "Health: " + gameObjects.get(0).getHp();
-	g.drawString(healthPlayer1, (JPWIDTH - JPWIDTH / 9), JPHEIGHT / HEALTHPLAYERSTRINGPLACING);
+        g.drawString(healthPlayer1, (JPWIDTH - JPWIDTH / 9), JPHEIGHT / HEALTHPLAYERSTRINGPLACING);
         String scoreStringPlayer1 = "Score: " + scorePlayer1;
-	g.setColor(Color.GREEN);
-	g.drawString(scoreStringPlayer1, (JPWIDTH - JPWIDTH / 9), JPHEIGHT / 10);
+        g.setColor(Color.GREEN);
+        g.drawString(scoreStringPlayer1, (JPWIDTH - JPWIDTH / 9), JPHEIGHT / 10);
         if (playerCount >= 2) {
             g.setColor(decideHealthColor(gameObjects.get(1).getHp()));
             String healthStringPlayer2 = "Health: " + gameObjects.get(1).getHp();
-	    g.drawString(healthStringPlayer2, (JPWIDTH / 9), JPHEIGHT / HEALTHPLAYERSTRINGPLACING);
+            g.drawString(healthStringPlayer2, (JPWIDTH / 9), JPHEIGHT / HEALTHPLAYERSTRINGPLACING);
         }
     }
 
@@ -423,13 +423,13 @@ public class GamePanel extends JPanel implements Runnable, KeyListener {
 
     private void registerFontFiles() {
         try {
-	    GraphicsEnvironment ge = GraphicsEnvironment.getLocalGraphicsEnvironment();
+            GraphicsEnvironment ge = GraphicsEnvironment.getLocalGraphicsEnvironment();
             digital7 = Font.createFont(Font.TRUETYPE_FONT, new File("src/fonts/digital-7.ttf")).deriveFont(MEDIUMFONTSIZE);
             ge.registerFont(Font.createFont(Font.TRUETYPE_FONT, new File("src/fonts/digital-7.ttf")));
-	    headline = Font.createFont(Font.TRUETYPE_FONT, new File("src/fonts/headline.ttf")).deriveFont(LARGEFONTSIZE);
-	    ge.registerFont(Font.createFont(Font.TRUETYPE_FONT, new File("src/fonts/headline.ttf")));
-	    menuText = Font.createFont(Font.TRUETYPE_FONT, new File("src/fonts/menutext.ttf")).deriveFont(MEDIUMFONTSIZE);
-	    ge.registerFont(Font.createFont(Font.TRUETYPE_FONT, new File("src/fonts/menutext.ttf")));
+            headline = Font.createFont(Font.TRUETYPE_FONT, new File("src/fonts/headline.ttf")).deriveFont(LARGEFONTSIZE);
+            ge.registerFont(Font.createFont(Font.TRUETYPE_FONT, new File("src/fonts/headline.ttf")));
+            menuText = Font.createFont(Font.TRUETYPE_FONT, new File("src/fonts/menutext.ttf")).deriveFont(MEDIUMFONTSIZE);
+            ge.registerFont(Font.createFont(Font.TRUETYPE_FONT, new File("src/fonts/menutext.ttf")));
         } catch (IOException | FontFormatException e) {
             e.printStackTrace();
         }
@@ -527,9 +527,13 @@ public class GamePanel extends JPanel implements Runnable, KeyListener {
         return playerCount;
     }
 
-    public static Font getHeadline() {return headline; }
+    public Font getHeadline() {
+        return headline;
+    }
 
-    public static Font getMenuText() {return menuText; }
+    public Font getMenuText() {
+        return menuText;
+    }
 
     public static List<PowerUp> getPowerUps() {
         return powerUps;

@@ -36,11 +36,11 @@ public class Menu {
 
     public void render(Graphics2D g, int s1, int s2) {
         g.drawImage(GamePanel.getImgMenuBackground(), 0, 0, null);
-        Font headline = GamePanel.getHeadline();
+        Font headline = gamePanel.getHeadline();
         g.setFont(headline);
         g.setColor(Color.WHITE);
         g.drawString("[Space Shooter]", GamePanel.JPWIDTH / 4, HEADLINEYPOS);
-        Font text = GamePanel.getMenuText();
+        Font text = gamePanel.getMenuText();
         g.setFont(text);
         if (s1 > 0) {
             g.drawString("Player1 score: " + s1, PLAYER1SCOREPOSX, PLAYER1SCOREPOSY);
