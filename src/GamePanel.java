@@ -45,6 +45,7 @@ public class GamePanel extends JPanel implements Runnable, KeyListener {
     private static Font digital7;
     private static Font headline;
     private static Font text;
+    // test
 
     //menu
     public enum STATE {
