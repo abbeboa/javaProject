@@ -2,6 +2,12 @@ import java.util.Collection;
 import java.util.Random;
 
 public class EnemyWave {
+    private static final int DEFAULTNUMBEROFWAVES = 4;
+    private static final int DEFAULTWAVEINTERVAL = 6000;
+    private static final int DEFAULTSPAWNENEMIESINTERVAL = 1000;
+    private static final int DEFAULTENEMIESPERWAVES = 4;
+    private static final int ALMOSTINFINITENUMBEROFWAVES = 99999;
+
     private long waveStartTime = System.currentTimeMillis();
     private int waveInterval;
     private int spawnEnemiesInterval;
@@ -21,16 +27,16 @@ public class EnemyWave {
         // waveNumber 0 is progressive mode
         if (waveNumber == 0) {
             this.progressive = true;
-            this.numberOfWaves = 4;
-            this.waveInterval = 6000;
-            this.spawnEnemiesInterval = 1000;
-            this.enemiesPerWave = 4;
+            this.numberOfWaves = DEFAULTNUMBEROFWAVES;
+            this.waveInterval = DEFAULTWAVEINTERVAL;
+            this.spawnEnemiesInterval = DEFAULTSPAWNENEMIESINTERVAL;
+            this.enemiesPerWave = DEFAULTENEMIESPERWAVES;
             this.direction = Direction.RIGHT;
         } else if (waveNumber == 1) {
-            this.numberOfWaves = 1000;
-            this.waveInterval = 6000;
-            this.spawnEnemiesInterval = 1000;
-            this.enemiesPerWave = 4;
+            this.numberOfWaves = ALMOSTINFINITENUMBEROFWAVES;
+            this.waveInterval = DEFAULTWAVEINTERVAL;
+            this.spawnEnemiesInterval = DEFAULTSPAWNENEMIESINTERVAL;
+            this.enemiesPerWave = DEFAULTENEMIESPERWAVES;
             this.direction = Direction.RIGHT;
         }
     }

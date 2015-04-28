@@ -32,8 +32,6 @@ public abstract class AbstractGameObject {
     private boolean pickedUp;
     private boolean invisible = false;
 
-    private int maxHp = PLAYERMAXIMUMHEALTH;
-
     protected AbstractGameObject(final double x, final double y, final Type type) {
         this.x = x;
         this.y = y;
@@ -150,24 +148,26 @@ public abstract class AbstractGameObject {
         double posY;
         int playerWidth = image.getWidth();
         int playerHeight = image.getHeight();
+        double halfPlayerWidth = playerWidth / 2.0;
+        double halfPlayerHeight = playerHeight / 2.0;
         //int bulletWidth = getInitialImage(bulletType).getWidth();
         //int bulletHeight = getInitialImage(bulletType).getHeight();
         switch (direction) {
             case UP:
-                posX = x + (playerWidth / 2.0);
+                posX = x + halfPlayerWidth;
                 posY = y;
                 return new Position(posX, posY);
             case DOWN:
-                posX = x + (playerWidth / 2.0);
+                posX = x + halfPlayerWidth;
                 posY = y + playerHeight;
                 return new Position(posX, posY);
             case LEFT:
                 posX = x;
-                posY = y + (playerHeight / 2.0);
+                posY = y + halfPlayerHeight;
                 return new Position(posX, posY);
             case RIGHT:
                 posX = x + playerWidth;
-                posY = y + (playerHeight / 2.0);
+                posY = y + halfPlayerHeight;
                 return new Position(posX, posY);
             default:
                 posX = x;
@@ -232,8 +232,8 @@ public abstract class AbstractGameObject {
         this.shootingDelay = shootingDelay;
     }
 
-    public int getMaxHp() {
-        return maxHp;
+    public static int getPlayerMaximumHealth() {
+        return PLAYERMAXIMUMHEALTH;
     }
 
     public void setHp(int hp) {

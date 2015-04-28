@@ -52,7 +52,7 @@ public class PowerUp extends AbstractGameObject {
         switch (powerUpType) {
             case DOUBLESPEED:
                 GamePanel.playSoundDoubleSpeed();
-                owner.speed = owner.speed * 2;
+                owner.speed *= 2;
                 break;
             case INDESTRUCTIBLE:
                 GamePanel.playSoundIndestructible();
@@ -66,8 +66,8 @@ public class PowerUp extends AbstractGameObject {
             case EXTRAHEALTH:
                 GamePanel.playSoundExtraHealth();
                 owner.hp += 50;
-                if (owner.hp > owner.getMaxHp()) {
-                    owner.setHp(owner.getMaxHp());
+                if (owner.hp > owner.getPlayerMaximumHealth()) {
+                    owner.setHp(owner.getPlayerMaximumHealth());
                 }
                 break;
             default:
@@ -79,7 +79,7 @@ public class PowerUp extends AbstractGameObject {
         AbstractGameObject owner = GamePanel.getGameObject(this.getOwnerID());
         switch (powerUpType) {
             case DOUBLESPEED:
-                owner.speed = owner.speed / 2;
+                owner.speed /= 2;
                 break;
             case INDESTRUCTIBLE:
                 owner.indestructible = false;
