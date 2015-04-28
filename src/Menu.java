@@ -30,7 +30,7 @@ public class Menu {
         }
 
         g.drawString("New Game", buttonLeft, buttonTop);
-        g.drawString(GamePanel.getPlayerCount()+" Player", buttonLeft, buttonTop + 100);
+        g.drawString("Players: "+GamePanel.getPlayerCount(), buttonLeft, buttonTop + 100);
         g.drawString("Quit Game", buttonLeft, buttonTop + 200);
 
         if (!GamePanel.isSoundEnabled()) {

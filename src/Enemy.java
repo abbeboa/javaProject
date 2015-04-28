@@ -26,7 +26,8 @@ public class Enemy extends AbstractGameObject {
 
         if (type == Type.BASICENEMY) {
             move(Direction.DOWN, (speed / 2.0));
-            if (timer <= 0) {
+	    int timeToShoot = rnd.nextInt(3);
+            if (timer <= 0 && timeToShoot == 0) {
                 Sound.play("src/sounds/enemyBlaster.wav");
                 shoot(Type.BULLET, Direction.DOWN);
                 timer += getShootingDelay();
@@ -34,14 +35,6 @@ public class Enemy extends AbstractGameObject {
             if (timer > 0) {
                 timer--;
             }
-            /*
-            timer++;
-            int timeToShoot = rnd.nextInt(3);  // It's not always time to shoot
-            if (timeToShoot == 0 && ((timer % 100) == 0)) { // Maximum one shot every second
-                Sound.play("src/sounds/enemyBlaster.wav");
-                shoot(Type.BULLET, Direction.DOWN);
-                timer = 0;
-            }*/
         }
 
     }
