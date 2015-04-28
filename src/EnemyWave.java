@@ -1,6 +1,3 @@
-import java.util.Collection;
-import java.util.Random;
-
 public class EnemyWave {
     private static final int DEFAULTNUMBEROFWAVES = 4;
     private static final int DEFAULTWAVEINTERVAL = 6000;
