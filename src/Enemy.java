@@ -35,7 +35,7 @@ public class Enemy extends AbstractGameObject {
 
         if (type == Type.BASICENEMY) {
             move(Direction.DOWN, (speed / 2.0));
-	    int timeToShoot = rnd.nextInt(3);
+            int timeToShoot = rnd.nextInt(3);
             if (timer <= 0 && timeToShoot == 0) {
                 Sound.playSoundEnemyBlaster();
                 shoot(Type.BULLET, Direction.DOWN);

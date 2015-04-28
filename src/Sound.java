@@ -36,7 +36,9 @@ public final class Sound {
         }
     }
 
-    public static void playSoundTakenHit() {play(TAKENHIT); }
+    public static void playSoundTakenHit() {
+        play(TAKENHIT);
+    }
 
     public static void playSoundExplosion() {
         Sound.play(EXPLOSION);
@@ -50,13 +52,23 @@ public final class Sound {
         Sound.play(ENEMYBLASTER);
     }
 
-    public static void playSoundIndestructible() { Sound.play(INDESTRUCTIBLE); }
+    public static void playSoundIndestructible() {
+        Sound.play(INDESTRUCTIBLE);
+    }
 
-    public static void playSoundDoubleFirerate() { Sound.play(DOUBLEFIRERATE); }
+    public static void playSoundDoubleFirerate() {
+        Sound.play(DOUBLEFIRERATE);
+    }
 
-    public static void playSoundDoubleSpeed() { Sound.play(DOUBLESPEED); }
+    public static void playSoundDoubleSpeed() {
+        Sound.play(DOUBLESPEED);
+    }
 
-    public static void playSoundExtraHealth() { Sound.play(EXTRAHEALTH); }
+    public static void playSoundExtraHealth() {
+        Sound.play(EXTRAHEALTH);
+    }
 
-    public static void playSoundYouLost() { Sound.play(YOULOST); }
+    public static void playSoundYouLost() {
+        Sound.play(YOULOST);
+    }
 }
