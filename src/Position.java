@@ -1,3 +1,6 @@
+/**
+ * Position object that contains one x variable and one y variable.
+ */
 public final class Position {
     private double x;
     private double y;

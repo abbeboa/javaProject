@@ -10,6 +10,10 @@ import java.util.Collection;
 import java.util.List;
 import java.util.Objects;
 
+/**
+ * This class creates a JPanel and also contains a run-loop that paints the screen and updates gameEvents.
+ * It also contains alot of help-methods for drawing (font, importImages etc.) that are needed.
+ */
 public class GamePanel extends JPanel implements Runnable, KeyListener {
     public static final int JPWIDTH = 1280; // JPanel size
     public static final int JPHEIGHT = 720;
@@ -20,14 +24,14 @@ public class GamePanel extends JPanel implements Runnable, KeyListener {
             new Rectangle(-ENEMYMARGIN, -ENEMYMARGIN, JPWIDTH + (ENEMYMARGIN * 2), JPHEIGHT + (ENEMYMARGIN * 2));
     private static Color bgColor = Color.BLACK;
     private Thread graphicsThread = null;
-    private static boolean gameRunning = false;
-    private static boolean gameOver = false;
-    private static boolean newGame = true;
-    private static boolean resumeGame = false;
+    private boolean gameRunning = false;
+    private boolean gameOver = false;
+    private boolean newGame = true;
+    private boolean resumeGame = false;
     private static boolean soundEnabled = true;
-    private static int playerCount = 1;
+    private int playerCount = 1;
     private static List<Integer> pressedKeys = new ArrayList<>();
-    private CollisionHandler collisionHandler;
+    private CollisionHandler collisionHandler = null;
     private KeyEventHandler keyEventHandler;
     //score
     private static int scorePlayer1 = 0;
@@ -42,9 +46,9 @@ public class GamePanel extends JPanel implements Runnable, KeyListener {
     private static Collection<Integer> gameObjectIdsToRemove = new ArrayList<>();
     private EnemyWave currentWave = null;
     //fonts
-    private static Font digital7;
-    private static Font headline;
-    private static Font text;
+    private static Font digital7 = null;
+    private static Font headline = null;
+    private static Font menuText = null;
 
     //menu
     public enum STATE {
@@ -61,18 +65,11 @@ public class GamePanel extends JPanel implements Runnable, KeyListener {
     private static final int PLAYERBUTTONBOTTOM = 320;
     private static final int QUITBUTTONRIGHT 	= 1024;
     private static final int QUITBUTTONBOTTOM 	= 420;
-
-    //sound
-    private static final String SOUNDFOLDER = "src/sounds/";
-    private static final String TAKENHIT = SOUNDFOLDER + "takenhit1.wav";
-    private static final String EXPLOSION = SOUNDFOLDER + "explosion.wav";
-    private static final String BLASTER = SOUNDFOLDER + "blaster.wav";
-    private static final String ENEMYBLASTER = SOUNDFOLDER + "enemyBlaster.wav"; // ligger just nu i enemy-klassen istället
-    private static final String YOULOST = SOUNDFOLDER + "youLost.wav";
-    private static final String INDESTRUCTIBLE = SOUNDFOLDER + "indestructible_new.wav";
-    private static final String DOUBLEFIRERATE = SOUNDFOLDER + "double_firerate.wav";
-    private static final String DOUBLESPEED = SOUNDFOLDER + "double_speed.wav";
-    private static final String EXTRAHEALTH = SOUNDFOLDER + "extra_health.wav";
+    private static final int HEALTHPLAYERSTRINGPLACING = 16;
+    private static final int GREENHPCONSTANT = 60;
+    private static final int YELLOWHPCONSTANT = 30;
+    private static final float MEDIUMFONTSIZE = 32.0f;
+    private static final float LARGEFONTSIZE = 50.0f;
 
     //image variables
     private static BufferedImage imgBackground = null;
@@ -97,7 +94,7 @@ public class GamePanel extends JPanel implements Runnable, KeyListener {
 
         // create / add game components
 
-        keyEventHandler = new KeyEventHandler();
+        keyEventHandler = new KeyEventHandler(this);
         this.addKeyListener(this);
         addMouseListenerFn();
     }
@@ -117,7 +114,7 @@ public class GamePanel extends JPanel implements Runnable, KeyListener {
         }
     }
 
-    private static void mouseAction(int x, int y) {
+    private void mouseAction(int x, int y) {
         // x and y used to check where user has clicked
         if (!gameOver) {
             // actions only performed when game is not over
@@ -190,8 +187,8 @@ public class GamePanel extends JPanel implements Runnable, KeyListener {
         // starts a new thread
         if (graphicsThread == null || !gameRunning) {
             graphicsThread = new Thread(this);
-            menu = new Menu();
-            collisionHandler = new CollisionHandler();
+            menu = new Menu(this);
+            collisionHandler = new CollisionHandler(this);
             graphicsThread.start();
         }
     }
@@ -243,7 +240,7 @@ public class GamePanel extends JPanel implements Runnable, KeyListener {
         System.exit(0); // exits JFrame
     }
 
-    public static void stopGame() {
+    public void stopGame() {
         gameRunning = false;
     }
 
@@ -279,7 +276,7 @@ public class GamePanel extends JPanel implements Runnable, KeyListener {
             removeGameObjects(gameObjectIdsToRemove);
         }
         if (gameOver) {
-            Sound.play(YOULOST);
+            Sound.playSoundYouLost();
             JFrame frame = new JFrame("Save Highscore");
             String player1 = JOptionPane.showInputDialog(frame, "Please type in Player1 name");
 	    Highscore hs = new Highscore(scorePlayer1, player1);
@@ -372,8 +369,6 @@ public class GamePanel extends JPanel implements Runnable, KeyListener {
             }
         } else if (state == STATE.MENU) {
             drawMenu(dbg);
-            //Sound.play(SOUNDBACKGROUND); // jobbigt..
-
         }
         if (gameOver) {
             drawGameOver(dbg);
@@ -414,21 +409,21 @@ public class GamePanel extends JPanel implements Runnable, KeyListener {
         g.setFont(digital7);
         g.setColor(decideHealthColor(gameObjects.get(0).getHp()));
         String healthPlayer1 = "Health: " + gameObjects.get(0).getHp();
-	g.drawString(healthPlayer1, (JPWIDTH - JPWIDTH / 9), JPHEIGHT / 16);
+	g.drawString(healthPlayer1, (JPWIDTH - JPWIDTH / 9), JPHEIGHT / HEALTHPLAYERSTRINGPLACING);
         String scoreStringPlayer1 = "Score: " + scorePlayer1;
 	g.setColor(Color.GREEN);
 	g.drawString(scoreStringPlayer1, (JPWIDTH - JPWIDTH / 9), JPHEIGHT / 10);
         if (playerCount >= 2) {
             g.setColor(decideHealthColor(gameObjects.get(1).getHp()));
             String healthStringPlayer2 = "Health: " + gameObjects.get(1).getHp();
-	    g.drawString(healthStringPlayer2, (JPWIDTH / 9), JPHEIGHT / 16);
+	    g.drawString(healthStringPlayer2, (JPWIDTH / 9), JPHEIGHT / HEALTHPLAYERSTRINGPLACING);
         }
     }
 
     private Color decideHealthColor(int hp) {
-        if (hp > 60) {
+        if (hp > GREENHPCONSTANT) {
             return Color.GREEN;
-        } else if (hp > 30) {
+        } else if (hp > YELLOWHPCONSTANT) {
             return Color.YELLOW;
         } else {
             return Color.RED;
@@ -446,11 +441,11 @@ public class GamePanel extends JPanel implements Runnable, KeyListener {
     private void registerFontFiles() {
         try {
 	    GraphicsEnvironment ge = GraphicsEnvironment.getLocalGraphicsEnvironment();
-            digital7 = Font.createFont(Font.TRUETYPE_FONT, new File("src/fonts/digital-7.ttf")).deriveFont(32.0f);
+            digital7 = Font.createFont(Font.TRUETYPE_FONT, new File("src/fonts/digital-7.ttf")).deriveFont(MEDIUMFONTSIZE);
             ge.registerFont(Font.createFont(Font.TRUETYPE_FONT, new File("src/fonts/digital-7.ttf")));
-	    headline = Font.createFont(Font.TRUETYPE_FONT, new File("src/fonts/headline.ttf")).deriveFont(50.0f);
+	    headline = Font.createFont(Font.TRUETYPE_FONT, new File("src/fonts/headline.ttf")).deriveFont(LARGEFONTSIZE);
 	    ge.registerFont(Font.createFont(Font.TRUETYPE_FONT, new File("src/fonts/headline.ttf")));
-	    text = Font.createFont(Font.TRUETYPE_FONT, new File("src/fonts/menutext.ttf")).deriveFont(32.0f);
+	    menuText = Font.createFont(Font.TRUETYPE_FONT, new File("src/fonts/menutext.ttf")).deriveFont(MEDIUMFONTSIZE);
 	    ge.registerFont(Font.createFont(Font.TRUETYPE_FONT, new File("src/fonts/menutext.ttf")));
         } catch (IOException | FontFormatException e) {
             e.printStackTrace();
@@ -465,6 +460,8 @@ public class GamePanel extends JPanel implements Runnable, KeyListener {
         GamePanel.scorePlayer1 += points;
     }
 
+    public void setGameOver(boolean gameOver) {
+        this.gameOver = gameOver;
     public static void addScorePlayer2(int points) {
             GamePanel.scorePlayer2 += points;
         }
@@ -472,30 +469,6 @@ public class GamePanel extends JPanel implements Runnable, KeyListener {
     public static void setGameOver(boolean gameOver) {
         GamePanel.gameOver = gameOver;
     }
-
-    public static void playSoundTakenHit() {
-        Sound.play(TAKENHIT);
-    }
-
-    public static void playSoundExplosion() {
-        Sound.play(EXPLOSION);
-    }
-
-    public static void playSoundBlaster() {
-        Sound.play(BLASTER);
-    }
-
-    public static void playSoundEnemyBlaster() {
-        Sound.play(ENEMYBLASTER);
-    }
-
-    public static void playSoundIndestructible() { Sound.play(INDESTRUCTIBLE); }
-
-    public static void playSoundDoubleFirerate() { Sound.play(DOUBLEFIRERATE); }
-
-    public static void playSoundDoubleSpeed() { Sound.play(DOUBLESPEED); }
-
-    public static void playSoundExtraHealth() { Sound.play(EXTRAHEALTH); }
 
     public static void addToGameObjectsList(AbstractGameObject gameObject) {
         gameObjects.add(gameObject);
@@ -517,10 +490,6 @@ public class GamePanel extends JPanel implements Runnable, KeyListener {
         return gameObjects.get(i);
     }
 
-    public static int getGameObjectSize() {
-            return gameObjects.size();
-        }
-
     public static boolean checkStateEqualsGame() {
         return state == STATE.GAME;
     }
@@ -529,7 +498,7 @@ public class GamePanel extends JPanel implements Runnable, KeyListener {
         return state == STATE.MENU;
     }
 
-    public static boolean isResumeGame() {
+    public boolean isResumeGame() {
         return resumeGame;
     }
 
@@ -561,8 +530,8 @@ public class GamePanel extends JPanel implements Runnable, KeyListener {
         return imgPlayerIndestructible;
     }
 
-    public static void setGameRunning(boolean gameRunning) {
-        GamePanel.gameRunning = gameRunning;
+    public void setGameRunning(boolean gameRunning) {
+        this.gameRunning = gameRunning;
     }
 
     public static void setStateMenu() {
@@ -577,11 +546,15 @@ public class GamePanel extends JPanel implements Runnable, KeyListener {
         return ENEMYMARGIN;
     }
 
-    public static int getPlayerCount() {
+    public int getPlayerCount() {
         return playerCount;
     }
 
     public static Font getHeadline() {return headline; }
 
-    public static Font getText() {return text; }
+    public static Font getMenuText() {return menuText; }
+
+    public static List<PowerUp> getPowerUps() {
+        return powerUps;
+    }
 }

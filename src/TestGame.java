@@ -1,6 +1,9 @@
 import javax.swing.*;
 import java.awt.*;
 
+/**
+ * This class runs the game and creates the GUI.
+ */
 public class TestGame extends JFrame {
 
     public TestGame() {
