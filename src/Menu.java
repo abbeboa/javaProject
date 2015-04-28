@@ -3,7 +3,8 @@ import java.awt.*;
 /**
  * This is where the menu is created
  */
-public class Menu {
+public class Menu
+{
     private static final int RESUMEBUTTONLEFT = 768;
     private static final int RESUMEBUTTONTOP = 170;
 
@@ -31,85 +32,85 @@ public class Menu {
     private GamePanel gamePanel;
 
     public Menu(GamePanel gamePanel) {
-        this.gamePanel = gamePanel;
+	this.gamePanel = gamePanel;
     }
 
     public void render(Graphics2D g, int s1, int s2) {
-        g.drawImage(GamePanel.getImgMenuBackground(), 0, 0, null);
-        Font headline = gamePanel.getHeadline();
-        g.setFont(headline);
-        g.setColor(Color.WHITE);
-        g.drawString("[Space Shooter]", GamePanel.JPWIDTH / 4, HEADLINEYPOS);
-        Font text = gamePanel.getMenuText();
-        g.setFont(text);
-        if (s1 > 0) {
-            g.drawString("Player1 score: " + s1, PLAYER1SCOREPOSX, PLAYER1SCOREPOSY);
-        }
+	g.drawImage(GamePanel.getImgMenuBackground(), 0, 0, null);
+	Font headline = GamePanel.getHeadline();
+	g.setFont(headline);
+	g.setColor(Color.WHITE);
+	g.drawString("[Space Shooter]", GamePanel.JPWIDTH / 4, HEADLINEYPOS);
+	Font text = GamePanel.getMenuText();
+	g.setFont(text);
+	if (s1 > 0) {
+	    g.drawString("Player1 score: " + s1, PLAYER1SCOREPOSX, PLAYER1SCOREPOSY);
+	}
 
-        if (s2 > 0) {
-            g.drawString("Player2 score: " + s2, PLAYER2SCOREPOSX, PLAYER2SCOREPOSY);
-        }
+	if (s2 > 0) {
+	    g.drawString("Player2 score: " + s2, PLAYER2SCOREPOSX, PLAYER2SCOREPOSY);
+	}
 
-        if (gamePanel.isResumeGame()) {
-            g.drawString("Resume", RESUMEBUTTONLEFT, RESUMEBUTTONTOP);
-        }
+	if (gamePanel.isResumeGame()) {
+	    g.drawString("Resume", RESUMEBUTTONLEFT, RESUMEBUTTONTOP);
+	}
 
-        g.drawString("New Game", NEWBUTTONLEFT, NEWBUTTOTOP);
-        g.drawString("Players: " + gamePanel.getPlayerCount(), PLAYERBUTTONLEFT, PLAYERBUTTONTOP);
-        g.drawString("Quit Game", QUITBUTTONLEFT, QUITBUTTONTOP);
+	g.drawString("New Game", NEWBUTTONLEFT, NEWBUTTOTOP);
+	g.drawString("Players: " + gamePanel.getPlayerCount(), PLAYERBUTTONLEFT, PLAYERBUTTONTOP);
+	g.drawString("Quit Game", QUITBUTTONLEFT, QUITBUTTONTOP);
 
-        if (!gamePanel.isSoundEnabled()) {
-            g.setColor(Color.RED);
-            g.setStroke(new BasicStroke(3));
-            g.drawLine(SOUNDBUTTONRIGHT, SOUNDBUTTONBOTTOM, SOUNDBUTTONLEFT, SOUNDBUTTONTOP);
-        }
+	if (!gamePanel.isSoundEnabled()) {
+	    g.setColor(Color.RED);
+	    g.setStroke(new BasicStroke(3));
+	    g.drawLine(SOUNDBUTTONRIGHT, SOUNDBUTTONBOTTOM, SOUNDBUTTONLEFT, SOUNDBUTTONTOP);
+	}
     }
 
     public static int getResumebuttonleft() {
-        return RESUMEBUTTONLEFT;
+	return RESUMEBUTTONLEFT;
     }
 
     public static int getResumebuttontop() {
-        return RESUMEBUTTONTOP;
+	return RESUMEBUTTONTOP;
     }
 
     public static int getNewbuttonleft() {
-        return NEWBUTTONLEFT;
+	return NEWBUTTONLEFT;
     }
 
     public static int getNewbuttotop() {
-        return NEWBUTTOTOP;
+	return NEWBUTTOTOP;
     }
 
     public static int getPlayerbuttonleft() {
-        return PLAYERBUTTONLEFT;
+	return PLAYERBUTTONLEFT;
     }
 
     public static int getPlayerbuttontop() {
-        return PLAYERBUTTONTOP;
+	return PLAYERBUTTONTOP;
     }
 
     public static int getQuitbuttonleft() {
-        return QUITBUTTONLEFT;
+	return QUITBUTTONLEFT;
     }
 
     public static int getQuitbuttontop() {
-        return QUITBUTTONTOP;
+	return QUITBUTTONTOP;
     }
 
     public static int getSoundbuttonleft() {
-        return SOUNDBUTTONLEFT;
+	return SOUNDBUTTONLEFT;
     }
 
     public static int getSoundbuttonright() {
-        return SOUNDBUTTONRIGHT;
+	return SOUNDBUTTONRIGHT;
     }
 
     public static int getSoundbuttontop() {
-        return SOUNDBUTTONTOP;
+	return SOUNDBUTTONTOP;
     }
 
     public static int getSoundbuttonbottom() {
-        return SOUNDBUTTONBOTTOM;
+	return SOUNDBUTTONBOTTOM;
     }
 }

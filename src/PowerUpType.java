@@ -1,6 +1,7 @@
 /**
  * Enum class for PowerUpTypes.
  */
-public enum PowerUpType {
+public enum PowerUpType
+{
     DOUBLESPEED, INDESTRUCTIBLE, DOUBLEFIRERATE, EXTRAHEALTH
 }
