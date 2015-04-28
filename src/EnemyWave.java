@@ -1,3 +1,7 @@
+/**
+ * EnemyWaves are created in the GamePanel-class (in the gameloop). It spawns enemies / creates enemy objects,
+ * and also PowerUps.
+ */
 public class EnemyWave {
     private static final int DEFAULTNUMBEROFWAVES = 4;
     private static final int DEFAULTWAVEINTERVAL = 6000;

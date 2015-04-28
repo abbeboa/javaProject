@@ -10,6 +10,10 @@ import java.util.Collection;
 import java.util.List;
 import java.util.Objects;
 
+/**
+ * This class creates a JPanel and also contains a run-loop that paints the screen and updates gameEvents.
+ * It also contains alot of help-methods for drawing (font, importImages etc.) that are needed.
+ */
 public class GamePanel extends JPanel implements Runnable, KeyListener {
     public static final int JPWIDTH = 1280; // JPanel size
     public static final int JPHEIGHT = 720;

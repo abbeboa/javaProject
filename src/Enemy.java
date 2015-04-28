@@ -1,5 +1,9 @@
 import java.util.Random;
 
+/**
+ * Enemy object class, subclass to AbstractGameObject. Movements and shooting are either random or programmed,
+ * not controlled by a human/player.
+ */
 public class Enemy extends AbstractGameObject {
 
     private Random rnd = new Random();

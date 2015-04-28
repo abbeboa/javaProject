@@ -1,3 +1,6 @@
+/**
+ * Projectile object class, subclass to AbstractGameObject.
+ */
 public class Projectile extends AbstractGameObject {
 
     private Direction direction;

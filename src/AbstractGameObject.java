@@ -3,6 +3,9 @@ import java.awt.image.BufferedImage;
 import java.awt.image.ImageObserver;
 import java.util.Random;
 
+/**
+ * Superclass for all gameobjects. Subclasses: Player, Enemy, PowerUp, Projectile.
+ */
 public abstract class AbstractGameObject {
     //constants
     protected static final int PLAYERMAXIMUMHEALTH = 150;

@@ -4,7 +4,7 @@ import java.awt.event.*;
 import java.util.List;
 
 /**
- * Created by Christian on 2015-04-26.
+ * This class handles keyevents, in other words input from players. Used in GamePanel class.
  */
 public class KeyEventHandler {
     private int shootingDelayCounter = 0;

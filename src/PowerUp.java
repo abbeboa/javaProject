@@ -1,7 +1,9 @@
 import java.util.Random;
 
 /**
- * Created by Christian on 2015-04-27.
+ * PowerUp object class, subclass to AbstractGameObject.
+ * Main functions are to change certain variables of the Player object that it collides with,
+ * and then change them back when time runs out.
  */
 public class PowerUp extends AbstractGameObject {
     private static final int IDLETIME = 10000;

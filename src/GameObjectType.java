@@ -1,5 +1,5 @@
 /**
- * Created by Christian on 2015-04-17.
+ * GameObjectType enum class. Variable gameObjectType set in AbstractGameObject class and used in CollisionHandler.
  */
 public enum GameObjectType {
     PLAYER, ENEMY, PROJECTILE, POWERUP
