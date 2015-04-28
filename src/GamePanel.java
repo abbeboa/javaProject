@@ -27,7 +27,7 @@ public class GamePanel extends JPanel implements Runnable, KeyListener {
     private static boolean soundEnabled = true;
     private static int playerCount = 1;
     private static List<Integer> pressedKeys = new ArrayList<>();
-    private CollisionHandler collisionHandler;
+    private CollisionHandler collisionHandler = null;
     private KeyEventHandler keyEventHandler;
     //score
     private static int scorePlayer1 = 0;
@@ -42,9 +42,9 @@ public class GamePanel extends JPanel implements Runnable, KeyListener {
     private static Collection<Integer> gameObjectIdsToRemove = new ArrayList<>();
     private EnemyWave currentWave = null;
     //fonts
-    private static Font digital7;
-    private static Font headline;
-    private static Font text;
+    private static Font digital7 = null;
+    private static Font headline = null;
+    private static Font menuText = null;
 
     //menu
     public enum STATE {
@@ -360,8 +360,6 @@ public class GamePanel extends JPanel implements Runnable, KeyListener {
             }
         } else if (state == STATE.MENU) {
             drawMenu(dbg);
-            //Sound.play(SOUNDBACKGROUND); // jobbigt..
-
         }
         if (gameOver) {
             drawGameOver(dbg);
@@ -438,7 +436,7 @@ public class GamePanel extends JPanel implements Runnable, KeyListener {
             ge.registerFont(Font.createFont(Font.TRUETYPE_FONT, new File("src/fonts/digital-7.ttf")));
 	    headline = Font.createFont(Font.TRUETYPE_FONT, new File("src/fonts/headline.ttf")).deriveFont(LARGEFONTSIZE);
 	    ge.registerFont(Font.createFont(Font.TRUETYPE_FONT, new File("src/fonts/headline.ttf")));
-	    text = Font.createFont(Font.TRUETYPE_FONT, new File("src/fonts/menutext.ttf")).deriveFont(MEDIUMFONTSIZE);
+	    menuText = Font.createFont(Font.TRUETYPE_FONT, new File("src/fonts/menutext.ttf")).deriveFont(MEDIUMFONTSIZE);
 	    ge.registerFont(Font.createFont(Font.TRUETYPE_FONT, new File("src/fonts/menutext.ttf")));
         } catch (IOException | FontFormatException e) {
             e.printStackTrace();
@@ -563,5 +561,5 @@ public class GamePanel extends JPanel implements Runnable, KeyListener {
 
     public static Font getHeadline() {return headline; }
 
-    public static Font getText() {return text; }
+    public static Font getMenuText() {return menuText; }
 }

@@ -241,10 +241,6 @@ public abstract class AbstractGameObject {
         this.shootingDelay = shootingDelay;
     }
 
-    public static int getPlayerMaximumHealth() {
-        return PLAYERMAXIMUMHEALTH;
-    }
-
     public void setHp(int hp) {
         this.hp = hp;
     }

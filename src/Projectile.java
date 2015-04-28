@@ -1,5 +1,3 @@
-import java.util.List;
-
 public class Projectile extends AbstractGameObject {
 
     private Direction direction;

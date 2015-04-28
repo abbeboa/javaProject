@@ -12,7 +12,7 @@ public class EnemyWave {
     private int waveNumber;
     private int enemiesPerWave;
     private int n = 1;
-    private Direction direction;
+    private Direction direction = Direction.RIGHT;
 
     public EnemyWave(int waveNumber) {
         this.waveNumber = waveNumber;
@@ -55,9 +55,6 @@ public class EnemyWave {
         if (enemyWavesLeft > 0 && System.currentTimeMillis() > waveStartTime + spawnEnemiesInterval * n) {
             Enemy newEnemy;
             int enemyMargin = GamePanel.getEnemymargin();
-            /*Random rnd = new Random();
-            int randomNum = rnd.nextInt((jpWidth) + 1);
-            Enemy newEnemy = new Enemy(randomNum, 0, false, Type.BASICENEMY);*/
             if (direction == Direction.RIGHT) {
                 newEnemy = new Enemy(0, -enemyMargin, Type.BASICENEMY, direction);
             } else {
@@ -66,7 +63,6 @@ public class EnemyWave {
             }
             GamePanel.addToGameObjectsList(newEnemy);
             GamePanel.addToEnemyList(newEnemy);
-            enemyWavesLeft--;
             n++;
         }
     }

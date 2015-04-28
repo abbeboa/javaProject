@@ -58,8 +58,8 @@ public class PowerUp extends AbstractGameObject {
             case EXTRAHEALTH:
                 GamePanel.playSoundExtraHealth();
                 owner.hp += DEFAULTEXTRAHEALTH;
-                if (owner.hp > owner.PLAYERMAXIMUMHEALTH) {
-                    owner.setHp(owner.getPlayerMaximumHealth());
+                if (owner.hp > PLAYERMAXIMUMHEALTH) {
+                    owner.setHp(PLAYERMAXIMUMHEALTH);
                 }
                 break;
             default:
