@@ -6,6 +6,11 @@ import java.util.List;
  * It also performs actions depending on the gameObject types.
  */
 public class CollisionHandler {
+    private GamePanel gamePanel;
+
+    public CollisionHandler(GamePanel gamePanel) {
+        this.gamePanel = gamePanel;
+    }
 
     public void checkForCollisions(List<AbstractGameObject> gameObjects) {
         for (int i = 0; i < gameObjects.size(); i++) {
@@ -51,6 +56,7 @@ public class CollisionHandler {
                     objectB.setInvisible(true);
                     objectB.setPickedUp(true);
                     objectB.setOwnerID(objectA.getId());
+                    playSoundForPowerUp(objectB);
                 }
                 break;
             default:
@@ -58,12 +64,21 @@ public class CollisionHandler {
         }
     }
 
+    private void playSoundForPowerUp(AbstractGameObject objectB) {
+        List<PowerUp> powerUps = GamePanel.getPowerUps();
+        for (int i = 0; i < powerUps.size(); i++) {
+            if (objectB.getId() == powerUps.get(i).getId()) {
+
+            }
+        }
+    }
+
     private void enemyCollisionActions(AbstractGameObject objectA, AbstractGameObject objectB) {
         switch (objectB.getGameObjectType()) {
             case PLAYER:
                 GamePanel.addGameObjectIdToRemove(objectA.getId());
-                GamePanel.playSoundTakenHit();
-                GamePanel.playSoundExplosion();
+                Sound.playSoundTakenHit();
+                Sound.playSoundExplosion();
                 changeStats(objectA, objectB);
                 break;
             case ENEMY:
@@ -82,7 +97,7 @@ public class CollisionHandler {
                 if (objectA.getOwnerID() != objectB.getId()) { // You can not hurt yourself
                     GamePanel.addGameObjectIdToRemove(objectA.getId());
                     changeStats(objectA, objectB);
-                    GamePanel.playSoundTakenHit();
+                    Sound.playSoundTakenHit();
                 }
                 break;
             case ENEMY:
@@ -114,16 +129,16 @@ public class CollisionHandler {
             switch (objectX.getGameObjectType()) {
                 case ENEMY:
                     GamePanel.addScore(100);
-                    GamePanel.playSoundExplosion();
+                    Sound.playSoundExplosion();
                     GamePanel.addGameObjectIdToRemove(objectX.getId());
                     break;
                 case PROJECTILE:
                     GamePanel.addGameObjectIdToRemove(objectX.getId());
                     break;
                 case PLAYER:
-                    GamePanel.playSoundExplosion();
+                    Sound.playSoundExplosion();
                     System.out.println("Game over");
-                    GamePanel.setGameOver(true);
+                    gamePanel.setGameOver(true);
                     break;
                 case POWERUP:
                     break;

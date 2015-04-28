@@ -8,6 +8,11 @@ import java.util.List;
  */
 public class KeyEventHandler {
     private int shootingDelayCounter = 0;
+    private GamePanel gamePanel;
+
+    public KeyEventHandler(GamePanel gamePanel) {
+        this.gamePanel = gamePanel;
+    }
 
     public void handleKeyEvents(List<Integer> pressedKeys) {
         AbstractGameObject player1 = GamePanel.getGameObject(0);
@@ -17,7 +22,7 @@ public class KeyEventHandler {
         }
         for (int keyCode : keysToHandle) {
             if (keyCode == KeyEvent.VK_ESCAPE) {
-                GamePanel.setGameRunning(false);
+                gamePanel.setGameRunning(false);
             }
             if (GamePanel.checkStateEqualsGame()) {
                 if (keyCode == KeyEvent.VK_LEFT) {
@@ -42,7 +47,7 @@ public class KeyEventHandler {
                 }
                 if (keyCode == KeyEvent.VK_SPACE) {
                     if (shootingDelayCounter <= 0) {
-                        GamePanel.playSoundBlaster();
+                        Sound.playSoundBlaster();
                         player1.shoot(Type.BULLET, Direction.UP);
                         int currentShootingDelay = player1.getShootingDelay();
                         shootingDelayCounter += currentShootingDelay;

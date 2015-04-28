@@ -24,12 +24,12 @@ public class GamePanel extends JPanel implements Runnable, KeyListener {
             new Rectangle(-ENEMYMARGIN, -ENEMYMARGIN, JPWIDTH + (ENEMYMARGIN * 2), JPHEIGHT + (ENEMYMARGIN * 2));
     private static Color bgColor = Color.BLACK;
     private Thread graphicsThread = null;
-    private static boolean gameRunning = false;
-    private static boolean gameOver = false;
-    private static boolean newGame = true;
-    private static boolean resumeGame = false;
+    private boolean gameRunning = false;
+    private boolean gameOver = false;
+    private boolean newGame = true;
+    private boolean resumeGame = false;
     private static boolean soundEnabled = true;
-    private static int playerCount = 1;
+    private int playerCount = 1;
     private static List<Integer> pressedKeys = new ArrayList<>();
     private CollisionHandler collisionHandler = null;
     private KeyEventHandler keyEventHandler;
@@ -71,18 +71,6 @@ public class GamePanel extends JPanel implements Runnable, KeyListener {
     private static final float MEDIUMFONTSIZE = 32.0f;
     private static final float LARGEFONTSIZE = 50.0f;
 
-    //sound
-    private static final String SOUNDFOLDER = "src/sounds/";
-    private static final String TAKENHIT = SOUNDFOLDER + "takenhit1.wav";
-    private static final String EXPLOSION = SOUNDFOLDER + "explosion.wav";
-    private static final String BLASTER = SOUNDFOLDER + "blaster.wav";
-    private static final String ENEMYBLASTER = SOUNDFOLDER + "enemyBlaster.wav"; // ligger just nu i enemy-klassen istället
-    private static final String YOULOST = SOUNDFOLDER + "youLost.wav";
-    private static final String INDESTRUCTIBLE = SOUNDFOLDER + "indestructible_new.wav";
-    private static final String DOUBLEFIRERATE = SOUNDFOLDER + "double_firerate.wav";
-    private static final String DOUBLESPEED = SOUNDFOLDER + "double_speed.wav";
-    private static final String EXTRAHEALTH = SOUNDFOLDER + "extra_health.wav";
-
     //image variables
     private static BufferedImage imgBackground = null;
     private static BufferedImage imgPlayer1 = null;
@@ -106,7 +94,7 @@ public class GamePanel extends JPanel implements Runnable, KeyListener {
 
         // create / add game components
 
-        keyEventHandler = new KeyEventHandler();
+        keyEventHandler = new KeyEventHandler(this);
         this.addKeyListener(this);
         addMouseListenerFn();
     }
@@ -126,7 +114,7 @@ public class GamePanel extends JPanel implements Runnable, KeyListener {
         }
     }
 
-    private static void mouseAction(int x, int y) {
+    private void mouseAction(int x, int y) {
         // x and y used to check where user has clicked
         if (!gameOver) {
             // actions only performed when game is not over
@@ -199,8 +187,8 @@ public class GamePanel extends JPanel implements Runnable, KeyListener {
         // starts a new thread
         if (graphicsThread == null || !gameRunning) {
             graphicsThread = new Thread(this);
-            menu = new Menu();
-            collisionHandler = new CollisionHandler();
+            menu = new Menu(this);
+            collisionHandler = new CollisionHandler(this);
             graphicsThread.start();
         }
     }
@@ -246,7 +234,7 @@ public class GamePanel extends JPanel implements Runnable, KeyListener {
         System.exit(0); // exits JFrame
     }
 
-    public static void stopGame() {
+    public void stopGame() {
         gameRunning = false;
     }
 
@@ -279,7 +267,7 @@ public class GamePanel extends JPanel implements Runnable, KeyListener {
             removeGameObjects(gameObjectIdsToRemove);
         }
         if (gameOver) {
-            Sound.play(YOULOST);
+            Sound.playSoundYouLost();
             JFrame frame = new JFrame("Save Highscore");
             String player1 = JOptionPane.showInputDialog(frame, "Please type in your name");
             Highscore hs = new Highscore(scorePlayer1, player1);
@@ -455,33 +443,9 @@ public class GamePanel extends JPanel implements Runnable, KeyListener {
         GamePanel.scorePlayer1 += points;
     }
 
-    public static void setGameOver(boolean gameOver) {
-        GamePanel.gameOver = gameOver;
+    public void setGameOver(boolean gameOver) {
+        this.gameOver = gameOver;
     }
-
-    public static void playSoundTakenHit() {
-        Sound.play(TAKENHIT);
-    }
-
-    public static void playSoundExplosion() {
-        Sound.play(EXPLOSION);
-    }
-
-    public static void playSoundBlaster() {
-        Sound.play(BLASTER);
-    }
-
-    public static void playSoundEnemyBlaster() {
-        Sound.play(ENEMYBLASTER);
-    }
-
-    public static void playSoundIndestructible() { Sound.play(INDESTRUCTIBLE); }
-
-    public static void playSoundDoubleFirerate() { Sound.play(DOUBLEFIRERATE); }
-
-    public static void playSoundDoubleSpeed() { Sound.play(DOUBLESPEED); }
-
-    public static void playSoundExtraHealth() { Sound.play(EXTRAHEALTH); }
 
     public static void addToGameObjectsList(AbstractGameObject gameObject) {
         gameObjects.add(gameObject);
@@ -511,7 +475,7 @@ public class GamePanel extends JPanel implements Runnable, KeyListener {
         return state == STATE.MENU;
     }
 
-    public static boolean isResumeGame() {
+    public boolean isResumeGame() {
         return resumeGame;
     }
 
@@ -543,8 +507,8 @@ public class GamePanel extends JPanel implements Runnable, KeyListener {
         return imgPlayerIndestructible;
     }
 
-    public static void setGameRunning(boolean gameRunning) {
-        GamePanel.gameRunning = gameRunning;
+    public void setGameRunning(boolean gameRunning) {
+        this.gameRunning = gameRunning;
     }
 
     public static void setStateMenu() {
@@ -559,11 +523,15 @@ public class GamePanel extends JPanel implements Runnable, KeyListener {
         return ENEMYMARGIN;
     }
 
-    public static int getPlayerCount() {
+    public int getPlayerCount() {
         return playerCount;
     }
 
     public static Font getHeadline() {return headline; }
 
     public static Font getMenuText() {return menuText; }
+
+    public static List<PowerUp> getPowerUps() {
+        return powerUps;
+    }
 }

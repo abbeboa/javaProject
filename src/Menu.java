@@ -28,6 +28,12 @@ public class Menu {
 
     private static final int HEADLINEYPOS = 70;
 
+    private GamePanel gamePanel;
+
+    public Menu(GamePanel gamePanel) {
+        this.gamePanel = gamePanel;
+    }
+
     public void render(Graphics2D g, int s1, int s2) {
         g.drawImage(GamePanel.getImgMenuBackground(), 0, 0, null);
         Font headline = GamePanel.getHeadline();
@@ -44,15 +50,15 @@ public class Menu {
             g.drawString("Player2 score: " + s2, PLAYER2SCOREPOSX, PLAYER2SCOREPOSY);
         }
 
-        if (GamePanel.isResumeGame()) {
+        if (gamePanel.isResumeGame()) {
             g.drawString("Resume", RESUMEBUTTONLEFT, RESUMEBUTTONTOP);
         }
 
         g.drawString("New Game", NEWBUTTONLEFT, NEWBUTTOTOP);
-        g.drawString("Players: " + GamePanel.getPlayerCount(), PLAYERBUTTONLEFT, PLAYERBUTTONTOP);
+        g.drawString("Players: " + gamePanel.getPlayerCount(), PLAYERBUTTONLEFT, PLAYERBUTTONTOP);
         g.drawString("Quit Game", QUITBUTTONLEFT, QUITBUTTONTOP);
 
-        if (!GamePanel.isSoundEnabled()) {
+        if (!gamePanel.isSoundEnabled()) {
             g.setColor(Color.RED);
             g.setStroke(new BasicStroke(3));
             g.drawLine(SOUNDBUTTONRIGHT, SOUNDBUTTONBOTTOM, SOUNDBUTTONLEFT, SOUNDBUTTONTOP);
