@@ -2,6 +2,9 @@ import javax.sound.sampled.*;
 import java.io.File;
 import java.io.IOException;
 
+/**
+ * Creates a new Thread for playing sounds while game is still running.
+ */
 public final class Sound {
 
     private Sound() {

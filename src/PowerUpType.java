@@ -1,5 +1,5 @@
 /**
- * Created by Christian on 2015-04-27.
+ * Enum class for PowerUpTypes.
  */
 public enum PowerUpType {
     DOUBLESPEED, INDESTRUCTIBLE, DOUBLEFIRERATE, EXTRAHEALTH
