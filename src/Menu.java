@@ -37,11 +37,11 @@ public class Menu {
         Font text = GamePanel.getText();
         g.setFont(text);
         if (s1 > 0) {
-            g.drawString("Player1 score " + s1, PLAYER1SCOREPOSX, PLAYER1SCOREPOSY);
+            g.drawString("Player1 score: " + s1, PLAYER1SCOREPOSX, PLAYER1SCOREPOSY);
         }
 
         if (s2 > 0) {
-            g.drawString("Player2 score " + s2, PLAYER2SCOREPOSX, PLAYER2SCOREPOSY);
+            g.drawString("Player2 score: " + s2, PLAYER2SCOREPOSX, PLAYER2SCOREPOSY);
         }
 
         if (GamePanel.isResumeGame()) {
@@ -105,21 +105,5 @@ public class Menu {
 
     public static int getSoundbuttonbottom() {
 	return SOUNDBUTTONBOTTOM;
-    }
-
-    public static int getPlayer1scoreposx() {
-	return PLAYER1SCOREPOSX;
-    }
-
-    public static int getPlayer1scoreposy() {
-	return PLAYER1SCOREPOSY;
-    }
-
-    public static int getPlayer2scoreposx() {
-	return PLAYER2SCOREPOSX;
-    }
-
-    public static int getPlayer2scoreposy() {
-	return PLAYER2SCOREPOSY;
     }
 }
