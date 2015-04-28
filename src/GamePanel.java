@@ -431,8 +431,8 @@ public class GamePanel extends JPanel implements Runnable, KeyListener {
             ge.registerFont(Font.createFont(Font.TRUETYPE_FONT, new File("src/fonts/digital-7.ttf")));
 	    headline = Font.createFont(Font.TRUETYPE_FONT, new File("src/fonts/headline.ttf")).deriveFont(50.0f);
 	    ge.registerFont(Font.createFont(Font.TRUETYPE_FONT, new File("src/fonts/headline.ttf")));
-	    text = Font.createFont(Font.TRUETYPE_FONT, new File("src/fonts/text.ttf")).deriveFont(32.0f);
-	    ge.registerFont(Font.createFont(Font.TRUETYPE_FONT, new File("src/fonts/text.ttf")));
+	    text = Font.createFont(Font.TRUETYPE_FONT, new File("src/fonts/menutext.ttf")).deriveFont(32.0f);
+	    ge.registerFont(Font.createFont(Font.TRUETYPE_FONT, new File("src/fonts/menutext.ttf")));
         } catch (IOException | FontFormatException e) {
             e.printStackTrace();
         }
