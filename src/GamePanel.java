@@ -45,7 +45,6 @@ public class GamePanel extends JPanel implements Runnable, KeyListener {
     private static Font digital7;
     private static Font headline;
     private static Font text;
-    // test
 
     //menu
     public enum STATE {
@@ -65,13 +64,10 @@ public class GamePanel extends JPanel implements Runnable, KeyListener {
 
     //sound
     private static final String SOUNDFOLDER = "src/sounds/";
-    private static final String SOUNDBACKGROUND = SOUNDFOLDER + "backgroundSound.wav"; // jobbig.
-    private static final String TAKENHIT = SOUNDFOLDER + "takenhit1.wav"; // lite jobbig
-    private static final String RELOADING = SOUNDFOLDER + "reloading1.wav"; // jobbig.
-    private static final String WEAPONCHANGE = SOUNDFOLDER + "weaponChange1.wav"; // denna bör vi har när vi byter mellan vapen
+    private static final String TAKENHIT = SOUNDFOLDER + "takenhit1.wav";
     private static final String EXPLOSION = SOUNDFOLDER + "explosion.wav";
     private static final String BLASTER = SOUNDFOLDER + "blaster.wav";
-    //private String enemyBlaster = s+"enemyBlaster.wav"; // ligger just nu i enemy-klassen istället
+    private static final String ENEMYBLASTER = SOUNDFOLDER + "enemyBlaster.wav"; // ligger just nu i enemy-klassen istället
     private static final String YOULOST = SOUNDFOLDER + "youLost.wav";
     private static final String INDESTRUCTIBLE = SOUNDFOLDER + "indestructible_new.wav";
     private static final String DOUBLEFIRERATE = SOUNDFOLDER + "double_firerate.wav";
@@ -468,6 +464,10 @@ public class GamePanel extends JPanel implements Runnable, KeyListener {
         Sound.play(BLASTER);
     }
 
+    public static void playSoundEnemyBlaster() {
+        Sound.play(ENEMYBLASTER);
+    }
+
     public static void playSoundIndestructible() { Sound.play(INDESTRUCTIBLE); }
 
     public static void playSoundDoubleFirerate() { Sound.play(DOUBLEFIRERATE); }
@@ -508,10 +508,6 @@ public class GamePanel extends JPanel implements Runnable, KeyListener {
         return resumeGame;
     }
 
-    public static boolean isGameRunning() {
-        return gameRunning;
-    }
-
     public static boolean isSoundEnabled() {
         return soundEnabled;
     }
@@ -544,8 +540,12 @@ public class GamePanel extends JPanel implements Runnable, KeyListener {
         GamePanel.gameRunning = gameRunning;
     }
 
-    public static void setState(STATE state) {
-        GamePanel.state = state;
+    public static void setStateMenu() {
+        GamePanel.state = STATE.MENU;
+    }
+
+    public static void setStateGame() {
+        GamePanel.state = STATE.GAME;
     }
 
     public static int getEnemymargin() {
