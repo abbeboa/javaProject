@@ -11,27 +11,26 @@ public class Menu {
 
     public void render(Graphics2D g, int s1, int s2) {
         g.drawImage(GamePanel.getImgMenuBackground(), 0, 0, null);
-        Font fnt0 = new Font("arial", Font.BOLD, 50);
-        g.setFont(fnt0);
+        Font headline = GamePanel.getHeadline();
+        g.setFont(headline);
         g.setColor(Color.WHITE);
-        g.drawString("Space Duck Shooter", GamePanel.JPWIDTH / 3, 70);
-        Font fnt1 = new Font("arial", Font.BOLD, 40);
-        g.setFont(fnt1);
+        g.drawString("[Space Shooter]", GamePanel.JPWIDTH / 4, 70);
+        Font text = GamePanel.getText();
+        g.setFont(text);
         if (s1 > 0) {
-            g.drawString("Player1 score: " + s1, 50, buttonTop + 300);
+            g.drawString("Player1 score " + s1, 50, buttonTop + 300);
         }
 
         if (s2 > 0) {
-            g.drawString("Player2 score: " + s2, 50, buttonTop + 400);
+            g.drawString("Player2 score " + s2, 50, buttonTop + 400);
         }
 
-        g.setFont(fnt1);
         if (GamePanel.isResumeGame()) {
             g.drawString("Resume", buttonLeft, buttonTop -100);
         }
 
         g.drawString("New Game", buttonLeft, buttonTop);
-        g.drawString("Players: " +GamePanel.getPlayerCount(), buttonLeft, buttonTop + 100);
+        g.drawString(GamePanel.getPlayerCount()+" Player", buttonLeft, buttonTop + 100);
         g.drawString("Quit Game", buttonLeft, buttonTop + 200);
 
         if (!GamePanel.isSoundEnabled()) {
