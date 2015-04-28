@@ -25,7 +25,7 @@ public class GamePanel extends JPanel implements Runnable, KeyListener {
     private static boolean newGame = true;
     private static boolean resumeGame = false;
     private static boolean soundEnabled = true;
-    private int playerCount = 1;
+    private static int playerCount = 1;
     private static List<Integer> pressedKeys = new ArrayList<>();
     private CollisionHandler collisionHandler;
     private KeyEventHandler keyEventHandler;
@@ -42,7 +42,9 @@ public class GamePanel extends JPanel implements Runnable, KeyListener {
     private static Collection<Integer> gameObjectIdsToRemove = new ArrayList<>();
     private EnemyWave currentWave = null;
     //fonts
-    private Font digital7;
+    private static Font digital7;
+    private static Font headline;
+    private static Font text;
 
     //menu
     public enum STATE {
@@ -118,17 +120,23 @@ public class GamePanel extends JPanel implements Runnable, KeyListener {
         if (!gameOver) {
             // actions only performed when game is not over
             if (state == STATE.MENU) {
-                if (x > clickableLeft && x < clickableRight && y > clickableBottom && y < clickableTop) { // resume button
+                if (x > clickableLeft && x < clickableRight && y > (clickableBottom - 100) && y < (clickableTop - 100)) { // resume button
                     if (resumeGame) {
                         state = STATE.GAME;
                     }
-                } else if (x > clickableLeft && x < clickableRight && y > clickableBottom + 100 && y < clickableTop + 100) { // new game button
+                } else if (x > clickableLeft && x < clickableRight && y > clickableBottom && y < clickableTop) { // new game button
                     resetGame();
                     newGame = true;
                     state = STATE.GAME;
-                } else if (x > clickableLeft && x < clickableRight && y > clickableBottom + 200 && y < clickableTop + 200) { // quit game button
+                } else if (x > clickableLeft && x < clickableRight && y > (clickableBottom + 100) && y < (clickableTop + 100)) { // Player count button
+                    if (playerCount == 1) {
+                        playerCount = 2;
+                    } else {
+                        playerCount = 1;
+                    }
+                } else if (x > clickableLeft && x < clickableRight && y > (clickableBottom + 200) && y < (clickableTop + 200)) { // quit game button
                     stopGame();
-                } else if (x > 1200 && x < 1240 && y > 650 && y < 690) {
+                } else if ((x > 1200) && (x < 1240) && (y > 650) && (y < 690)) {
                     if (soundEnabled == true) {
                         soundEnabled = false;
                     } else {
@@ -418,9 +426,13 @@ public class GamePanel extends JPanel implements Runnable, KeyListener {
 
     private void registerFontFiles() {
         try {
+	    GraphicsEnvironment ge = GraphicsEnvironment.getLocalGraphicsEnvironment();
             digital7 = Font.createFont(Font.TRUETYPE_FONT, new File("src/fonts/digital-7.ttf")).deriveFont(32.0f);
-            GraphicsEnvironment ge = GraphicsEnvironment.getLocalGraphicsEnvironment();
             ge.registerFont(Font.createFont(Font.TRUETYPE_FONT, new File("src/fonts/digital-7.ttf")));
+	    headline = Font.createFont(Font.TRUETYPE_FONT, new File("src/fonts/headline.ttf")).deriveFont(50.0f);
+	    ge.registerFont(Font.createFont(Font.TRUETYPE_FONT, new File("src/fonts/headline.ttf")));
+	    text = Font.createFont(Font.TRUETYPE_FONT, new File("src/fonts/text.ttf")).deriveFont(32.0f);
+	    ge.registerFont(Font.createFont(Font.TRUETYPE_FONT, new File("src/fonts/text.ttf")));
         } catch (IOException | FontFormatException e) {
             e.printStackTrace();
         }
@@ -490,12 +502,12 @@ public class GamePanel extends JPanel implements Runnable, KeyListener {
         return resumeGame;
     }
 
-    public static boolean isSoundEnabled() {
-        return soundEnabled;
+    public static boolean isGameRunning() {
+        return gameRunning;
     }
 
-    public static void setSoundEnabled(boolean soundEnabled) {
-        GamePanel.soundEnabled = soundEnabled;
+    public static boolean isSoundEnabled() {
+        return soundEnabled;
     }
 
     public static Image getImgMenuBackground() {
@@ -533,4 +545,12 @@ public class GamePanel extends JPanel implements Runnable, KeyListener {
     public static int getEnemymargin() {
         return ENEMYMARGIN;
     }
+
+    public static int getPlayerCount() {
+        return playerCount;
+    }
+
+    public static Font getHeadline() {return headline; }
+
+    public static Font getText() {return text; }
 }
