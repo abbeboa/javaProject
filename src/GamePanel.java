@@ -538,8 +538,12 @@ public class GamePanel extends JPanel implements Runnable, KeyListener {
         GamePanel.gameRunning = gameRunning;
     }
 
-    public static void setState(STATE state) {
-        GamePanel.state = state;
+    public static void setStateMenu() {
+        GamePanel.state = STATE.MENU;
+    }
+
+    public static void setStateGame() {
+        GamePanel.state = STATE.GAME;
     }
 
     public static int getEnemymargin() {

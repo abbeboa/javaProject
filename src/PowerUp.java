@@ -4,27 +4,19 @@ import java.util.Random;
  * Created by Christian on 2015-04-27.
  */
 public class PowerUp extends AbstractGameObject {
+    private static final int IDLETIME = 10000;
+    private static final int EFFECTIVETIME = 5000;
+    private static final int DEFAULTEXTRAHEALTH = 50;
+
     private long expireTime;
     private PowerUpType powerUpType;
     private boolean hasSetValues = false;
-    private int idleTime = 10000;
-    private int effectiveTime = 5000;
 
     public PowerUp(double x, double y, Type type) {
         super(x, y, type);
-        expireTime = System.currentTimeMillis() + idleTime;
+        expireTime = System.currentTimeMillis() + IDLETIME;
         setPowerUpType();
-        Position randomPos = randomPosition();
-        this.x = randomPos.getX();
-        this.y = randomPos.getY();
-        this.updateRectangle((int) randomPos.getX(), (int) randomPos.getY());
-    }
-
-    private Position randomPosition() {
-        Random random = new Random();
-        int x = random.nextInt(GamePanel.JPWIDTH - image.getWidth());
-        int y = random.nextInt(GamePanel.JPHEIGHT - image.getHeight());
-        return new Position(x, y);
+        this.updateRectangle((int) this.x, (int) this.y);
     }
 
     private void setPowerUpType() {
@@ -36,7 +28,7 @@ public class PowerUp extends AbstractGameObject {
         if (expireTime > System.currentTimeMillis()) {
             if (hasSetValues == false && isPickedUp()) {
                 setValues();
-                expireTime = System.currentTimeMillis() + effectiveTime;
+                expireTime = System.currentTimeMillis() + EFFECTIVETIME;
                 hasSetValues = true;
             }
         } else {
@@ -65,7 +57,7 @@ public class PowerUp extends AbstractGameObject {
                 break;
             case EXTRAHEALTH:
                 GamePanel.playSoundExtraHealth();
-                owner.hp += 50;
+                owner.hp += DEFAULTEXTRAHEALTH;
                 if (owner.hp > owner.getPlayerMaximumHealth()) {
                     owner.setHp(owner.getPlayerMaximumHealth());
                 }

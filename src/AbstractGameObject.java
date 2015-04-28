@@ -1,6 +1,7 @@
 import java.awt.*;
 import java.awt.image.BufferedImage;
 import java.awt.image.ImageObserver;
+import java.util.Random;
 
 public abstract class AbstractGameObject {
     //constants
@@ -94,10 +95,20 @@ public abstract class AbstractGameObject {
                 this.indestructible = true;
                 this.gameObjectType = GameObjectType.POWERUP;
                 this.pickedUp = false;
+                Position randomPos = randomPosition();
+                this.x = randomPos.getX();
+                this.y = randomPos.getY();
                 break;
             default:
                 System.out.println("getInitialValues fault");
         }
+    }
+
+    private Position randomPosition() {
+        Random random = new Random();
+        int x = random.nextInt(GamePanel.JPWIDTH - image.getWidth());
+        int y = random.nextInt(GamePanel.JPHEIGHT - image.getHeight());
+        return new Position(x, y);
     }
 
     public void move(Direction direction, double speed) {

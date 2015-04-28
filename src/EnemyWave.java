@@ -12,7 +12,6 @@ public class EnemyWave {
     private int waveNumber;
     private int enemiesPerWave;
     private int n = 1;
-    private boolean progressive = false;
     private Direction direction;
 
     public EnemyWave(int waveNumber) {
@@ -23,7 +22,6 @@ public class EnemyWave {
     private void setVariables(int waveNumber) {
         // waveNumber 0 is progressive mode
         if (waveNumber == 0) {
-            this.progressive = true;
             this.numberOfWaves = DEFAULTNUMBEROFWAVES;
             this.waveInterval = DEFAULTWAVEINTERVAL;
             this.spawnEnemiesInterval = DEFAULTSPAWNENEMIESINTERVAL;

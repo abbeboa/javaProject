@@ -49,11 +49,11 @@ public class KeyEventHandler {
                     }
                 }
                 if (keyCode == KeyEvent.VK_P) {
-                    GamePanel.setState(GamePanel.STATE.MENU);
+                    GamePanel.setStateMenu();
                 }
             } else if (GamePanel.checkStateEqualsMenu()) {
                 if (keyCode == KeyEvent.VK_P) {
-                    GamePanel.setState(GamePanel.STATE.GAME);
+                    GamePanel.setStateGame();
                 }
             }
         }
