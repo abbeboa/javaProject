@@ -6,8 +6,7 @@ import java.util.Random;
 /**
  * Superclass for all gameobjects. Subclasses: Player, Enemy, PowerUp, Projectile.
  */
-public abstract class AbstractGameObject
-{
+public abstract class AbstractGameObject {
     //constants
     protected static final int PLAYERMAXIMUMHEALTH = 150;
     private static final double PLAYERDEFAULTSPEED = 3.0;
@@ -38,214 +37,214 @@ public abstract class AbstractGameObject
     private boolean invisible = false;
 
     protected AbstractGameObject(final double x, final double y, final Type type) {
-	this.x = x;
-	this.y = y;
-	setInitialValues(type);
-	this.type = type;
-	this.rectangle = new Rectangle((int) x, (int) y, image.getWidth(), image.getHeight());
-	this.id = counter;
-	increaseCounter();
+        this.x = x;
+        this.y = y;
+        setInitialValues(type);
+        this.type = type;
+        this.rectangle = new Rectangle((int) x, (int) y, image.getWidth(), image.getHeight());
+        this.id = counter;
+        increaseCounter();
     }
 
     private static void increaseCounter() {
-	counter++;
+        counter++;
     }
 
     public void drawGameObject(Graphics dbg, ImageObserver panel) {
-	if (!invisible) {
-	    dbg.drawImage(image, (int) x, (int) y, panel);
-	}
+        if (!invisible) {
+            dbg.drawImage(image, (int) x, (int) y, panel);
+        }
     }
 
     private void setInitialValues(Type type) {
-	switch (type) {
-	    case PLAYER1:
-		this.speed = PLAYERDEFAULTSPEED;
-		this.image = GamePanel.getImgPlayer1();
-		this.hp = PLAYERDEFAULTHEALTH;
-		this.gameObjectType = GameObjectType.PLAYER;
-		this.shootingDelay = PLAYERDEFAULTSHOOTINGDELAY;
-		break;
-	    case PLAYER2:
-		this.speed = PLAYERDEFAULTSPEED;
-		this.image = GamePanel.getImgPlayer2();
-		this.hp = PLAYERDEFAULTHEALTH;
-		this.gameObjectType = GameObjectType.PLAYER;
-		this.shootingDelay = PLAYERDEFAULTSHOOTINGDELAY;
-		break;
-	    case BULLET:
-		this.speed = BULLETDEFAULTSPEED;
-		this.image = GamePanel.getImgBullet();
-		this.hp = PROJECTILEDEFAULTHEALTH;
-		this.damage = BULLETDEFAULTDAMAGE;
-		this.gameObjectType = GameObjectType.PROJECTILE;
-		break;
-	    case MISSILE:
-		this.speed = MISSILEDEFAULTSPEED;
-		this.image = GamePanel.getImgBullet();
-		this.hp = PROJECTILEDEFAULTHEALTH;
-		this.gameObjectType = GameObjectType.PROJECTILE;
-		break;
-	    case BASICENEMY:
-		this.speed = BASICENEMYDEFAULTSPEED;
-		this.image = GamePanel.getImgBasicEnemy();
-		this.hp = BASICENEMYDEFAULTHP;
-		this.gameObjectType = GameObjectType.ENEMY;
-		this.damage = BASICENEMYDEFAULTDAMAGE;
-		this.shootingDelay = BASICENEMYDEFAULTSHOOTINGDELAY;
-		break;
-	    case POWERUP:
-		this.image = GamePanel.getImgBasicEnemy();
-		this.indestructible = true;
-		this.gameObjectType = GameObjectType.POWERUP;
-		this.pickedUp = false;
-		Position randomPos = randomPosition();
-		this.x = randomPos.getX();
-		this.y = randomPos.getY();
-		break;
-	    default:
-		System.out.println("getInitialValues fault");
-	}
+        switch (type) {
+            case PLAYER1:
+                this.speed = PLAYERDEFAULTSPEED;
+                this.image = GamePanel.getImgPlayer1();
+                this.hp = PLAYERDEFAULTHEALTH;
+                this.gameObjectType = GameObjectType.PLAYER;
+                this.shootingDelay = PLAYERDEFAULTSHOOTINGDELAY;
+                break;
+            case PLAYER2:
+                this.speed = PLAYERDEFAULTSPEED;
+                this.image = GamePanel.getImgPlayer2();
+                this.hp = PLAYERDEFAULTHEALTH;
+                this.gameObjectType = GameObjectType.PLAYER;
+                this.shootingDelay = PLAYERDEFAULTSHOOTINGDELAY;
+                break;
+            case BULLET:
+                this.speed = BULLETDEFAULTSPEED;
+                this.image = GamePanel.getImgBullet();
+                this.hp = PROJECTILEDEFAULTHEALTH;
+                this.damage = BULLETDEFAULTDAMAGE;
+                this.gameObjectType = GameObjectType.PROJECTILE;
+                break;
+            case MISSILE:
+                this.speed = MISSILEDEFAULTSPEED;
+                this.image = GamePanel.getImgBullet();
+                this.hp = PROJECTILEDEFAULTHEALTH;
+                this.gameObjectType = GameObjectType.PROJECTILE;
+                break;
+            case BASICENEMY:
+                this.speed = BASICENEMYDEFAULTSPEED;
+                this.image = GamePanel.getImgBasicEnemy();
+                this.hp = BASICENEMYDEFAULTHP;
+                this.gameObjectType = GameObjectType.ENEMY;
+                this.damage = BASICENEMYDEFAULTDAMAGE;
+                this.shootingDelay = BASICENEMYDEFAULTSHOOTINGDELAY;
+                break;
+            case POWERUP:
+                this.image = GamePanel.getImgBasicEnemy();
+                this.indestructible = true;
+                this.gameObjectType = GameObjectType.POWERUP;
+                this.pickedUp = false;
+                Position randomPos = randomPosition();
+                this.x = randomPos.getX();
+                this.y = randomPos.getY();
+                break;
+            default:
+                System.out.println("getInitialValues fault");
+        }
     }
 
     private Position randomPosition() {
-	Random random = new Random();
-	int x = random.nextInt(GamePanel.JPWIDTH - image.getWidth());
-	int y = random.nextInt(GamePanel.JPHEIGHT - image.getHeight());
-	return new Position(x, y);
+        Random random = new Random();
+        int x = random.nextInt(GamePanel.JPWIDTH - image.getWidth());
+        int y = random.nextInt(GamePanel.JPHEIGHT - image.getHeight());
+        return new Position(x, y);
     }
 
     public void move(Direction direction, double speed) {
-	double newX = x;
-	double newY = y;
-	switch (direction) {
-	    case UP:
-		newY -= speed;
-		break;
-	    case DOWN:
-		newY += speed;
-		break;
-	    case LEFT:
-		newX -= speed;
-		break;
-	    case RIGHT:
-		newX += speed;
-		break;
-	    default:
-		break;
-	}
-	if (this.type == Type.PLAYER1) {
-	    Rectangle testRectangle = new Rectangle((int) newX, (int) newY, image.getWidth(), image.getHeight());
-	    if (GamePanel.GAMEFIELD.contains(testRectangle)) {
-		x = newX;
-		y = newY;
-	    }
-	} else {
-	    x = newX;
-	    y = newY;
-	}
-	updateRectangle((int) x, (int) y);
+        double newX = x;
+        double newY = y;
+        switch (direction) {
+            case UP:
+                newY -= speed;
+                break;
+            case DOWN:
+                newY += speed;
+                break;
+            case LEFT:
+                newX -= speed;
+                break;
+            case RIGHT:
+                newX += speed;
+                break;
+            default:
+                break;
+        }
+        if (this.type == Type.PLAYER1) {
+            Rectangle testRectangle = new Rectangle((int) newX, (int) newY, image.getWidth(), image.getHeight());
+            if (GamePanel.GAMEFIELD.contains(testRectangle)) {
+                x = newX;
+                y = newY;
+            }
+        } else {
+            x = newX;
+            y = newY;
+        }
+        updateRectangle((int) x, (int) y);
     }
 
     public void updateRectangle(int newX, int newY) {
-	this.rectangle = new Rectangle(newX, newY, image.getWidth(), image.getHeight());
+        this.rectangle = new Rectangle(newX, newY, image.getWidth(), image.getHeight());
     }
 
     public void shoot(Type type, Direction direction) {
-	Position pos = calculateShootPos(direction);
-	Projectile newProjectile = new Projectile(pos.getX(), pos.getY(), type, direction, this.id);
-	GamePanel.addToGameObjectsList(newProjectile);
-	GamePanel.addToProjectileList(newProjectile);
+        Position pos = calculateShootPos(direction);
+        Projectile newProjectile = new Projectile(pos.getX(), pos.getY(), type, direction, this.id);
+        GamePanel.addToGameObjectsList(newProjectile);
+        GamePanel.addToProjectileList(newProjectile);
     }
 
     private Position calculateShootPos(Direction direction) {
-	double posX;
-	double posY;
-	int playerWidth = image.getWidth();
-	int playerHeight = image.getHeight();
-	double halfPlayerWidth = playerWidth / 2.0;
-	double halfPlayerHeight = playerHeight / 2.0;
-	switch (direction) {
-	    case UP:
-		posX = x + halfPlayerWidth;
-		posY = y;
-		return new Position(posX, posY);
-	    case DOWN:
-		posX = x + halfPlayerWidth;
-		posY = y + playerHeight;
-		return new Position(posX, posY);
-	    case LEFT:
-		posX = x;
-		posY = y + halfPlayerHeight;
-		return new Position(posX, posY);
-	    case RIGHT:
-		posX = x + playerWidth;
-		posY = y + halfPlayerHeight;
-		return new Position(posX, posY);
-	    default:
-		posX = x;
-		posY = y;
-		return new Position(posX, posY);
-	}
+        double posX;
+        double posY;
+        int playerWidth = image.getWidth();
+        int playerHeight = image.getHeight();
+        double halfPlayerWidth = playerWidth / 2.0;
+        double halfPlayerHeight = playerHeight / 2.0;
+        switch (direction) {
+            case UP:
+                posX = x + halfPlayerWidth;
+                posY = y;
+                return new Position(posX, posY);
+            case DOWN:
+                posX = x + halfPlayerWidth;
+                posY = y + playerHeight;
+                return new Position(posX, posY);
+            case LEFT:
+                posX = x;
+                posY = y + halfPlayerHeight;
+                return new Position(posX, posY);
+            case RIGHT:
+                posX = x + playerWidth;
+                posY = y + halfPlayerHeight;
+                return new Position(posX, posY);
+            default:
+                posX = x;
+                posY = y;
+                return new Position(posX, posY);
+        }
     }
 
     public double getSpeed() {
-	return speed;
+        return speed;
     }
 
     public Rectangle getRectangle() {
-	return rectangle;
+        return rectangle;
     }
 
     public int getId() {
-	return id;
+        return id;
     }
 
     public GameObjectType getGameObjectType() {
-	return gameObjectType;
+        return gameObjectType;
     }
 
     public int getOwnerID() {
-	return ownerID;
+        return ownerID;
     }
 
     public void setOwnerID(int ownerID) {
-	this.ownerID = ownerID;
+        this.ownerID = ownerID;
     }
 
     public int getHp() {
-	return hp;
+        return hp;
     }
 
     public int getDamage() {
-	return damage;
+        return damage;
     }
 
     public static void setCounter(int counter) {
-	AbstractGameObject.counter = counter;
+        AbstractGameObject.counter = counter;
     }
 
     public int getShootingDelay() {
-	return shootingDelay;
+        return shootingDelay;
     }
 
     public void setInvisible(boolean invisible) {
-	this.invisible = invisible;
+        this.invisible = invisible;
     }
 
     public boolean isPickedUp() {
-	return pickedUp;
+        return pickedUp;
     }
 
     public void setPickedUp(boolean pickedUp) {
-	this.pickedUp = pickedUp;
+        this.pickedUp = pickedUp;
     }
 
     public void setShootingDelay(int shootingDelay) {
-	this.shootingDelay = shootingDelay;
+        this.shootingDelay = shootingDelay;
     }
 
     public void setHp(int hp) {
-	this.hp = hp;
+        this.hp = hp;
     }
 }

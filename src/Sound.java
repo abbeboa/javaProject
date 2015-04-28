@@ -5,8 +5,7 @@ import java.io.IOException;
 /**
  * Creates a new Thread for playing sounds while game is still running.
  */
-public final class Sound
-{
+public final class Sound {
     private final static String SOUNDFOLDER = "src/sounds/";
     private final static String TAKENHIT = SOUNDFOLDER + "takenhit1.wav";
     private final static String EXPLOSION = SOUNDFOLDER + "explosion.wav";
@@ -22,53 +21,53 @@ public final class Sound
     }
 
     public static synchronized void play(final String soundToPlay) {
-	if (GamePanel.isSoundEnabled()) {
-	    new Thread(() -> { // to make the sound run alongside the game's thread
-		try {
-		    Clip sound = AudioSystem.getClip();
-		    AudioInputStream input = AudioSystem.getAudioInputStream(new File(soundToPlay));
-		    sound.open(input);
-		    sound.start();
-		} catch (IOException | UnsupportedAudioFileException | LineUnavailableException e) {
-		    e.printStackTrace();
-		}
-	    }).start();
-	}
+        if (GamePanel.isSoundEnabled()) {
+            new Thread(() -> { // to make the sound run alongside the game's thread
+                try {
+                    Clip sound = AudioSystem.getClip();
+                    AudioInputStream input = AudioSystem.getAudioInputStream(new File(soundToPlay));
+                    sound.open(input);
+                    sound.start();
+                } catch (IOException | UnsupportedAudioFileException | LineUnavailableException e) {
+                    e.printStackTrace();
+                }
+            }).start();
+        }
     }
 
     public static void playSoundTakenHit() {
-	play(TAKENHIT);
+        play(TAKENHIT);
     }
 
     public static void playSoundExplosion() {
-	Sound.play(EXPLOSION);
+        Sound.play(EXPLOSION);
     }
 
     public static void playSoundBlaster() {
-	Sound.play(BLASTER);
+        Sound.play(BLASTER);
     }
 
     public static void playSoundEnemyBlaster() {
-	Sound.play(ENEMYBLASTER);
+        Sound.play(ENEMYBLASTER);
     }
 
     public static void playSoundIndestructible() {
-	Sound.play(INDESTRUCTIBLE);
+        Sound.play(INDESTRUCTIBLE);
     }
 
     public static void playSoundDoubleFirerate() {
-	Sound.play(DOUBLEFIRERATE);
+        Sound.play(DOUBLEFIRERATE);
     }
 
     public static void playSoundDoubleSpeed() {
-	Sound.play(DOUBLESPEED);
+        Sound.play(DOUBLESPEED);
     }
 
     public static void playSoundExtraHealth() {
-	Sound.play(EXTRAHEALTH);
+        Sound.play(EXTRAHEALTH);
     }
 
     public static void playSoundYouLost() {
-	Sound.play(YOULOST);
+        Sound.play(YOULOST);
     }
 }
