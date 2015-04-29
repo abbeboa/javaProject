@@ -202,7 +202,7 @@ public class GamePanel extends JPanel implements Runnable, KeyListener {
                 //noinspection BusyWait
                 Thread.sleep(sleepTime);
                 // frees the CPU to perform other tasks. Needed to make the game run at 100fps
-                // (100 updates and 100 redraws per second). This sleep makes each game-update the same timelength.
+                // This sleep makes each game-update the same timelength.
             } catch (InterruptedException ignored) {
             }
 
