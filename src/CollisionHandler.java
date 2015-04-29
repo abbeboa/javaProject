@@ -65,9 +65,9 @@ public class CollisionHandler {
     private void enemyCollisionActions(AbstractGameObject objectA, AbstractGameObject objectB) {
         switch (objectB.getGameObjectType()) {
             case PLAYER:
-                GamePanel.addGameObjectIdToRemove(objectA.getId());
-                Sound.playSoundTakenHit();
-                Sound.playSoundExplosion();
+                gamePanel.addGameObjectIdToRemove(objectA.getId());
+                Sound.playSoundTakenHit(gamePanel.isSoundEnabled());
+                Sound.playSoundExplosion(gamePanel.isSoundEnabled());
                 changeStats(objectA, objectB);
                 break;
             case ENEMY:
@@ -84,19 +84,19 @@ public class CollisionHandler {
         switch (objectB.getGameObjectType()) {
             case PLAYER:
                 if (objectA.getOwnerID() != objectB.getId()) { // You can not hurt yourself
-                    GamePanel.addGameObjectIdToRemove(objectA.getId());
+                    gamePanel.addGameObjectIdToRemove(objectA.getId());
                     changeStats(objectA, objectB);
-                    Sound.playSoundTakenHit();
+                    Sound.playSoundTakenHit(gamePanel.isSoundEnabled());
                 }
                 break;
             case ENEMY:
                 if (objectA.getOwnerID() == 0 || objectA.getOwnerID() == 1) { // only players need score
                     changeStats(objectA, objectB);
                 }
-                GamePanel.addGameObjectIdToRemove(objectA.getId());
+                gamePanel.addGameObjectIdToRemove(objectA.getId());
                 break;
             case PROJECTILE:
-                GamePanel.addGameObjectIdToRemove(objectA.getId());
+                gamePanel.addGameObjectIdToRemove(objectA.getId());
                 break;
             case POWERUP:
                 break;
@@ -118,18 +118,18 @@ public class CollisionHandler {
             switch (objectA.getGameObjectType()) {
                 case ENEMY:
                     if (objectB.getOwnerID() == 0 || objectB.getId() == 0) {
-                        GamePanel.addScorePlayer1(100);
+                        gamePanel.addScorePlayer1(100);
                     } else if (objectB.getOwnerID() == 1 || objectA.getId() == 1) {
-                        GamePanel.addScorePlayer2(100);
+                        gamePanel.addScorePlayer2(100);
                     }
-                    Sound.playSoundExplosion();
-                    GamePanel.addGameObjectIdToRemove(objectA.getId());
+                    Sound.playSoundExplosion(gamePanel.isSoundEnabled());
+                    gamePanel.addGameObjectIdToRemove(objectA.getId());
                     break;
                 case PROJECTILE:
-                    GamePanel.addGameObjectIdToRemove(objectA.getId());
+                    gamePanel.addGameObjectIdToRemove(objectA.getId());
                     break;
                 case PLAYER:
-                    Sound.playSoundExplosion();
+                    Sound.playSoundExplosion(gamePanel.isSoundEnabled());
                     gamePanel.setGameOver(true);
                     break;
                 case POWERUP:

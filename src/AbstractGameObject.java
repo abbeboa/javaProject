@@ -29,12 +29,12 @@ public abstract class AbstractGameObject {
     protected Rectangle rectangle;
     protected int damage = 0;
     protected GameObjectType gameObjectType = null;
+    protected int id;
+    protected int ownerID;
+    protected int shootingDelay;
+    protected boolean pickedUp;
+    protected boolean invisible = false;
     private static int counter = 0;
-    private int id;
-    private int ownerID;
-    private int shootingDelay;
-    private boolean pickedUp;
-    private boolean invisible = false;
 
     protected AbstractGameObject(final double x, final double y, final Type type) {
         this.x = x;
@@ -55,6 +55,8 @@ public abstract class AbstractGameObject {
             dbg.drawImage(image, (int) x, (int) y, panel);
         }
     }
+
+    public abstract void update(GamePanel gamePanel);
 
     private void setInitialValues(Type type) {
         switch (type) {
@@ -98,23 +100,13 @@ public abstract class AbstractGameObject {
                 this.indestructible = true;
                 this.gameObjectType = GameObjectType.POWERUP;
                 this.pickedUp = false;
-                Position randomPos = randomPosition();
-                this.x = randomPos.getX();
-                this.y = randomPos.getY();
                 break;
             default:
                 System.out.println("getInitialValues fault");
         }
     }
 
-    private Position randomPosition() {
-        Random random = new Random();
-        int x = random.nextInt(GamePanel.JPWIDTH - image.getWidth());
-        int y = random.nextInt(GamePanel.JPHEIGHT - image.getHeight());
-        return new Position(x, y);
-    }
-
-    public void move(Direction direction, double speed) {
+    public void move(Direction direction, double speed, GamePanel gamePanel) {
         double newX = x;
         double newY = y;
         switch (direction) {
@@ -135,7 +127,7 @@ public abstract class AbstractGameObject {
         }
         if (this.type == Type.PLAYER1) {
             Rectangle testRectangle = new Rectangle((int) newX, (int) newY, image.getWidth(), image.getHeight());
-            if (GamePanel.GAMEFIELD.contains(testRectangle)) {
+            if (gamePanel.getGamefield().contains(testRectangle)) {
                 x = newX;
                 y = newY;
             }
@@ -150,11 +142,10 @@ public abstract class AbstractGameObject {
         this.rectangle = new Rectangle(newX, newY, image.getWidth(), image.getHeight());
     }
 
-    public void shoot(Type type, Direction direction) {
+    public void shoot(Type type, Direction direction, GamePanel gamePanel) {
         Position pos = calculateShootPos(direction);
         Projectile newProjectile = new Projectile(pos.getX(), pos.getY(), type, direction, this.id);
-        GamePanel.addToGameObjectsList(newProjectile);
-        GamePanel.addToProjectileList(newProjectile);
+        gamePanel.addToGameObjectsList(newProjectile);
     }
 
     private Position calculateShootPos(Direction direction) {
@@ -188,6 +179,8 @@ public abstract class AbstractGameObject {
         }
     }
 
+    public int getOwnerID() { return ownerID; }
+
     public double getSpeed() {
         return speed;
     }
@@ -202,10 +195,6 @@ public abstract class AbstractGameObject {
 
     public GameObjectType getGameObjectType() {
         return gameObjectType;
-    }
-
-    public int getOwnerID() {
-        return ownerID;
     }
 
     public void setOwnerID(int ownerID) {

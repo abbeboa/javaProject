@@ -15,12 +15,12 @@ import java.util.Objects;
  * of help-methods for drawing (font, importImages etc.) that are needed.
  */
 public class GamePanel extends JPanel implements Runnable, KeyListener {
-    public static final int JPWIDTH = 1280; // JPanel size
-    public static final int JPHEIGHT = 720;
+    private static final int JPWIDTH = 1280; // JPanel size
+    private static final int JPHEIGHT = 720;
     private static final int PERIOD = 10; // time in ms for each game update
-    public static final Rectangle GAMEFIELD = new Rectangle(0, 0, JPWIDTH, JPHEIGHT);
+    private static final Rectangle GAMEFIELD = new Rectangle(0, 0, JPWIDTH, JPHEIGHT);
     private static final int ENEMYMARGIN = 50;
-    public static final Rectangle ENEMIESGAMEFIELD =
+    private static final Rectangle ENEMIESGAMEFIELD =
             new Rectangle(-ENEMYMARGIN, -ENEMYMARGIN, JPWIDTH + (ENEMYMARGIN * 2), JPHEIGHT + (ENEMYMARGIN * 2));
     private static Color bgColor = Color.BLACK;
     private Thread graphicsThread = null;
@@ -28,22 +28,20 @@ public class GamePanel extends JPanel implements Runnable, KeyListener {
     private boolean gameOver = false;
     private boolean newGame = true;
     private boolean resumeGame = false;
-    private static boolean soundEnabled = true;
-    private static int playerCount = 1;
-    private static List<Integer> pressedKeys = new ArrayList<>();
+    private boolean soundEnabled = true;
+    private int playerCount = 1;
+    private List<Integer> pressedKeys = new ArrayList<>();
     private CollisionHandler collisionHandler = null;
     private KeyEventHandler keyEventHandler;
+    private MouseActionHandler mouseActionHandler;
     //score
-    private static int scorePlayer1 = 0;
-    private static int scorePlayer2 = 0;
+    private int scorePlayer1 = 0;
+    private int scorePlayer2 = 0;
     //double buffering variables
     private Graphics dbg = null;
     private Image dbImage = null;
-    private static List<AbstractGameObject> gameObjects = new ArrayList<>();
-    private static List<Projectile> projectileList = new ArrayList<>();
-    private static List<Enemy> enemyList = new ArrayList<>();
-    private static List<PowerUp> powerUps = new ArrayList<>();
-    private static Collection<Integer> gameObjectIdsToRemove = new ArrayList<>();
+    private List<AbstractGameObject> gameObjects = new ArrayList<>();
+    private Collection<Integer> gameObjectIdsToRemove = new ArrayList<>();
     private EnemyWave currentWave = null;
     //fonts
     private Font digital7 = null;
@@ -52,19 +50,18 @@ public class GamePanel extends JPanel implements Runnable, KeyListener {
 
     //menu
     public enum STATE {
-        MENU, GAME
+        /**
+         * When your in the menu
+         */
+        MENU,
+        /**
+         * Game has started
+         */
+        GAME
     }
 
     private STATE state = STATE.MENU;
     private Menu menu = null;
-    private static final int RESUMEBUTTONRIGHT = 1024;
-    private static final int RESUMEBUTTONBOTTOM = 120;
-    private static final int NEWBUTTONRIGHT = 1024;
-    private static final int NEWBUTTONBOTTOM = 220;
-    private static final int PLAYERBUTTONRIGHT = 1024;
-    private static final int PLAYERBUTTONBOTTOM = 320;
-    private static final int QUITBUTTONRIGHT = 1024;
-    private static final int QUITBUTTONBOTTOM = 420;
     private static final int HEALTHPLAYERSTRINGPLACING = 16;
     private static final int GREENHPCONSTANT = 60;
     private static final int YELLOWHPCONSTANT = 30;
@@ -95,6 +92,7 @@ public class GamePanel extends JPanel implements Runnable, KeyListener {
         // create / add game components
 
         keyEventHandler = new KeyEventHandler(this);
+        mouseActionHandler = new MouseActionHandler(this);
         this.addKeyListener(this);
         addMouseListenerFn();
     }
@@ -114,47 +112,10 @@ public class GamePanel extends JPanel implements Runnable, KeyListener {
         }
     }
 
-    private void mouseAction(int x, int y) {
-        // x and y used to check where user has clicked
-        if (!gameOver) {
-            // actions only performed when game is not over
-            if (state == STATE.MENU) {
-                if (x > Menu.getResumebuttonleft() && x < RESUMEBUTTONRIGHT && y > RESUMEBUTTONBOTTOM &&
-                        y < Menu.getResumebuttontop()) { // resume button
-                    if (resumeGame) {
-                        state = STATE.GAME;
-                    }
-                } else if (x > Menu.getNewbuttonleft() && x < NEWBUTTONRIGHT && y > NEWBUTTONBOTTOM &&
-                        y < Menu.getNewbuttotop()) { // new game button
-                    resetGame();
-                    newGame = true;
-                    state = STATE.GAME;
-                } else if (x > Menu.getPlayerbuttonleft() && x < PLAYERBUTTONRIGHT && y > PLAYERBUTTONBOTTOM &&
-                        y < Menu.getPlayerbuttontop()) { // Player count button
-                    if (playerCount == 1) {
-                        playerCount = 2;
-                    } else {
-                        playerCount = 1;
-                    }
-                } else if (x > Menu.getQuitbuttonleft() && x < QUITBUTTONRIGHT && y > QUITBUTTONBOTTOM &&
-                        y < Menu.getQuitbuttontop()) { // quit game button
-                    stopGame();
-                } else if ((x > Menu.getSoundbuttonleft()) && (x < Menu.getSoundbuttonright()) &&
-                        (y > Menu.getSoundbuttontop()) && (y < Menu.getSoundbuttonbottom())) {
-                    if (soundEnabled) {
-                        soundEnabled = false;
-                    } else {
-                        soundEnabled = true;
-                    }
-                }
-            }
-        }
-    }
-
     private void addMouseListenerFn() {
         MouseListener mouseAdapter = new MouseAdapter() {
             public void mousePressed(MouseEvent e) {
-                mouseAction(e.getX(), e.getY());
+                mouseActionHandler.mouseAction(e.getX(), e.getY());
             }
         };
         addMouseListener(mouseAdapter);
@@ -265,23 +226,17 @@ public class GamePanel extends JPanel implements Runnable, KeyListener {
             // update game state ...
             keyEventHandler.handleKeyEvents(pressedKeys);
             moveBackgroundImages();
-            for (int i = 0; i < projectileList.size(); i++) {
-                projectileList.get(i).updateProjectile();
-            }
-            for (int i = 0; i < enemyList.size(); i++) {
-                enemyList.get(i).update();
-            }
-            for (int i = 0; i < powerUps.size(); i++) {
-                powerUps.get(i).update();
+            for (int i = 0; i < gameObjects.size(); i++) {
+                gameObjects.get(i).update(this);
             }
             if (currentWave != null) {
-                currentWave.handleWave(System.currentTimeMillis());
+                currentWave.handleWave(System.currentTimeMillis(), this);
             }
             collisionHandler.checkForCollisions(gameObjects);
             removeGameObjects(gameObjectIdsToRemove);
         }
         if (gameOver) {
-            Sound.playSoundYouLost();
+            Sound.playSoundYouLost(soundEnabled);
             JFrame frame = new JFrame("Save Highscore");
             String player1 = JOptionPane.showInputDialog(frame, "Please type in Player1 name");
             Highscore hs = new Highscore(scorePlayer1, player1);
@@ -316,29 +271,12 @@ public class GamePanel extends JPanel implements Runnable, KeyListener {
                 gameObjects.remove(i);
             }
         }
-        for (int i = 0; i < projectileList.size(); i++) {
-            if (gameObjectsIdsToRemove.contains(projectileList.get(i).getId())) {
-                projectileList.remove(i);
-            }
-        }
-        for (int i = 0; i < enemyList.size(); i++) {
-            if (gameObjectsIdsToRemove.contains(enemyList.get(i).getId())) {
-                enemyList.remove(i);
-            }
-        }
-        for (int i = 0; i < powerUps.size(); i++) {
-            if (gameObjectsIdsToRemove.contains(powerUps.get(i).getId())) {
-                powerUps.remove(i);
-            }
-        }
     }
 
-    private static void resetGame() {
+    public void resetGame() {
         scorePlayer1 = 0;
         scorePlayer2 = 0;
         gameObjects.clear();
-        projectileList.clear();
-        enemyList.clear();
         gameObjectIdsToRemove.clear();
         pressedKeys.clear();
         AbstractGameObject.setCounter(0);
@@ -457,39 +395,28 @@ public class GamePanel extends JPanel implements Runnable, KeyListener {
         }
     }
 
-    public static void addGameObjectIdToRemove(int id) {
+
+    public void addGameObjectIdToRemove(int id) {
         gameObjectIdsToRemove.add(id);
     }
 
-    public static void addScorePlayer1(int points) {
-        GamePanel.scorePlayer1 += points;
+    public void addScorePlayer1(int points) {
+        scorePlayer1 += points;
     }
 
     public void setGameOver(boolean gameOver) {
         this.gameOver = gameOver;
     }
 
-    public static void addScorePlayer2(int points) {
-        GamePanel.scorePlayer2 += points;
+    public void addScorePlayer2(int points) {
+        scorePlayer2 += points;
     }
 
-    public static void addToGameObjectsList(AbstractGameObject gameObject) {
+    public void addToGameObjectsList(AbstractGameObject gameObject) {
         gameObjects.add(gameObject);
     }
 
-    public static void addToProjectileList(Projectile projectile) {
-        projectileList.add(projectile);
-    }
-
-    public static void addToEnemyList(Enemy enemy) {
-        enemyList.add(enemy);
-    }
-
-    public static void addToPowerUps(PowerUp powerUp) {
-        powerUps.add(powerUp);
-    }
-
-    public static AbstractGameObject getGameObject(int i) {
+    public AbstractGameObject getGameObject(int i) {
         return gameObjects.get(i);
     }
 
@@ -505,8 +432,12 @@ public class GamePanel extends JPanel implements Runnable, KeyListener {
         return resumeGame;
     }
 
-    public static boolean isSoundEnabled() {
+    public boolean isSoundEnabled() {
         return soundEnabled;
+    }
+
+    public void setSoundEnabled(boolean soundEnabled) {
+        this.soundEnabled = soundEnabled;
     }
 
     public static Image getImgMenuBackground() {
@@ -549,7 +480,7 @@ public class GamePanel extends JPanel implements Runnable, KeyListener {
         return ENEMYMARGIN;
     }
 
-    public static int getPlayerCount() {
+    public int getPlayerCount() {
         return playerCount;
     }
 
@@ -559,5 +490,33 @@ public class GamePanel extends JPanel implements Runnable, KeyListener {
 
     public Font getMenuText() {
         return menuText;
+    }
+
+    public boolean isGameOver() {
+        return gameOver;
+    }
+
+    public void setNewGame(boolean newGame) {
+        this.newGame = newGame;
+    }
+
+    public void setPlayerCount(int playerCount) {
+        this.playerCount = playerCount;
+    }
+
+    public static int getJpwidth() {
+        return JPWIDTH;
+    }
+
+    public static int getJpheight() {
+        return JPHEIGHT;
+    }
+
+    public static Rectangle getGamefield() {
+        return GAMEFIELD;
+    }
+
+    public static Rectangle getEnemiesgamefield() {
+        return ENEMIESGAMEFIELD;
     }
 }

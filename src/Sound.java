@@ -20,8 +20,8 @@ public final class Sound {
     private Sound() {
     }
 
-    public static synchronized void play(final String soundToPlay) {
-        if (GamePanel.isSoundEnabled()) {
+    public static synchronized void play(final String soundToPlay, final boolean soundEnabled) {
+        if (soundEnabled) {
             new Thread(() -> { // to make the sound run alongside the game's thread
                 try {
                     Clip sound = AudioSystem.getClip();
@@ -35,39 +35,40 @@ public final class Sound {
         }
     }
 
-    public static void playSoundTakenHit() {
-        play(TAKENHIT);
+
+    public static void playSoundTakenHit(boolean soundEnabled) {
+        play(TAKENHIT, soundEnabled);
     }
 
-    public static void playSoundExplosion() {
-        Sound.play(EXPLOSION);
+    public static void playSoundExplosion(boolean soundEnabled) {
+        Sound.play(EXPLOSION, soundEnabled);
     }
 
-    public static void playSoundBlaster() {
-        Sound.play(BLASTER);
+    public static void playSoundBlaster(boolean soundEnabled) {
+        Sound.play(BLASTER, soundEnabled);
     }
 
-    public static void playSoundEnemyBlaster() {
-        Sound.play(ENEMYBLASTER);
+    public static void playSoundEnemyBlaster(boolean soundEnabled) {
+        Sound.play(ENEMYBLASTER, soundEnabled);
     }
 
-    public static void playSoundIndestructible() {
-        Sound.play(INDESTRUCTIBLE);
+    public static void playSoundIndestructible(boolean soundEnabled) {
+        Sound.play(INDESTRUCTIBLE, soundEnabled);
     }
 
-    public static void playSoundDoubleFirerate() {
-        Sound.play(DOUBLEFIRERATE);
+    public static void playSoundDoubleFirerate(boolean soundEnabled) {
+        Sound.play(DOUBLEFIRERATE, soundEnabled);
     }
 
-    public static void playSoundDoubleSpeed() {
-        Sound.play(DOUBLESPEED);
+    public static void playSoundDoubleSpeed(boolean soundEnabled) {
+        Sound.play(DOUBLESPEED, soundEnabled);
     }
 
-    public static void playSoundExtraHealth() {
-        Sound.play(EXTRAHEALTH);
+    public static void playSoundExtraHealth(boolean soundEnabled) {
+        Sound.play(EXTRAHEALTH, soundEnabled);
     }
 
-    public static void playSoundYouLost() {
-        Sound.play(YOULOST);
+    public static void playSoundYouLost(boolean soundEnabled) {
+        Sound.play(YOULOST, soundEnabled);
     }
 }

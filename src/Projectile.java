@@ -11,10 +11,10 @@ public class Projectile extends AbstractGameObject {
         this.setOwnerID(ownerID);
     }
 
-    public void updateProjectile() {
-        this.move(direction, speed);
-        if (!GamePanel.GAMEFIELD.contains(rectangle)) {
-            GamePanel.addGameObjectIdToRemove(this.getId());
+    public void update(GamePanel gamePanel) {
+        move(direction, speed, gamePanel);
+        if (!gamePanel.getGamefield().contains(rectangle)) {
+            gamePanel.addGameObjectIdToRemove(id);
         }
     }
 }

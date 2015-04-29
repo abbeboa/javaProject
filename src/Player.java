@@ -14,4 +14,6 @@ public class Player extends AbstractGameObject {
         }
         return 1;
     }
+
+    public void update(GamePanel gamePanel) {}
 }

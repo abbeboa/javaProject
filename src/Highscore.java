@@ -1,3 +1,6 @@
+/**
+ * Highscore object, contains names and scores
+ */
 public class Highscore {
 
     private final int score;

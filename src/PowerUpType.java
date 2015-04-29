@@ -2,5 +2,20 @@
  * Enum class for PowerUpTypes.
  */
 public enum PowerUpType {
-    DOUBLESPEED, INDESTRUCTIBLE, DOUBLEFIRERATE, EXTRAHEALTH
+    /**
+     * Player flies twice as fast
+     */
+    DOUBLESPEED,
+    /**
+     * Player becomes indestructible
+     */
+    INDESTRUCTIBLE,
+    /**
+     * Player fires projectiles twice as fast
+     */
+    DOUBLEFIRERATE,
+    /**
+     * Player gets extra health (HP)
+     */
+    EXTRAHEALTH
 }

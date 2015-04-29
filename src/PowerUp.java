@@ -8,6 +8,7 @@ public class PowerUp extends AbstractGameObject {
     private static final int IDLETIME = 10000;
     private static final int EFFECTIVETIME = 5000;
     private static final int DEFAULTEXTRAHEALTH = 50;
+    private boolean firstUpdate = true;
 
     private long expireTime;
     private PowerUpType powerUpType;
@@ -17,7 +18,6 @@ public class PowerUp extends AbstractGameObject {
         super(x, y, type);
         expireTime = System.currentTimeMillis() + IDLETIME;
         setPowerUpType();
-        this.updateRectangle((int) this.x, (int) this.y);
     }
 
     private void setPowerUpType() {
@@ -25,39 +25,46 @@ public class PowerUp extends AbstractGameObject {
         this.powerUpType = PowerUpType.values()[randomPowerUpType];
     }
 
-    public void update() {
+    public void update(GamePanel gamePanel) {
         if (expireTime > System.currentTimeMillis()) {
             if (!hasSetValues && isPickedUp()) {
-                setValues();
+                setValues(gamePanel);
                 expireTime = System.currentTimeMillis() + EFFECTIVETIME;
                 hasSetValues = true;
             }
         } else {
             if (hasSetValues) {
-                restoreValues();
+                restoreValues(gamePanel);
             }
-            GamePanel.addGameObjectIdToRemove(this.getId());
+            gamePanel.addGameObjectIdToRemove(id);
+        }
+        if (firstUpdate) {
+            Position randomPos = randomPosition(gamePanel);
+            x = randomPos.getX();
+            y = randomPos.getY();
+            updateRectangle((int) x, (int) y);
+            firstUpdate = false;
         }
     }
 
-    private void setValues() {
-        AbstractGameObject owner = GamePanel.getGameObject(this.getOwnerID());
+    private void setValues(GamePanel gamePanel) {
+        AbstractGameObject owner = gamePanel.getGameObject(ownerID);
         switch (powerUpType) {
             case DOUBLESPEED:
-                Sound.playSoundDoubleSpeed();
+                Sound.playSoundDoubleSpeed(gamePanel.isSoundEnabled());
                 owner.speed *= 2;
                 break;
             case INDESTRUCTIBLE:
-                Sound.playSoundIndestructible();
+                Sound.playSoundIndestructible(gamePanel.isSoundEnabled());
                 owner.indestructible = true;
                 owner.image = GamePanel.getImgPlayerIndestructible();
                 break;
             case DOUBLEFIRERATE:
-                Sound.playSoundDoubleFirerate();
+                Sound.playSoundDoubleFirerate(gamePanel.isSoundEnabled());
                 owner.setShootingDelay(owner.getShootingDelay() / 2);
                 break;
             case EXTRAHEALTH:
-                Sound.playSoundExtraHealth();
+                Sound.playSoundExtraHealth(gamePanel.isSoundEnabled());
                 owner.hp += DEFAULTEXTRAHEALTH;
                 if (owner.hp > PLAYERMAXIMUMHEALTH) {
                     owner.setHp(PLAYERMAXIMUMHEALTH);
@@ -68,8 +75,8 @@ public class PowerUp extends AbstractGameObject {
         }
     }
 
-    private void restoreValues() {
-        AbstractGameObject owner = GamePanel.getGameObject(this.getOwnerID());
+    private void restoreValues(GamePanel gamePanel) {
+        AbstractGameObject owner = gamePanel.getGameObject(ownerID);
         switch (powerUpType) {
             case DOUBLESPEED:
                 owner.speed /= 2;
@@ -94,6 +101,12 @@ public class PowerUp extends AbstractGameObject {
         } else {
             owner.image = GamePanel.getImgPlayer2();
         }
+    }
 
+    private Position randomPosition(GamePanel gamePanel) {
+        Random random = new Random();
+        int x = random.nextInt(gamePanel.getJpwidth() - image.getWidth());
+        int y = random.nextInt(GamePanel.getJpheight() - image.getHeight());
+        return new Position(x, y);
     }
 }

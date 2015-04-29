@@ -40,32 +40,31 @@ public class EnemyWave {
         }
     }
 
-    public void handleWave(long currentTime) {
+    public void handleWave(long currentTime, GamePanel gamePanel) {
         if (currentTime > waveStartTime + waveInterval) {
-            spawnPowerUp();
+            spawnPowerUp(gamePanel);
             n = 1;
             waveStartTime = currentTime;
             numberOfWaves--;
             changeDirection();
         }
-        spawnEnemies(enemiesPerWave);
+        spawnEnemies(enemiesPerWave, gamePanel);
         if (numberOfWaves <= 0) {
             waveNumber++;
             setVariables(waveNumber);
         }
     }
 
-    private void spawnEnemies(int enemyWavesLeft) {
+    private void spawnEnemies(int enemyWavesLeft, GamePanel gamePanel) {
         if (enemyWavesLeft > 0 && System.currentTimeMillis() > waveStartTime + spawnEnemiesInterval * n) {
             Enemy newEnemy;
             int enemyMargin = GamePanel.getEnemymargin();
             if (direction == Direction.RIGHT) {
                 newEnemy = new Enemy(0, -enemyMargin, Type.BASICENEMY, direction);
             } else {
-                newEnemy = new Enemy(GamePanel.JPWIDTH - enemyMargin, -enemyMargin, Type.BASICENEMY, direction);
+                newEnemy = new Enemy(gamePanel.getJpwidth() - enemyMargin, -enemyMargin, Type.BASICENEMY, direction);
             }
-            GamePanel.addToGameObjectsList(newEnemy);
-            GamePanel.addToEnemyList(newEnemy);
+            gamePanel.addToGameObjectsList(newEnemy);
             n++;
         }
     }
@@ -78,9 +77,10 @@ public class EnemyWave {
         }
     }
 
-    private void spawnPowerUp() {
-        PowerUp newPowerUp = new PowerUp(0, 0, Type.POWERUP);
-        GamePanel.addToGameObjectsList(newPowerUp);
-        GamePanel.addToPowerUps(newPowerUp);
+    private void spawnPowerUp(GamePanel gamePanel) {
+        // using -enemymargin as spawn-position, to spawn outside gamefield
+        // Updates to random position in PowerUp update method
+        PowerUp newPowerUp = new PowerUp(-GamePanel.getEnemymargin(), -GamePanel.getEnemymargin(), Type.POWERUP);
+        gamePanel.addToGameObjectsList(newPowerUp);
     }
 }

@@ -8,7 +8,7 @@ public class Menu {
     private static final int RESUMEBUTTONTOP = 170;
 
     private static final int NEWBUTTONLEFT = 768;
-    private static final int NEWBUTTOTOP = 270;
+    private static final int NEWBUTTONTOP = 270;
 
     private static final int PLAYERBUTTONLEFT = 768;
     private static final int PLAYERBUTTONTOP = 370;
@@ -39,7 +39,7 @@ public class Menu {
         Font headline = gamePanel.getHeadline();
         g.setFont(headline);
         g.setColor(Color.WHITE);
-        g.drawString("[Space Shooter]", GamePanel.JPWIDTH / 4, HEADLINEYPOS);
+        g.drawString("[Space Shooter]", gamePanel.getJpwidth() / 4, HEADLINEYPOS);
         Font text = gamePanel.getMenuText();
         g.setFont(text);
         if (s1 > 0) {
@@ -54,11 +54,11 @@ public class Menu {
             g.drawString("Resume", RESUMEBUTTONLEFT, RESUMEBUTTONTOP);
         }
 
-        g.drawString("New Game", NEWBUTTONLEFT, NEWBUTTOTOP);
-        g.drawString("Players: " + GamePanel.getPlayerCount(), PLAYERBUTTONLEFT, PLAYERBUTTONTOP);
+        g.drawString("New Game", NEWBUTTONLEFT, NEWBUTTONTOP);
+        g.drawString("Players: " + gamePanel.getPlayerCount(), PLAYERBUTTONLEFT, PLAYERBUTTONTOP);
         g.drawString("Quit Game", QUITBUTTONLEFT, QUITBUTTONTOP);
 
-        if (!GamePanel.isSoundEnabled()) {
+        if (!gamePanel.isSoundEnabled()) {
             g.setColor(Color.RED);
             g.setStroke(new BasicStroke(3));
             g.drawLine(SOUNDBUTTONRIGHT, SOUNDBUTTONBOTTOM, SOUNDBUTTONLEFT, SOUNDBUTTONTOP);
@@ -77,8 +77,8 @@ public class Menu {
         return NEWBUTTONLEFT;
     }
 
-    public static int getNewbuttotop() {
-        return NEWBUTTOTOP;
+    public static int getNewbuttontop() {
+        return NEWBUTTONTOP;
     }
 
     public static int getPlayerbuttonleft() {
