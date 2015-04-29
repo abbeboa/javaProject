@@ -116,6 +116,7 @@ public class GamePanel extends JPanel implements Runnable, KeyListener {
     private void addMouseListenerFn() {
         MouseListener mouseAdapter = new MouseAdapter() {
             public void mousePressed(MouseEvent e) {
+                super.mousePressed(e);
                 mouseActionHandler.mouseAction(e.getX(), e.getY());
             }
         };
@@ -198,7 +199,10 @@ public class GamePanel extends JPanel implements Runnable, KeyListener {
                 sleepTime = 5; // a little bit of sleep is always needed
             }
             try {
-                Thread.sleep(sleepTime); // frees the CPU to perform other tasks
+                //noinspection BusyWait
+                Thread.sleep(sleepTime);
+                // frees the CPU to perform other tasks. Needed to make the game run at 100fps
+                // (100 updates and 100 redraws per second). This sleep makes each game-update the same timelength.
             } catch (InterruptedException ignored) {
             }
 

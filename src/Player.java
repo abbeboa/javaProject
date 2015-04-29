@@ -7,13 +7,14 @@ public class Player extends AbstractGameObject {
         super(x, y, type);
     }
 
-    @Override
     public int getOwnerID() {
+        super.getOwnerID();
         if (type == Type.PLAYER1) {
             return 0;
         }
         return 1;
     }
 
-    public void update(GamePanel gamePanel) {}
+    public void update(GamePanel gamePanel) {
+    }
 }

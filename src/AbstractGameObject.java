@@ -179,7 +179,9 @@ public abstract class AbstractGameObject {
         }
     }
 
-    public int getOwnerID() { return ownerID; }
+    public int getOwnerID() {
+        return ownerID;
+    }
 
     public double getSpeed() {
         return speed;

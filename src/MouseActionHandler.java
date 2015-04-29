@@ -26,7 +26,7 @@ public class MouseActionHandler {
                     if (gamePanel.isResumeGame()) {
                         gamePanel.setStateGame();
                     }
-                } else if (x > Menu.getNewbuttonleft() && x <NEWBUTTONRIGHT && y > NEWBUTTONBOTTOM &&
+                } else if (x > Menu.getNewbuttonleft() && x < NEWBUTTONRIGHT && y > NEWBUTTONBOTTOM &&
                         y < Menu.getNewbuttontop()) { // new game button
                     gamePanel.resetGame();
                     gamePanel.setNewGame(true);
