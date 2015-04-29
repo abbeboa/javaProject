@@ -55,7 +55,7 @@ public class GamePanel extends JPanel implements Runnable, KeyListener {
         MENU, GAME
     }
 
-    private static STATE state = STATE.MENU;
+    private STATE state = STATE.MENU;
     private Menu menu = null;
     private static final int RESUMEBUTTONRIGHT = 1024;
     private static final int RESUMEBUTTONBOTTOM = 120;
@@ -493,11 +493,11 @@ public class GamePanel extends JPanel implements Runnable, KeyListener {
         return gameObjects.get(i);
     }
 
-    public static boolean checkStateEqualsGame() {
+    public boolean checkStateEqualsGame() {
         return state == STATE.GAME;
     }
 
-    public static boolean checkStateEqualsMenu() {
+    public boolean checkStateEqualsMenu() {
         return state == STATE.MENU;
     }
 
@@ -537,12 +537,12 @@ public class GamePanel extends JPanel implements Runnable, KeyListener {
         this.gameRunning = gameRunning;
     }
 
-    public static void setStateMenu() {
-        GamePanel.state = STATE.MENU;
+    public void setStateMenu() {
+        state = STATE.MENU;
     }
 
-    public static void setStateGame() {
-        GamePanel.state = STATE.GAME;
+    public void setStateGame() {
+        state = STATE.GAME;
     }
 
     public static int getEnemymargin() {

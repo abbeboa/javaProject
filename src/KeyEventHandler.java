@@ -25,15 +25,15 @@ public class KeyEventHandler {
                 gamePanel.setGameRunning(false);
             }
             if (keyCode == KeyEvent.VK_P) {
-                GamePanel.setStateMenu();
+                gamePanel.setStateMenu();
             }
-            if (GamePanel.checkStateEqualsGame()) {
+            if (gamePanel.checkStateEqualsGame()) {
                 checkPlayerOneKeyCodes(keyCode, player1);
                 if (GamePanel.getPlayerCount() > 1) {
                     checkPlayerTwoKeyCodes(keyCode);
-                } else if (GamePanel.checkStateEqualsMenu()) {
+                } else if (gamePanel.checkStateEqualsMenu()) {
                     if (keyCode == KeyEvent.VK_P) {
-                        GamePanel.setStateGame();
+                        gamePanel.setStateGame();
                     }
                 }
             }
