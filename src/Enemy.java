@@ -6,6 +6,7 @@ import java.util.Random;
  */
 public class Enemy extends AbstractGameObject {
 
+    private static final double DIVIDEBYTWODOUBLE = 2.0;
     private Random rnd = new Random();
     private int timer = 0;
     private Direction direction;
@@ -16,7 +17,7 @@ public class Enemy extends AbstractGameObject {
     }
 
     public void update(GamePanel gamePanel) {
-        if (!gamePanel.getEnemiesgamefield().contains(rectangle)) {
+        if (!GamePanel.getEnemiesgamefield().contains(rectangle)) {
             gamePanel.addGameObjectIdToRemove(id);
             gamePanel.addScorePlayer1(-100);
             if (gamePanel.getPlayerCount() > 1) {
@@ -24,17 +25,17 @@ public class Enemy extends AbstractGameObject {
             }
 
         }
-        if (x < 0 || x > (gamePanel.getJpwidth() - image.getWidth())) {
+        if (x < 0 || x > (GamePanel.getJpwidth() - image.getWidth())) {
             changeDirection();
         }
         if (direction == Direction.RIGHT) {
-            move(Direction.RIGHT, (speed * 2), gamePanel);
+            move(Direction.RIGHT, (speed * 2));
         } else {
-            move(Direction.LEFT, (speed * 2), gamePanel);
+            move(Direction.LEFT, (speed * 2));
         }
 
         if (type == Type.BASICENEMY) {
-            move(Direction.DOWN, (speed / 2.0), gamePanel);
+            move(Direction.DOWN, (speed / DIVIDEBYTWODOUBLE));
             int timeToShoot = rnd.nextInt(3);
             if (timer <= 0 && timeToShoot == 0) {
                 Sound.playSoundEnemyBlaster(gamePanel.isSoundEnabled());

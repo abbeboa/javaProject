@@ -39,7 +39,7 @@ public class Menu {
         Font headline = gamePanel.getHeadline();
         g.setFont(headline);
         g.setColor(Color.WHITE);
-        g.drawString("[Space Shooter]", gamePanel.getJpwidth() / 4, HEADLINEYPOS);
+        g.drawString("[Space Shooter]", GamePanel.getJpwidth() / 4, HEADLINEYPOS);
         Font text = gamePanel.getMenuText();
         g.setFont(text);
         if (s1 > 0) {

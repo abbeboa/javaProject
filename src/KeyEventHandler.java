@@ -45,23 +45,23 @@ public class KeyEventHandler {
 
     private void checkPlayerOneKeyCodes(int keyCode, AbstractGameObject player1) {
         if (keyCode == KeyEvent.VK_LEFT) {
-            if (gamePanel.getGamefield().contains(player1.getRectangle())) {
-                player1.move(Direction.LEFT, player1.getSpeed(), gamePanel);
+            if (GamePanel.getGamefield().contains(player1.getRectangle())) {
+                player1.move(Direction.LEFT, player1.getSpeed());
             }
         }
         if (keyCode == KeyEvent.VK_RIGHT) {
             if (GamePanel.getGamefield().contains(player1.getRectangle())) {
-                player1.move(Direction.RIGHT, player1.getSpeed(), gamePanel);
+                player1.move(Direction.RIGHT, player1.getSpeed());
             }
         }
         if (keyCode == KeyEvent.VK_UP) {
             if (GamePanel.getGamefield().contains(player1.getRectangle())) {
-                player1.move(Direction.UP, player1.getSpeed(), gamePanel);
+                player1.move(Direction.UP, player1.getSpeed());
             }
         }
         if (keyCode == KeyEvent.VK_DOWN) {
             if (GamePanel.getGamefield().contains(player1.getRectangle())) {
-                player1.move(Direction.DOWN, player1.getSpeed(), gamePanel);
+                player1.move(Direction.DOWN, player1.getSpeed());
             }
         }
         if (keyCode == KeyEvent.VK_SPACE) {
@@ -77,23 +77,23 @@ public class KeyEventHandler {
     private void checkPlayerTwoKeyCodes(int keyCode) {
         AbstractGameObject player2 = gamePanel.getGameObject(1);
         if (keyCode == KeyEvent.VK_A) {
-            if (gamePanel.getGamefield().contains(player2.getRectangle())) {
-                player2.move(Direction.LEFT, player2.getSpeed(), gamePanel);
+            if (GamePanel.getGamefield().contains(player2.getRectangle())) {
+                player2.move(Direction.LEFT, player2.getSpeed());
             }
         }
         if (keyCode == KeyEvent.VK_D) {
-            if (gamePanel.getGamefield().contains(player2.getRectangle())) {
-                player2.move(Direction.RIGHT, player2.getSpeed(), gamePanel);
+            if (GamePanel.getGamefield().contains(player2.getRectangle())) {
+                player2.move(Direction.RIGHT, player2.getSpeed());
             }
         }
         if (keyCode == KeyEvent.VK_W) {
-            if (gamePanel.getGamefield().contains(player2.getRectangle())) {
-                player2.move(Direction.UP, player2.getSpeed(), gamePanel);
+            if (GamePanel.getGamefield().contains(player2.getRectangle())) {
+                player2.move(Direction.UP, player2.getSpeed());
             }
         }
         if (keyCode == KeyEvent.VK_S) {
-            if (gamePanel.getGamefield().contains(player2.getRectangle())) {
-                player2.move(Direction.DOWN, player2.getSpeed(), gamePanel);
+            if (GamePanel.getGamefield().contains(player2.getRectangle())) {
+                player2.move(Direction.DOWN, player2.getSpeed());
             }
         }
         if (keyCode == KeyEvent.VK_CONTROL) {

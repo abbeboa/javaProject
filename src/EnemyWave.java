@@ -62,7 +62,7 @@ public class EnemyWave {
             if (direction == Direction.RIGHT) {
                 newEnemy = new Enemy(0, -enemyMargin, Type.BASICENEMY, direction);
             } else {
-                newEnemy = new Enemy(gamePanel.getJpwidth() - enemyMargin, -enemyMargin, Type.BASICENEMY, direction);
+                newEnemy = new Enemy(GamePanel.getJpwidth() - enemyMargin, -enemyMargin, Type.BASICENEMY, direction);
             }
             gamePanel.addToGameObjectsList(newEnemy);
             n++;

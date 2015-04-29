@@ -12,8 +12,8 @@ public class Projectile extends AbstractGameObject {
     }
 
     public void update(GamePanel gamePanel) {
-        move(direction, speed, gamePanel);
-        if (!gamePanel.getGamefield().contains(rectangle)) {
+        move(direction, speed);
+        if (!GamePanel.getGamefield().contains(rectangle)) {
             gamePanel.addGameObjectIdToRemove(id);
         }
     }

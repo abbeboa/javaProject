@@ -22,6 +22,7 @@ public class GamePanel extends JPanel implements Runnable, KeyListener {
     private static final int ENEMYMARGIN = 50;
     private static final Rectangle ENEMIESGAMEFIELD =
             new Rectangle(-ENEMYMARGIN, -ENEMYMARGIN, JPWIDTH + (ENEMYMARGIN * 2), JPHEIGHT + (ENEMYMARGIN * 2));
+    private static final double DIVIDEBYTWODOUBLE = 2.0;
     private static Color bgColor = Color.BLACK;
     private Thread graphicsThread = null;
     private boolean gameRunning = false;
@@ -160,13 +161,13 @@ public class GamePanel extends JPanel implements Runnable, KeyListener {
     }
 
     private void createPlayer1() {
-        double playerStartPosX = JPWIDTH / 2.0 - (imgPlayer1.getWidth() / 2.0);
+        double playerStartPosX = JPWIDTH / DIVIDEBYTWODOUBLE - (imgPlayer1.getWidth() / DIVIDEBYTWODOUBLE);
         double playerStartPosY = JPHEIGHT - imgPlayer1.getHeight();
         gameObjects.add(new Player(playerStartPosX, playerStartPosY, Type.PLAYER1));
     }
 
     private void createPlayer2() {
-        double playerStartPosX = JPWIDTH / 2.0 - (imgPlayer1.getWidth() / 2.0);
+        double playerStartPosX = JPWIDTH / DIVIDEBYTWODOUBLE - (imgPlayer1.getWidth() / DIVIDEBYTWODOUBLE);
         double playerStartPosY = JPHEIGHT - imgPlayer1.getHeight();
         gameObjects.add(new Player(playerStartPosX / 2, playerStartPosY, Type.PLAYER2));
     }

@@ -39,7 +39,7 @@ public class PowerUp extends AbstractGameObject {
             gamePanel.addGameObjectIdToRemove(id);
         }
         if (firstUpdate) {
-            Position randomPos = randomPosition(gamePanel);
+            Position randomPos = randomPosition();
             x = randomPos.getX();
             y = randomPos.getY();
             updateRectangle((int) x, (int) y);
@@ -103,9 +103,9 @@ public class PowerUp extends AbstractGameObject {
         }
     }
 
-    private Position randomPosition(GamePanel gamePanel) {
+    private Position randomPosition() {
         Random random = new Random();
-        int x = random.nextInt(gamePanel.getJpwidth() - image.getWidth());
+        int x = random.nextInt(GamePanel.getJpwidth() - image.getWidth());
         int y = random.nextInt(GamePanel.getJpheight() - image.getHeight());
         return new Position(x, y);
     }

@@ -1,7 +1,6 @@
 import java.awt.*;
 import java.awt.image.BufferedImage;
 import java.awt.image.ImageObserver;
-import java.util.Random;
 
 /**
  * Superclass for all gameobjects. Subclasses: Player, Enemy, PowerUp, Projectile.
@@ -20,6 +19,7 @@ public abstract class AbstractGameObject {
     private static final int BASICENEMYDEFAULTHP = 1;
     private static final int BASICENEMYDEFAULTDAMAGE = 40;
     private static final int BASICENEMYDEFAULTSHOOTINGDELAY = 60;
+    private static final double DIVIDEBYTWODOUBLE = 2.0;
 
     protected double x, y, speed;
     protected int hp;
@@ -106,7 +106,7 @@ public abstract class AbstractGameObject {
         }
     }
 
-    public void move(Direction direction, double speed, GamePanel gamePanel) {
+    public void move(Direction direction, double speed) {
         double newX = x;
         double newY = y;
         switch (direction) {
@@ -127,7 +127,7 @@ public abstract class AbstractGameObject {
         }
         if (this.type == Type.PLAYER1) {
             Rectangle testRectangle = new Rectangle((int) newX, (int) newY, image.getWidth(), image.getHeight());
-            if (gamePanel.getGamefield().contains(testRectangle)) {
+            if (GamePanel.getGamefield().contains(testRectangle)) {
                 x = newX;
                 y = newY;
             }
@@ -153,8 +153,8 @@ public abstract class AbstractGameObject {
         double posY;
         int playerWidth = image.getWidth();
         int playerHeight = image.getHeight();
-        double halfPlayerWidth = playerWidth / 2.0;
-        double halfPlayerHeight = playerHeight / 2.0;
+        double halfPlayerWidth = playerWidth / DIVIDEBYTWODOUBLE;
+        double halfPlayerHeight = playerHeight / DIVIDEBYTWODOUBLE;
         switch (direction) {
             case UP:
                 posX = x + halfPlayerWidth;
