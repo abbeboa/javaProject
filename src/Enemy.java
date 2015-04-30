@@ -7,6 +7,7 @@ import java.util.Random;
 public class Enemy extends AbstractGameObject {
 
     private static final double DIVIDEBYTWODOUBLE = 2.0;
+    private static final double MOVEMENTPATTERN1CONSTANT = 5000;
     private Random rnd = new Random();
     private int timer = 0;
     private Direction direction;
@@ -60,7 +61,7 @@ public class Enemy extends AbstractGameObject {
 
     private void movementPattern1() {
         x -= speed;
-        y += Math.sin(Math.toDegrees(x / 5000));
+        y += Math.sin(Math.toDegrees(x / MOVEMENTPATTERN1CONSTANT));
         updateRectangle((int) x, (int) y);
     }
 

@@ -24,7 +24,9 @@ public final class Sound {
         if (soundEnabled) {
             new Thread(() -> { // to make the sound run alongside the game's thread
                 try {
-                    Clip sound = AudioSystem.getClip();
+                    @SuppressWarnings("resource") Clip sound = AudioSystem.getClip();
+                    // "The Clip plays back on a separate thread so you can't use try-with-resources."
+                    // http://stackoverflow.com/questions/25564980/java-use-a-clip-and-a-try-with-resources-block-which-results-with-no-sound
                     AudioInputStream input = AudioSystem.getAudioInputStream(new File(soundToPlay));
                     sound.open(input);
                     sound.start();
