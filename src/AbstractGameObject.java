@@ -183,6 +183,14 @@ public abstract class AbstractGameObject {
         return ownerID;
     }
 
+    public double getX() {
+        return x;
+    }
+
+    public double getY() {
+        return y;
+    }
+
     public double getSpeed() {
         return speed;
     }

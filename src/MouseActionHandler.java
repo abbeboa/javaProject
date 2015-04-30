@@ -1,5 +1,5 @@
 /**
- * Created by Christian on 2015-04-29.
+ * Handles mousepresses in the menu and performs actions accordingly
  */
 public class MouseActionHandler {
     private GamePanel gamePanel;
