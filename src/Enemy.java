@@ -10,10 +10,12 @@ public class Enemy extends AbstractGameObject {
     private Random rnd = new Random();
     private int timer = 0;
     private Direction direction;
+    private int movementPattern;
 
-    public Enemy(final double x, final double y, final Type type, Direction direction) {
+    public Enemy(final double x, final double y, final Type type, final Direction direction, final int movementPattern) {
         super(x, y, type);
         this.direction = direction;
+        this.movementPattern = movementPattern;
     }
 
     public void update(GamePanel gamePanel) {
@@ -23,19 +25,8 @@ public class Enemy extends AbstractGameObject {
             if (gamePanel.getPlayerCount() > 1) {
                 gamePanel.addScorePlayer2(-100);
             }
-
         }
-        if (x < 0 || x > (GamePanel.getJpwidth() - image.getWidth())) {
-            changeDirection();
-        }
-        if (direction == Direction.RIGHT) {
-            move(Direction.RIGHT, (speed * 2));
-        } else {
-            move(Direction.LEFT, (speed * 2));
-        }
-
         if (type == Type.BASICENEMY) {
-            move(Direction.DOWN, (speed / DIVIDEBYTWODOUBLE));
             int timeToShoot = rnd.nextInt(3);
             if (timer <= 0 && timeToShoot == 0) {
                 Sound.playSoundEnemyBlaster(gamePanel.isSoundEnabled());
@@ -46,7 +37,31 @@ public class Enemy extends AbstractGameObject {
                 timer--;
             }
         }
+        if (movementPattern == 0) {
+            movementPattern0();
+        } else if (movementPattern == 1) {
+            movementPattern1();
+        } else {
+            move(Direction.DOWN, (speed / DIVIDEBYTWODOUBLE));
+        }
+    }
 
+    private void movementPattern0() {
+        if (x < 0 || x > (GamePanel.getJpwidth() - image.getWidth())) {
+            changeDirection();
+        }
+        if (direction == Direction.RIGHT) {
+            move(Direction.RIGHT, (speed * 2));
+        } else {
+            move(Direction.LEFT, (speed * 2));
+        }
+        move(Direction.DOWN, (speed / DIVIDEBYTWODOUBLE));
+    }
+
+    private void movementPattern1() {
+        x -= speed;
+        y += Math.sin(Math.toDegrees(x / 5000));
+        updateRectangle((int) x, (int) y);
     }
 
     public void changeDirection() {

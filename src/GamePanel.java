@@ -174,7 +174,7 @@ public class GamePanel extends JPanel implements Runnable, KeyListener {
     }
 
     private void createWave() {
-        currentWave = new EnemyWave(1);
+        currentWave = new EnemyWave();
     }
 
     public void run() {
