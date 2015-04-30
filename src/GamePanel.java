@@ -42,7 +42,9 @@ public class GamePanel extends JPanel implements Runnable, KeyListener {
     private Graphics dbg = null;
     private Image dbImage = null;
     private List<AbstractGameObject> gameObjects = new ArrayList<>();
+    private List<VisualEffect> visualEffects = new ArrayList<>();
     private Collection<Integer> gameObjectIdsToRemove = new ArrayList<>();
+    private Collection<Integer> visualEffectsIdsToRemove = new ArrayList<>();
     private EnemyWave currentWave = null;
     //fonts
     private Font digital7 = null;
@@ -52,7 +54,7 @@ public class GamePanel extends JPanel implements Runnable, KeyListener {
     //menu
     public enum STATE {
         /**
-         * When your in the menu
+         * When you're in the menu
          */
         MENU,
         /**
@@ -76,6 +78,7 @@ public class GamePanel extends JPanel implements Runnable, KeyListener {
     private static BufferedImage imgBullet = null;
     private static BufferedImage imgBasicEnemy = null;
     private static BufferedImage imgPlayerIndestructible = null;
+    private static BufferedImage imgExplosion = null;
     private static Image imgMenuBackground = null;
 
     private int backgroundImageY1 = -JPHEIGHT;
@@ -108,6 +111,7 @@ public class GamePanel extends JPanel implements Runnable, KeyListener {
             imgBasicEnemy = ImageIO.read(new File(imageFolderAddress + "basicEnemy.png"));
             imgBullet = ImageIO.read(new File(imageFolderAddress + "bullet.png"));
             imgPlayerIndestructible = ImageIO.read(new File(imageFolderAddress + "playerindestructible.png"));
+            imgExplosion = ImageIO.read(new File(imageFolderAddress + "explosion.png"));
         } catch (IOException e) {
             e.printStackTrace();
         }
@@ -234,11 +238,15 @@ public class GamePanel extends JPanel implements Runnable, KeyListener {
             for (int i = 0; i < gameObjects.size(); i++) {
                 gameObjects.get(i).update(this);
             }
+            for (int i = 0; i < visualEffects.size(); i++) {
+                visualEffects.get(i).update(this);
+            }
             if (currentWave != null) {
                 currentWave.handleWave(System.currentTimeMillis(), this);
             }
             collisionHandler.checkForCollisions(gameObjects);
             removeGameObjects(gameObjectIdsToRemove);
+            removeVisualEffects(visualEffectsIdsToRemove);
         }
         if (gameOver) {
             Sound.playSoundYouLost(soundEnabled);
@@ -266,7 +274,6 @@ public class GamePanel extends JPanel implements Runnable, KeyListener {
                 System.exit(0);
             }
         }
-
         // more methods
     }
 
@@ -274,6 +281,14 @@ public class GamePanel extends JPanel implements Runnable, KeyListener {
         for (int i = 0; i < gameObjects.size(); i++) {
             if (gameObjectsIdsToRemove.contains(gameObjects.get(i).getId())) {
                 gameObjects.remove(i);
+            }
+        }
+    }
+
+    private void removeVisualEffects(Collection<Integer> visualEffectsIdsToRemove) {
+        for (int i = 0; i < visualEffects.size(); i++) {
+            if (visualEffectsIdsToRemove.contains(visualEffects.get(i).getId())) {
+                visualEffects.remove(i);
             }
         }
     }
@@ -313,6 +328,11 @@ public class GamePanel extends JPanel implements Runnable, KeyListener {
         if (state == STATE.GAME) {
             for (int i = 0; i < gameObjects.size(); i++) {
                 gameObjects.get(i).drawGameObject(dbg, this);
+            }
+            for (int i = 0; i < visualEffects.size(); i++) {
+                visualEffects.get(i).drawVisualEffect(dbg, this);
+            }
+            if (!gameObjects.isEmpty()) {
                 drawPlayerStats(dbg);
             }
         } else if (state == STATE.MENU) {
@@ -363,8 +383,11 @@ public class GamePanel extends JPanel implements Runnable, KeyListener {
         g.drawString(scoreStringPlayer1, (JPWIDTH - JPWIDTH / 9), JPHEIGHT / 10);
         if (playerCount >= 2) {
             g.setColor(decideHealthColor(gameObjects.get(1).getHp()));
+            String scoreStringPlayer2 = "Score: " + scorePlayer2;
             String healthStringPlayer2 = "Health: " + gameObjects.get(1).getHp();
             g.drawString(healthStringPlayer2, (JPWIDTH / 9), JPHEIGHT / HEALTHPLAYERSTRINGPLACING);
+            g.setColor(Color.GREEN);
+            g.drawString(scoreStringPlayer2, (JPWIDTH / 9), JPHEIGHT / 10);
         }
     }
 
@@ -405,6 +428,10 @@ public class GamePanel extends JPanel implements Runnable, KeyListener {
         gameObjectIdsToRemove.add(id);
     }
 
+    public void addVisualEffectIdToRemove(int id) {
+        visualEffectsIdsToRemove.add(id);
+    }
+
     public void addScorePlayer1(int points) {
         scorePlayer1 += points;
     }
@@ -419,6 +446,10 @@ public class GamePanel extends JPanel implements Runnable, KeyListener {
 
     public void addToGameObjectsList(AbstractGameObject gameObject) {
         gameObjects.add(gameObject);
+    }
+
+    public void addToVisualEffects(VisualEffect visualEffect) {
+        visualEffects.add(visualEffect);
     }
 
     public AbstractGameObject getGameObject(int i) {
@@ -467,6 +498,10 @@ public class GamePanel extends JPanel implements Runnable, KeyListener {
 
     public static BufferedImage getImgPlayerIndestructible() {
         return imgPlayerIndestructible;
+    }
+
+    public static BufferedImage getImgExplosion() {
+        return imgExplosion;
     }
 
     public void setGameRunning(boolean gameRunning) {

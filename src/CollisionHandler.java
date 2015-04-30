@@ -117,6 +117,7 @@ public class CollisionHandler {
         if (objectA.hp <= 0) {
             switch (objectA.getGameObjectType()) {
                 case ENEMY:
+                    createExplosion(objectA.getX(), objectA.getY());
                     if (objectB.getOwnerID() == 0 || objectB.getId() == 0) {
                         gamePanel.addScorePlayer1(100);
                     } else if (objectB.getOwnerID() == 1 || objectA.getId() == 1) {
@@ -138,6 +139,12 @@ public class CollisionHandler {
                     System.out.println("CollisionHandler CHECKIFDEAD fault");
             }
         }
+    }
+
+    private void createExplosion(double x, double y) {
+        VisualEffect newExplosion = new VisualEffect(x, y, VisualEffectType.EXPLOSION);
+        gamePanel.addToVisualEffects(newExplosion);
+
     }
 
 }
