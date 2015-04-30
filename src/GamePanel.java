@@ -79,6 +79,7 @@ public class GamePanel extends JPanel implements Runnable, KeyListener {
     private static BufferedImage imgBasicEnemy = null;
     private static BufferedImage imgPlayerIndestructible = null;
     private static BufferedImage imgExplosion = null;
+    private static BufferedImage imgPowerUp = null;
     private static Image imgMenuBackground = null;
 
     private int backgroundImageY1 = -JPHEIGHT;
@@ -112,6 +113,7 @@ public class GamePanel extends JPanel implements Runnable, KeyListener {
             imgBullet = ImageIO.read(new File(imageFolderAddress + "bullet.png"));
             imgPlayerIndestructible = ImageIO.read(new File(imageFolderAddress + "playerindestructible.png"));
             imgExplosion = ImageIO.read(new File(imageFolderAddress + "explosion.png"));
+            imgPowerUp = ImageIO.read(new File(imageFolderAddress + "powerup.png"));
         } catch (IOException e) {
             e.printStackTrace();
         }
@@ -502,6 +504,10 @@ public class GamePanel extends JPanel implements Runnable, KeyListener {
 
     public static BufferedImage getImgExplosion() {
         return imgExplosion;
+    }
+
+    public static BufferedImage getImgPowerUp() {
+        return imgPowerUp;
     }
 
     public void setGameRunning(boolean gameRunning) {

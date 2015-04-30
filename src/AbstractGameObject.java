@@ -96,7 +96,7 @@ public abstract class AbstractGameObject {
                 this.shootingDelay = BASICENEMYDEFAULTSHOOTINGDELAY;
                 break;
             case POWERUP:
-                this.image = GamePanel.getImgBasicEnemy();
+                this.image = GamePanel.getImgPowerUp();
                 this.indestructible = true;
                 this.gameObjectType = GameObjectType.POWERUP;
                 this.pickedUp = false;
