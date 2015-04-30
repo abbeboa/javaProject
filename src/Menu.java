@@ -42,11 +42,8 @@ public class Menu {
         g.drawString("[Space Shooter]", GamePanel.getJpwidth() / 4, HEADLINEYPOS);
         Font text = gamePanel.getMenuText();
         g.setFont(text);
-        if (s1 > 0) {
-            g.drawString("Player1 score: " + s1, PLAYER1SCOREPOSX, PLAYER1SCOREPOSY);
-        }
-
-        if (s2 > 0) {
+        g.drawString("Player1 score: " + s1, PLAYER1SCOREPOSX, PLAYER1SCOREPOSY);
+        if (gamePanel.getPlayerCount() > 1) {
             g.drawString("Player2 score: " + s2, PLAYER2SCOREPOSX, PLAYER2SCOREPOSY);
         }
 
