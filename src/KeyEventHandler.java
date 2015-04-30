@@ -9,6 +9,7 @@ import java.util.List;
 public class KeyEventHandler {
     private GamePanel gamePanel;
     private int shootingDelayCounter = 0;
+    private int shootingDelayCounterPlayer2 = 0;
 
     public KeyEventHandler(GamePanel gamePanel) {
         this.gamePanel = gamePanel;
@@ -40,6 +41,9 @@ public class KeyEventHandler {
         }
         if (shootingDelayCounter >= 0) {
             shootingDelayCounter -= 1;
+        }
+        if (shootingDelayCounterPlayer2 >= 0) {
+            shootingDelayCounterPlayer2 -= 1;
         }
     }
 
@@ -97,11 +101,11 @@ public class KeyEventHandler {
             }
         }
         if (keyCode == KeyEvent.VK_CONTROL) {
-            if (shootingDelayCounter <= 0) {
+            if (shootingDelayCounterPlayer2 <= 0) {
                 Sound.playSoundBlaster(gamePanel.isSoundEnabled());
                 player2.shoot(Type.BULLET, Direction.UP, gamePanel);
-                int currentShootingDelay2 = player2.getShootingDelay();
-                shootingDelayCounter += currentShootingDelay2;
+                int currentShootingDelay = player2.getShootingDelay();
+                shootingDelayCounterPlayer2 += currentShootingDelay;
             }
         }
     }

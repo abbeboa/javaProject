@@ -125,7 +125,7 @@ public abstract class AbstractGameObject {
             default:
                 break;
         }
-        if (this.type == Type.PLAYER1) {
+        if (this.gameObjectType == gameObjectType.PLAYER) {
             Rectangle testRectangle = new Rectangle((int) newX, (int) newY, image.getWidth(), image.getHeight());
             if (GamePanel.getGamefield().contains(testRectangle)) {
                 x = newX;
