@@ -1,0 +1,14 @@
+1. Menyn:
+Ville fixa så att man kunde klicka på olika knappar i menyn.
+
+Lösningen blev att använda oss utav vår mouseActionHandler som känner av exakt var på skärmen man klickar och sedan göra osynliga fyrkanter genom att först rita utrektanglar på den
+position vi ville ha och sedan använda rektanglarnas x och y värden. Efter vi hade lagt ut fyrkanterna ritade vi ut text "inuti" fyrkanterna mha drawString och sedan tog vi bort rektanglarna.
+
+Första tanken var att enbart göra rektanglar och rita ut de i samma färg som bakgrunden och sedan göra en ny funktion som känner av om man klickar på de.
+
+Lösningen som vi använda oss av resulterade i att det blev lite mindre kod men också att
+det blev jobbigare att göra nya knappar i efterhand eftersom det inte går att grafiskt se
+var "knapparna" är. Likaså när vi bytte font och texten ändrade storlek.
+
+
+2.
