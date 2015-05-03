@@ -1,0 +1,36 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<Diagram>
+  <ID>JAVA</ID>
+  <OriginalElement>se.liu.ida.albpe868.tddd78.javaproject.Direction</OriginalElement>
+  <nodes>
+    <node x="60.0" y="156.0">se.liu.ida.albpe868.tddd78.javaproject.Direction</node>
+    <node x="68.0" y="78.0">java.lang.Enum</node>
+    <node x="107.0" y="0.0">java.lang.Comparable</node>
+    <node x="0.0" y="0.0">java.io.Serializable</node>
+  </nodes>
+  <notes />
+  <edges>
+    <edge source="se.liu.ida.albpe868.tddd78.javaproject.Direction" target="java.lang.Enum">
+      <point x="0.0" y="-14.0" />
+      <point x="0.0" y="14.0" />
+    </edge>
+    <edge source="java.lang.Enum" target="java.io.Serializable">
+      <point x="-15.0" y="-14.0" />
+      <point x="83.0" y="53.0" />
+      <point x="43.5" y="53.0" />
+      <point x="0.0" y="14.0" />
+    </edge>
+    <edge source="java.lang.Enum" target="java.lang.Comparable">
+      <point x="15.0" y="-14.0" />
+      <point x="113.0" y="53.0" />
+      <point x="152.5" y="53.0" />
+      <point x="0.0" y="14.0" />
+    </edge>
+  </edges>
+  <settings layout="Hierarchic Group" zoom="1.0" x="99.0" y="92.0" />
+  <SelectedNodes />
+  <Categories />
+  <SCOPE>All</SCOPE>
+  <VISIBILITY>private</VISIBILITY>
+</Diagram>
+
