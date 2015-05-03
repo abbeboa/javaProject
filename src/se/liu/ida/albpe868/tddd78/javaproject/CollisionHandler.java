@@ -3,7 +3,7 @@ package se.liu.ida.albpe868.tddd78.javaproject;
 import java.util.List;
 
 /**
- * Collisionhandler is used in the GamePanel class. Collisionhandler iterates the gameObjects-list and checks for collisions
+ * CollisionHandler is used in the GamePanel class. CollisionHandler iterates the gameObjects-list and checks for collisions
  * using the rectangle.intersects-method. It also performs actions depending on the gameObject types.
  */
 public class CollisionHandler {
