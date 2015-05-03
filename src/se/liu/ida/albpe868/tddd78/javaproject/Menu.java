@@ -7,16 +7,16 @@ import java.awt.*;
  */
 public class Menu {
     private static final int RESUMEBUTTONLEFT = 768;
-    private static final int RESUMEBUTTONTOP = 170;
+    private static final int RESUMEBUTTONTOP = 150;
 
     private static final int NEWBUTTONLEFT = 768;
-    private static final int NEWBUTTONTOP = 270;
+    private static final int NEWBUTTONTOP = 250;
 
     private static final int PLAYERBUTTONLEFT = 768;
-    private static final int PLAYERBUTTONTOP = 370;
+    private static final int PLAYERBUTTONTOP = 350;
 
     private static final int QUITBUTTONLEFT = 768;
-    private static final int QUITBUTTONTOP = 470;
+    private static final int QUITBUTTONTOP = 450;
 
     private static final int SOUNDBUTTONLEFT = 1200;
     private static final int SOUNDBUTTONRIGHT = 1240;
