@@ -1,4 +1,4 @@
-1. Menyn:
+1. Menu:
 Ville fixa så att man kunde klicka på olika knappar i menyn.
 
 Lösningen blev att använda oss utav vår mouseActionHandler som känner av exakt var på skärmen man klickar och sedan göra osynliga fyrkanter genom att först rita ut rektanglar på den
@@ -20,3 +20,14 @@ Först hade vi tänkt implementera explosioner i AbstractGameObject och GameObje
 
 Skillnaden är att vi nu istället håller isär "fysiska" object på skärmen som kan påverka andra och rena effekter som bara består av en bild. På så sätt tycker vi att det är en tydligare
 struktur i koden. Det är även lätt att lägga till nya effekter nu om vi skulle vilja.
+
+3. Sound:
+Vi ville kunna spela upp flera ljud samtidigt som vi spelade spelet.
+
+Vår lösning blev att skapa klassen Sound och där spela upp varje ljud på en egen tråd så att de på så sätt aldrig väntar på varandra.
+
+Först gjorde vi en enkel funktion som kunde spela ljud och kallade på den när vi ville att ett ljud skulle spelas upp men då stannade själva spel-loopen under tiden ljudet spelades.
+
+Vår lösning funkar bra men vi misstänker att det finns något annat sätt att lösa det som eventuellt är effektivare men väljer att lägga vår tid på att fixa andra saker.
+
+4.
