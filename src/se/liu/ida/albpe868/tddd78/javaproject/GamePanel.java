@@ -38,6 +38,7 @@ public class GamePanel extends JPanel implements Runnable, KeyListener {
     private CollisionHandler collisionHandler = null;
     private KeyEventHandler keyEventHandler;
     private MouseActionHandler mouseActionHandler;
+    private HighscoreHandler highscoreHandler = null;
     //score
     private int scorePlayer1 = 0;
     private int scorePlayer2 = 0;
@@ -99,6 +100,7 @@ public class GamePanel extends JPanel implements Runnable, KeyListener {
 
         // create / add game components
 
+        highscoreHandler = new HighscoreHandler();
         keyEventHandler = new KeyEventHandler(this);
         mouseActionHandler = new MouseActionHandler(this);
         this.addKeyListener(this);
@@ -166,6 +168,8 @@ public class GamePanel extends JPanel implements Runnable, KeyListener {
             graphicsThread = new Thread(this);
             menu = new Menu(this);
             collisionHandler = new CollisionHandler(this);
+            highscoreHandler.readFile();
+            HighscoreList.printAllHighScores();
             graphicsThread.start();
         }
     }
@@ -223,6 +227,12 @@ public class GamePanel extends JPanel implements Runnable, KeyListener {
 
             startTime = System.currentTimeMillis();
         }
+        exitGame();
+    }
+
+    private void exitGame() {
+        highscoreHandler.writeToFile();
+        HighscoreList.printAllHighScores();
         System.exit(0); // exits JFrame
     }
 
@@ -266,8 +276,8 @@ public class GamePanel extends JPanel implements Runnable, KeyListener {
             Sound.playSoundYouLost(soundEnabled);
             JFrame frame = new JFrame("Save Highscore");
             String player1 = JOptionPane.showInputDialog(frame, "Please type in Player1 name");
-            Highscore hs = new Highscore(scorePlayer1, player1);
-            HighscoreList.addHighscore(hs);
+            Highscore highscore = new Highscore(scorePlayer1, player1);
+            HighscoreList.addHighscore(highscore);
 
             if (playerCount > 1) {
                 System.out.println("\n");
@@ -285,7 +295,7 @@ public class GamePanel extends JPanel implements Runnable, KeyListener {
                 state = STATE.MENU;
 
             } else {
-                System.exit(0);
+                exitGame();
             }
         }
         // more methods
