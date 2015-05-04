@@ -1,7 +1,7 @@
 1. Menyn:
 Ville fixa så att man kunde klicka på olika knappar i menyn.
 
-Lösningen blev att använda oss utav vår mouseActionHandler som känner av exakt var på skärmen man klickar och sedan göra osynliga fyrkanter genom att först rita utrektanglar på den
+Lösningen blev att använda oss utav vår mouseActionHandler som känner av exakt var på skärmen man klickar och sedan göra osynliga fyrkanter genom att först rita ut rektanglar på den
 position vi ville ha och sedan använda rektanglarnas x och y värden. Efter vi hade lagt ut fyrkanterna ritade vi ut text "inuti" fyrkanterna mha drawString och sedan tog vi bort rektanglarna.
 
 Första tanken var att enbart göra rektanglar och rita ut de i samma färg som bakgrunden och sedan göra en ny funktion som känner av om man klickar på de.
@@ -11,4 +11,12 @@ det blev jobbigare att göra nya knappar i efterhand eftersom det inte går att 
 var "knapparna" är. Likaså när vi bytte font och texten ändrade storlek.
 
 
-2.
+2. VisualEffects:
+Vi ville ha explosioner när fiender blir dödade.
+
+Lösningen blev att skapa två nya klasser, VisualEffectType och VisualEffect, liknande AbstractGameObject och GameObjectType.
+
+Först hade vi tänkt implementera explosioner i AbstractGameObject och GameObjectType vilket hade funkat lika bra tekniskt sett.
+
+Skillnaden är att vi nu istället håller isär "fysiska" object på skärmen som kan påverka andra och rena effekter som bara består av en bild. På så sätt tycker vi att det är en tydligare
+struktur i koden. Det är även lätt att lägga till nya effekter nu om vi skulle vilja.
