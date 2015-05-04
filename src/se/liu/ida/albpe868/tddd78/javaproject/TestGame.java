@@ -24,6 +24,6 @@ public class TestGame extends JFrame {
     }
 
     public static void main(String[] args) {
-        new TestGame();
+        new TestGame(); // Gives probable bugs inspection error, though this is correct
     }
 }

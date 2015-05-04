@@ -5,7 +5,8 @@ package se.liu.ida.albpe868.tddd78.javaproject;
  */
 public enum Direction {
     /**
-     * Upwards
+     * Upwards. Gives "Enumerated constant name 'UP' is too short.
+     * We keep it this way because UP is easier to read/understand than UPWARDS.
      */
     UP,
     /**
@@ -13,7 +14,7 @@ public enum Direction {
      */
     DOWN,
     /**
-     * Think of which arm you put your watch on
+     * Think of which arm you put your watch on, that direction!
      */
     LEFT,
     /**

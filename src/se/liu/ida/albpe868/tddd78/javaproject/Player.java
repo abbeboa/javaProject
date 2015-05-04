@@ -3,8 +3,7 @@ package se.liu.ida.albpe868.tddd78.javaproject;
 /**
  * Player object class, subclass to AbstractGameObject.
  */
-public class Player extends AbstractGameObject
-{
+public class Player extends AbstractGameObject {
 
     public Player(final double x, final double y, final Type type) {
         super(x, y, type);

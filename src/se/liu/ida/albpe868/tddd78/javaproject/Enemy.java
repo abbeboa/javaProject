@@ -6,8 +6,7 @@ import java.util.Random;
  * Enemy object class, subclass to AbstractGameObject. Movements and shooting are either random or programmed,
  * not controlled by a human/player.
  */
-public class Enemy extends AbstractGameObject
-{
+public class Enemy extends AbstractGameObject {
 
     private static final double DIVIDEBYTWODOUBLE = 2.0;
     private static final double MOVEMENTPATTERN1CONSTANT = 5000;

@@ -3,8 +3,7 @@ package se.liu.ida.albpe868.tddd78.javaproject;
 /**
  * Projectile object class, subclass to AbstractGameObject.
  */
-public class Projectile extends AbstractGameObject
-{
+public class Projectile extends AbstractGameObject {
 
     private Direction direction;
 
