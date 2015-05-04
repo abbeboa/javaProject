@@ -34,6 +34,7 @@ public class GamePanel extends JPanel implements Runnable, KeyListener
     private boolean resumeGame = false;
     private boolean soundEnabled = true;
     private int playerCount = 1;
+    private int initialPlayerCount = 0;
     private List<Integer> pressedKeys = new ArrayList<>();
     private CollisionHandler collisionHandler = null;
     private KeyEventHandler keyEventHandler;
@@ -226,11 +227,14 @@ public class GamePanel extends JPanel implements Runnable, KeyListener
 
     private void gameUpdate() {
 	if (newGame) {
+        initialPlayerCount = 0;
 	    scorePlayer1 = 0;
 	    createPlayer(1);
+        initialPlayerCount++;
 	    if (playerCount > 1) {
 		createPlayer(2);
 		scorePlayer2 = 0;
+        initialPlayerCount++;
 	    }
 	    createWave();
 	    newGame = false;
@@ -521,6 +525,8 @@ public class GamePanel extends JPanel implements Runnable, KeyListener
     public int getPlayerCount() {
 	return playerCount;
     }
+
+    public int getInitialPlayerCount() {return initialPlayerCount;}
 
     public Font getHeadline() {
 	return headline;

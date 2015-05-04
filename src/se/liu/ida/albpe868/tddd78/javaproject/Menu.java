@@ -49,7 +49,7 @@ public class Menu {
             g.drawString("Player2 score: " + s2, PLAYER2SCOREPOSX, PLAYER2SCOREPOSY);
         }
 
-        if (gamePanel.isResumeGame()) {
+        if (gamePanel.isResumeGame() && gamePanel.getPlayerCount() == gamePanel.getInitialPlayerCount()) {
             g.drawString("Resume", RESUMEBUTTONLEFT, RESUMEBUTTONTOP);
         }
 
