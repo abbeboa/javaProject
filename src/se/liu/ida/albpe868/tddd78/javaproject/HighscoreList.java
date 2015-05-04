@@ -33,7 +33,7 @@ final class HighscoreList {
         System.out.println("*** HIGHSCORES TOP 10 ***");
         for (int i = 0; i < getNumberOfHighScores(); i++) {
             System.out.println(list.highScorelist.get(i).getPlayer()
-                    + ": --- Score: " + list.highScorelist.get(i).getScore());
+                    + " --- Score: " + list.highScorelist.get(i).getScore());
         }
     }
 
