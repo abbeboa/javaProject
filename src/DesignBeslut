@@ -16,7 +16,7 @@ Vi ville ha explosioner när fiender blir dödade.
 
 Lösningen blev att skapa två nya klasser, VisualEffectType och VisualEffect, liknande AbstractGameObject och GameObjectType.
 
-Först hade vi tänkt implementera explosioner i AbstractGameObject och GameObjectType vilket hade funkat lika bra tekniskt sett.
+Först hade vi tänkt implementera explosioner i AbstractGameObject och GameObjectType vilket hade fungerat lika bra tekniskt sett.
 
 Skillnaden är att vi nu istället håller isär "fysiska" object på skärmen som kan påverka andra och rena effekter som bara består av en bild. På så sätt tycker vi att det är en tydligare
 struktur i koden. Det är även lätt att lägga till nya effekter nu om vi skulle vilja.
@@ -30,4 +30,19 @@ Först gjorde vi en enkel funktion som kunde spela ljud och kallade på den när
 
 Vår lösning funkar bra men vi misstänker att det finns något annat sätt att lösa det som eventuellt är effektivare men väljer att lägga vår tid på att fixa andra saker.
 
-4.
+4. gameObjects och AbstractGameObject
+För alla objekt i spelet valde vi att ha en superklass, "AbstractGameObject". De flesta variabler har "access modifier protected" så att de kan nås från subklasserna utan getters.
+Subklasserna inkluderar Enemy, Player, Projectile och PowerUp. Vi valde att ha gemensamma metoder som tex. drawGameObject, move och shoot i superklassen för att undvika duplicering av kod.
+Innan vi gjorde detta beslut hade vi shoot-metoden i player-klassen eftersom vi ännu inte skapat enemy-klassen som också använder shoot.
+Det hade varit en klart sämre lösning att ha en separat shoot-metod för enemy-klassen. Innan vi flyttade shoot-metoderna (de för player och enemy)
+behövde vi skriva om dem lite grann för att de skulle kunna användas av båda klasserna. Det är klart värt besväret att tänka på hur man ska skriva metoderna för att de ska kunna användas av alla gameObjects.
+
+5. Update-metoden och gameObjects-listorna
+I början hade vi en lista för gameObjects, en enemyList, en projectileList samt en powerUpList. Vi kallade på drawGameObject-metoden för alla objekt i gameObjects-listan.
+Sedan kallade vi på en separat update-metod för de andra listorna som fanns i respektive klass. Tex. updateEnemy, updateProjectile osv.
+För att minska antal iterationer och att ha samma objekt i flera listor gjorde vi följande:
+- Skapade en abstrakt metod "update" i klassen "AbstractGameObject".
+- Döpte om updateEnemy, och respektive update-metod i varje gameObject-klass, till bara update.
+- Tog bort alla listor med gameObjects förutom just gameObjects (alltså enemyList, projectileList osv. togs bort).
+- Hade i slutändan endast kvar en for-loop för alla gameObjects med både drawGameObject och update. Eftersom varje gameObject nu måste ha en metod med namn update så fungerar detta bra.
+
