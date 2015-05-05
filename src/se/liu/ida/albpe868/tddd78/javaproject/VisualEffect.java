@@ -42,12 +42,12 @@ public class VisualEffect {
         }
     }
 
-    private void decreaseTimetoShow() {
+    private void decreaseTimeToShow() {
         timeToShow--;
     }
 
     public void update(GamePanel gamePanel) {
-        decreaseTimetoShow();
+        decreaseTimeToShow();
         if (timeToShow < 0) {
             gamePanel.addVisualEffectIdToRemove(id);
         }
