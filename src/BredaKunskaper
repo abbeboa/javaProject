@@ -1,12 +1,12 @@
-1. Enum typ
-2. Egen GUI-komponent
-3. Tangentbordsstyrning
-4. Musstyrning
-5. Grafiskt gränssnitt
-6. Ljudhantering
+1. Enum typ (t.ex. direction)
+2. Egen GUI-komponent (GamePanel)
+3. Tangentbordsstyrning (KeyEventHandler)
+4. Musstyrning (MouseActionHandler)
+5. Grafiskt gränssnitt (GamePanel)
+6. Ljudhantering (Sound)
 7. Multitrådning (Sound, GamePanel)
-8. Designmönster: Singleton
-9. Exception-klass för t.ex. ljud, paintimage osv
+8. Designmönster: Singleton (HighscoreList)
+9. Exception-klass för t.ex. ljud, paintImage osv (Sound, GamePanel, ...)
 10.
 
 Att fixa (behöver minst 11):
