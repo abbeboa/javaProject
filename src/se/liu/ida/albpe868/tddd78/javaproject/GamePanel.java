@@ -195,7 +195,7 @@ public class GamePanel extends JPanel implements Runnable, KeyListener {
 
         gameRunning = true;
 
-        // *** Inpection error: "while loop spins on field" ***
+        // *** Inspection error: "while loop spins on field" ***
         // A while loop is necessary to make the game run, after investigating this error we could not find
         // any alternative method.
         while (gameRunning) {

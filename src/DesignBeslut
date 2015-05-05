@@ -46,3 +46,33 @@ För att minska antal iterationer och att ha samma objekt i flera listor gjorde 
 - Tog bort alla listor med gameObjects förutom just gameObjects (alltså enemyList, projectileList osv. togs bort).
 - Hade i slutändan endast kvar en for-loop för alla gameObjects med både drawGameObject och update. Eftersom varje gameObject nu måste ha en metod med namn update så fungerar detta bra.
 
+6. Handkontroll / Game Controller
+För att ta emot input (inmatning / indata) från spelaren (i vårt fall) används tangentbords- och mus-lyssnare (KeyListener och MouseListener) som är inbyggda programbibliotek i Java.
+Det ingår i dagsläget inget programbibliotek i Java som går att importera för att ta emot input från USB-handkontroller. För att lösa detta skulle vi behöva skriva vår egen "ActionListener" för handkontroller
+eller tex. använda ett OpenSource-programbibliotek som i nuläget inte finns som standard/default i Java (tex. JInput-projektet, https://java.net/projects/jinput).
+Vi valde därför att inte utveckla stöd för USB-handkontroller till vårt spel utan istället fokusera på annat. Spelet har nu endast tangentbordsstyrning och det fungerar bra för två spelare.
+Tidigare när vi gjorde ett spel-projekt i Python hade vi tillgång till ett programbibliotek som heter PyGame. Då var det mycket enkelt att utveckla stöd för handkontroller, lika enkelt som för tangentbordsstyrning.
+
+7. Tangentbordsstyrning / KeyEvents
+Till en början använde vi oss endast av en metod keyPressed för att ta hand om tangentbords-input och importerade även programbiblioteket KeyListener.
+Koden för att hantera KeyEvents skrev vi i klassen GamePanel.java. Styrningen fungerade väldigt enkelt, KeyListener lades till i konstruktorn för GamePanel och i metoden keyPressed
+gjorde vi olika saker beroende på vilka "keyCodes" som kom in. Om tex. keyCode för "space" på tangentbordet kom in så kallade vi på metoden shoot för player osv.
+
+Ett problem som vi stötte på då var att vårt spel endast kunde hantera en keyCode i taget. Det gick alltså inte att styra och skjuta samtidigt eller styra snett med piltangenterna. Vi gjorde följande ändringar:
+- Till klassen GamePanel.java lade vi till "implements KeyListener". Då behövde vi också lägga till metoderna keyPressed, keyReleased och keyTyped.
+(Vi använder bara de två första men alla behöver finnas med i klassen.)
+- Vi lade till en lista "pressedKeys" som ska innehålla alla tangenter (keyCodes) som är nedtryckta.
+- I metoden keyPressed kallar vi på handleKey som lägger till keyCode för tex. space-knappen i listan pressedKeys.
+- I metoden keyReleased kallar vi på handleKey som tar bort keyCode för tex. space-knappen i listan pressedKeys.
+- I vår gameUpdate-metod (som är med i gameLoopen) itererar vi över alla keyCodes i listan pressedKeys och kallar på respektive metod som varje knapp motsvarar. Tex. shoot för player1 eller player2.
+- Listan med alla keyCodes (styra i alla riktningar och skjuta för två spelare) blev väldigt lång. Vi valde därför att göra en egen klass KeyEventHandler som också läggs till i GamePanels konstruktor.
+I gameUpdate-loopen skickar vi istället hela listan pressedKeys genom att kalla på keyEventHandler.handleKeyEvents så sköter den klassen iterationer över alla pressedKeys
+och innehåller också all funktionalitet för varje knapp.
+
+8. GamePanel.java struktur
+Till en början hade vi gjort gameObjects-listorna till static och många variabler och metoder till static i GamePanel-klassen.
+Då kunde alla andra klasser tex. lägga till objekt till gameObjects-listan utan att ärva något från GamePanel-klassen, genom att kalla på getter:n till gameObjects-listan som var statisk.
+Vi valde att istället göra om de flesta variabler (bl.a. boolean gameOver, gameRunning, newGame, resumeGame) till non-static och istället skicka med GamePanel som parameter i update-metoderna för alla klasser som
+ändrar på variabler eller gameObjects-listan i GamePanel. På så sätt begränsar vi åtkomsten till dessa variabler och gameObjects-listan i GamePanel vilket också underlättar felsökning och ger en bättre struktur.
+
+9. Om vi väljer att göra om gameObjects-listan till en egen klass och ha alla iterationer och sånt i den istället för gamePanel kan jag skriva en till /Christian
