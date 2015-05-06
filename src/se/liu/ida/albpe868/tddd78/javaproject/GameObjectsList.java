@@ -7,7 +7,6 @@ import java.util.List;
 
 /**
  * This class contains the gameObjectsList and help methods. For example add object / remove objects to the list.
- *
  */
 public class GameObjectsList {
     private List<AbstractGameObject> gameObjects;

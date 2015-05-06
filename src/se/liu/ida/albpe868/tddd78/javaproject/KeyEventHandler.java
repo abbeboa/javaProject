@@ -44,7 +44,7 @@ public class KeyEventHandler {
                     }
                 }
             }
-            }
+        }
 
         if (shootingDelayCounter >= 0) {
             shootingDelayCounter -= 1;

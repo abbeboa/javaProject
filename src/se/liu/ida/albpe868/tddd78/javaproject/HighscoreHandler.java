@@ -1,6 +1,7 @@
 package se.liu.ida.albpe868.tddd78.javaproject;
 
 import java.io.*;
+import java.util.logging.Level;
 
 /**
  * This class reads/writes highscores from/to a textfile.
@@ -22,7 +23,7 @@ public class HighscoreHandler {
             }
             bufferedReader.close();
         } catch (IOException ex) {
-            ex.printStackTrace();
+            LogHandler.log(Level.SEVERE, "HighscoreHandler readFile error: ", ex);
         }
     }
 
@@ -32,7 +33,7 @@ public class HighscoreHandler {
             bufferedWriter.write(HighscoreList.getAllHighScores());
             bufferedWriter.close();
         } catch (IOException ex) {
-            ex.printStackTrace();
+            LogHandler.log(Level.SEVERE, "HighscoreHandler writeToFile error: ", ex);
         }
     }
 }

@@ -1,10 +1,10 @@
 Christian||8700
+Christian||8200
 Christian||6300
 Albin||5900
 Christian||5800
 Christian||4700
+||4500
 Staben||3600
 Christian||3400
 Andreaskuk||2700
-Johannes||1300
-Maria||1300

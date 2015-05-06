@@ -12,6 +12,7 @@ import java.util.ArrayList;
 import java.util.Collection;
 import java.util.List;
 import java.util.Objects;
+import java.util.logging.Level;
 
 /**
  * This class creates a JPanel and also contains a run-loop that paints the screen and updates gameEvents. It also contains alot
@@ -132,8 +133,8 @@ public class GamePanel extends JPanel implements Runnable, KeyListener {
             imgPlayerIndestructible = ImageIO.read(input6);
             imgExplosion = ImageIO.read(input7);
             imgPowerUp = ImageIO.read(input8);
-        } catch (IOException e) {
-            e.printStackTrace();
+        } catch (IOException ex) {
+            LogHandler.log(Level.SEVERE, "importImages error", ex);
         }
     }
 
@@ -184,6 +185,7 @@ public class GamePanel extends JPanel implements Runnable, KeyListener {
             highscoreHandler.readFile();
             HighscoreList.printAllHighScores();
             graphicsThread.start();
+            LogHandler.log(Level.INFO, "Game started", null);
         }
     }
 
@@ -224,6 +226,7 @@ public class GamePanel extends JPanel implements Runnable, KeyListener {
             long sleepTime = PERIOD - timeSinceStart;
 
             if (sleepTime <= 0) {
+                LogHandler.log(Level.WARNING, "gameLoop running slow. Millisec: " + sleepTime, null);
                 sleepTime = 5; // a little bit of sleep is always needed
             }
             try {
@@ -372,8 +375,8 @@ public class GamePanel extends JPanel implements Runnable, KeyListener {
                 g.drawImage(dbImage, 0, 0, null);
                 g.dispose();
             }
-        } catch (RuntimeException e) {
-            System.out.println("drawImage graphics error:" + e);
+        } catch (RuntimeException ex) {
+            LogHandler.log(Level.SEVERE, "drawImage graphics error: ", ex);
         }
     }
 
@@ -432,8 +435,8 @@ public class GamePanel extends JPanel implements Runnable, KeyListener {
             ge.registerFont(Font.createFont(Font.TRUETYPE_FONT, new File("src/fonts/headline.ttf")));
             menuText = Font.createFont(Font.TRUETYPE_FONT, new File("src/fonts/menutext.ttf")).deriveFont(MEDIUMFONTSIZE);
             ge.registerFont(Font.createFont(Font.TRUETYPE_FONT, new File("src/fonts/menutext.ttf")));
-        } catch (IOException | FontFormatException e) {
-            e.printStackTrace();
+        } catch (IOException | FontFormatException ex) {
+            LogHandler.log(Level.SEVERE, "registerFontFiles error: ", ex);
         }
     }
 

@@ -3,6 +3,7 @@ package se.liu.ida.albpe868.tddd78.javaproject;
 import javax.sound.sampled.*;
 import java.io.File;
 import java.io.IOException;
+import java.util.logging.Level;
 
 /**
  * Creates a new Thread for playing sounds while game is still running.
@@ -32,8 +33,8 @@ public final class Sound {
                     AudioInputStream input = AudioSystem.getAudioInputStream(new File(soundToPlay));
                     sound.open(input);
                     sound.start();
-                } catch (IOException | UnsupportedAudioFileException | LineUnavailableException e) {
-                    e.printStackTrace();
+                } catch (IOException | UnsupportedAudioFileException | LineUnavailableException ex) {
+                    LogHandler.log(Level.SEVERE, "Sound.play error: ", ex);
                 }
             }).start();
         }

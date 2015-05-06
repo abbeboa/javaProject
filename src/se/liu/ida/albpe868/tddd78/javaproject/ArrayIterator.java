@@ -2,6 +2,7 @@ package se.liu.ida.albpe868.tddd78.javaproject;
 
 import java.util.Iterator;
 import java.util.NoSuchElementException;
+import java.util.logging.Level;
 
 /**
  * ArrayIterator class for iterator design pattern
@@ -23,6 +24,7 @@ public class ArrayIterator implements Iterator<AbstractGameObject> {
     @Override
     public AbstractGameObject next() {
         if (index > array.length) {
+            LogHandler.log(Level.SEVERE, "ArrayIterator next error", null);
             throw new NoSuchElementException("Problem with ArrayIterator next method");
         }
         AbstractGameObject gameObject = array[index];
