@@ -25,7 +25,7 @@ public class KeyEventHandler {
         for (int i = 0; i < pressedKeys.size(); i++) {
             keysToHandle.add(pressedKeys.get(i));
         }
-        Iterator<Integer> iter = createIterator();
+        Iterator<Integer> iter = createIntegerIterator();
         while (iter.hasNext()) {
             int keyCode = iter.next();
             if (keyCode == KeyEvent.VK_ESCAPE) {
@@ -117,7 +117,8 @@ public class KeyEventHandler {
         }
     }
 
-    public Iterator<Integer> createIterator() {
+    public Iterator<Integer> createIntegerIterator() {
         return keysToHandle.iterator();
     }
+
 }

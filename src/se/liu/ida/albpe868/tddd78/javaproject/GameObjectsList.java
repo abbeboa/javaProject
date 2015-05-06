@@ -29,7 +29,7 @@ public class GameObjectsList {
     }
 
     public void drawGameObjects(Graphics g, ImageObserver gamePanel) {
-        Iterator<AbstractGameObject> iter = createIterator();
+        Iterator<AbstractGameObject> iter = createGameObjectsIterator();
         while (iter.hasNext()) {
             AbstractGameObject object = iter.next();
             object.drawGameObject(g, gamePanel);
@@ -56,7 +56,7 @@ public class GameObjectsList {
         gameObjects.clear();
     }
 
-    public Iterator<AbstractGameObject> createIterator() {
+    public Iterator<AbstractGameObject> createGameObjectsIterator() {
         return gameObjects.iterator();
     }
 
