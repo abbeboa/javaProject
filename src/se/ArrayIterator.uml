@@ -1,0 +1,24 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<Diagram>
+  <ID>JAVA</ID>
+  <OriginalElement>se.liu.ida.albpe868.tddd78.javaproject.ArrayIterator</OriginalElement>
+  <nodes>
+    <node x="0.0" y="79.0">se.liu.ida.albpe868.tddd78.javaproject.ArrayIterator</node>
+    <node x="14.0" y="0.0">java.util.Iterator</node>
+  </nodes>
+  <notes />
+  <edges>
+    <edge source="se.liu.ida.albpe868.tddd78.javaproject.ArrayIterator" target="java.util.Iterator">
+      <point x="0.0" y="-14.5" />
+      <point x="0.0" y="14.5" />
+    </edge>
+  </edges>
+  <settings layout="Hierarchic Group" zoom="1.0" x="49.0" y="54.0" />
+  <SelectedNodes>
+    <node>se.liu.ida.albpe868.tddd78.javaproject.ArrayIterator</node>
+  </SelectedNodes>
+  <Categories />
+  <SCOPE>All</SCOPE>
+  <VISIBILITY>private</VISIBILITY>
+</Diagram>
+
