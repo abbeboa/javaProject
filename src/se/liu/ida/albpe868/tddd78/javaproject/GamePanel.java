@@ -7,6 +7,7 @@ import java.awt.event.*;
 import java.awt.image.BufferedImage;
 import java.io.File;
 import java.io.IOException;
+import java.io.InputStream;
 import java.util.ArrayList;
 import java.util.Collection;
 import java.util.List;
@@ -109,17 +110,28 @@ public class GamePanel extends JPanel implements Runnable, KeyListener {
     }
 
     private static void importImages() {
-        try {
-            String imageFolderAddress = "src/images/";
-            imgBackground = ImageIO.read(new File(imageFolderAddress + "background.jpg"));
-            imgMenuBackground = ImageIO.read(new File(imageFolderAddress + "menuBackground.jpg"));
-            imgPlayer1 = ImageIO.read(new File(imageFolderAddress + "player1.png"));
-            imgPlayer2 = ImageIO.read(new File(imageFolderAddress + "player2.png"));
-            imgBasicEnemy = ImageIO.read(new File(imageFolderAddress + "basicEnemy.png"));
-            imgBullet = ImageIO.read(new File(imageFolderAddress + "bullet.png"));
-            imgPlayerIndestructible = ImageIO.read(new File(imageFolderAddress + "playerindestructible.png"));
-            imgExplosion = ImageIO.read(new File(imageFolderAddress + "explosion.png"));
-            imgPowerUp = ImageIO.read(new File(imageFolderAddress + "powerup.png"));
+        String imageFolderAddress = "images/";
+        ClassLoader classLoader = Thread.currentThread().getContextClassLoader();
+        try (
+                InputStream input0 = classLoader.getResourceAsStream(imageFolderAddress + "background.jpg");
+                InputStream input1 = classLoader.getResourceAsStream(imageFolderAddress + "menuBackground.jpg");
+                InputStream input2 = classLoader.getResourceAsStream(imageFolderAddress + "player1.png");
+                InputStream input3 = classLoader.getResourceAsStream(imageFolderAddress + "playertwo.png");
+                InputStream input4 = classLoader.getResourceAsStream(imageFolderAddress + "basicEnemy.png");
+                InputStream input5 = classLoader.getResourceAsStream(imageFolderAddress + "bullet.png");
+                InputStream input6 = classLoader.getResourceAsStream(imageFolderAddress + "playerindestructible.png");
+                InputStream input7 = classLoader.getResourceAsStream(imageFolderAddress + "explosion.png");
+                InputStream input8 = classLoader.getResourceAsStream(imageFolderAddress + "powerup.png")
+        ) {
+            imgBackground = ImageIO.read(input0);
+            imgMenuBackground = ImageIO.read(input1);
+            imgPlayer1 = ImageIO.read(input2);
+            imgPlayer2 = ImageIO.read(input3);
+            imgBasicEnemy = ImageIO.read(input4);
+            imgBullet = ImageIO.read(input5);
+            imgPlayerIndestructible = ImageIO.read(input6);
+            imgExplosion = ImageIO.read(input7);
+            imgPowerUp = ImageIO.read(input8);
         } catch (IOException e) {
             e.printStackTrace();
         }
