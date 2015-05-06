@@ -3,15 +3,17 @@ package se.liu.ida.albpe868.tddd78.javaproject;
 import java.util.ArrayList;
 import java.util.Collection;
 import java.awt.event.*;
+import java.util.Iterator;
 import java.util.List;
 
 /**
- * This class handles keyevents, in other words input from players. Used in GamePanel class.
+ * This class handles keyEvents, in other words input from players. Used in GamePanel class.
  */
 public class KeyEventHandler {
     private GamePanel gamePanel;
     private int shootingDelayCounter = 0;
     private int shootingDelayCounterPlayer2 = 0;
+    private Collection<Integer> keysToHandle = null;
 
     public KeyEventHandler(GamePanel gamePanel) {
         this.gamePanel = gamePanel;
@@ -19,11 +21,13 @@ public class KeyEventHandler {
 
     public void handleKeyEvents(List<Integer> pressedKeys) {
         AbstractGameObject player1 = gamePanel.getGameObject(0);
-        Collection<Integer> keysToHandle = new ArrayList<>();
+        keysToHandle = new ArrayList<>();
         for (int i = 0; i < pressedKeys.size(); i++) {
             keysToHandle.add(pressedKeys.get(i));
         }
-        for (int keyCode : keysToHandle) {
+        Iterator<Integer> iter = createIterator();
+        while (iter.hasNext()) {
+            int keyCode = iter.next();
             if (keyCode == KeyEvent.VK_ESCAPE) {
                 gamePanel.setGameRunning(false);
             }
@@ -40,7 +44,8 @@ public class KeyEventHandler {
                     }
                 }
             }
-        }
+            }
+
         if (shootingDelayCounter >= 0) {
             shootingDelayCounter -= 1;
         }
@@ -110,5 +115,9 @@ public class KeyEventHandler {
                 shootingDelayCounterPlayer2 += currentShootingDelay;
             }
         }
+    }
+
+    public Iterator<Integer> createIterator() {
+        return keysToHandle.iterator();
     }
 }
