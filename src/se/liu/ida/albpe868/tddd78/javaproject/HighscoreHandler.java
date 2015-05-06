@@ -21,7 +21,7 @@ public class HighscoreHandler {
                 line = bufferedReader.readLine();
             }
             bufferedReader.close();
-        } catch (FileNotFoundException | IOException ex) {
+        } catch (IOException ex) {
             ex.printStackTrace();
         }
     }

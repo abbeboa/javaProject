@@ -45,7 +45,7 @@ public class GamePanel extends JPanel implements Runnable, KeyListener {
     //double buffering variables
     private Graphics dbg = null;
     private Image dbImage = null;
-    private List<AbstractGameObject> gameObjects = new ArrayList<>();
+    private GameObjectsList gameObjects;
     private List<VisualEffect> visualEffects = new ArrayList<>();
     private Collection<Integer> gameObjectIdsToRemove = new ArrayList<>();
     private Collection<Integer> visualEffectsIdsToRemove = new ArrayList<>();
@@ -100,6 +100,7 @@ public class GamePanel extends JPanel implements Runnable, KeyListener {
 
         // create / add game components
 
+        gameObjects = new GameObjectsList();
         highscoreHandler = new HighscoreHandler();
         keyEventHandler = new KeyEventHandler(this);
         mouseActionHandler = new MouseActionHandler(this);
@@ -178,9 +179,9 @@ public class GamePanel extends JPanel implements Runnable, KeyListener {
         double playerStartPosX = JPWIDTH / DIVIDEBYTWODOUBLE - (imgPlayer1.getWidth() / DIVIDEBYTWODOUBLE);
         double playerStartPosY = JPHEIGHT - imgPlayer1.getHeight();
         if (playerNumber == 1) {
-            gameObjects.add(new Player(playerStartPosX, playerStartPosY, Type.PLAYER1));
+            gameObjects.addObject(new Player(playerStartPosX, playerStartPosY, Type.PLAYER1));
         } else {
-            gameObjects.add(new Player(playerStartPosX - imgPlayer1.getWidth(), playerStartPosY, Type.PLAYER2));
+            gameObjects.addObject(new Player(playerStartPosX - imgPlayer1.getWidth(), playerStartPosY, Type.PLAYER2));
         }
     }
 
@@ -259,17 +260,15 @@ public class GamePanel extends JPanel implements Runnable, KeyListener {
             // update game state ...
             keyEventHandler.handleKeyEvents(pressedKeys);
             moveBackgroundImages();
-            for (int i = 0; i < gameObjects.size(); i++) {
-                gameObjects.get(i).update(this);
-            }
+            gameObjects.updateObjects(this);
             for (int i = 0; i < visualEffects.size(); i++) {
                 visualEffects.get(i).update(this);
             }
             if (currentWave != null) {
                 currentWave.handleWave(System.currentTimeMillis(), this);
             }
-            collisionHandler.checkForCollisions(gameObjects);
-            removeGameObjects(gameObjectIdsToRemove);
+            collisionHandler.checkForCollisions(gameObjects.getList());
+            gameObjects.removeGameObjects(gameObjectIdsToRemove);
             removeVisualEffects(visualEffectsIdsToRemove);
         }
         if (gameOver) {
@@ -301,14 +300,6 @@ public class GamePanel extends JPanel implements Runnable, KeyListener {
         // more methods
     }
 
-    private void removeGameObjects(Collection<Integer> gameObjectsIdsToRemove) {
-        for (int i = 0; i < gameObjects.size(); i++) {
-            if (gameObjectsIdsToRemove.contains(gameObjects.get(i).getId())) {
-                gameObjects.remove(i);
-            }
-        }
-    }
-
     private void removeVisualEffects(Collection<Integer> visualEffectsIdsToRemove) {
         for (int i = 0; i < visualEffects.size(); i++) {
             if (visualEffectsIdsToRemove.contains(visualEffects.get(i).getId())) {
@@ -320,7 +311,7 @@ public class GamePanel extends JPanel implements Runnable, KeyListener {
     public void resetGame() {
         scorePlayer1 = 0;
         scorePlayer2 = 0;
-        gameObjects.clear();
+        gameObjects.clearList();
         gameObjectIdsToRemove.clear();
         pressedKeys.clear();
         AbstractGameObject.setCounter(0);
@@ -350,13 +341,11 @@ public class GamePanel extends JPanel implements Runnable, KeyListener {
         dbg.drawImage(imgBackground, 0, backgroundImageY2, this);
 
         if (state == STATE.GAME) {
-            for (int i = 0; i < gameObjects.size(); i++) {
-                gameObjects.get(i).drawGameObject(dbg, this);
-            }
+            gameObjects.drawGameObjects(dbg, this);
             for (int i = 0; i < visualEffects.size(); i++) {
                 visualEffects.get(i).drawVisualEffect(dbg, this);
             }
-            if (!gameObjects.isEmpty()) {
+            if (!gameObjects.getList().isEmpty()) {
                 drawPlayerStats(dbg);
             }
         } else if (state == STATE.MENU) {
@@ -396,16 +385,16 @@ public class GamePanel extends JPanel implements Runnable, KeyListener {
 
     private void drawPlayerStats(Graphics g) {
         g.setFont(digital7);
-        g.setColor(decideHealthColor(gameObjects.get(0).getHp()));
-        String healthPlayer1 = "Health: " + gameObjects.get(0).getHp();
+        g.setColor(decideHealthColor(gameObjects.getObject(0).getHp()));
+        String healthPlayer1 = "Health: " + gameObjects.getObject(0).getHp();
         g.drawString(healthPlayer1, (JPWIDTH - JPWIDTH / 9), JPHEIGHT / HEALTHPLAYERSTRINGPLACING);
         String scoreStringPlayer1 = "Score: " + scorePlayer1;
         g.setColor(Color.GREEN);
         g.drawString(scoreStringPlayer1, (JPWIDTH - JPWIDTH / 9), JPHEIGHT / 10);
         if (playerCount >= 2) {
-            g.setColor(decideHealthColor(gameObjects.get(1).getHp()));
+            g.setColor(decideHealthColor(gameObjects.getObject(1).getHp()));
             String scoreStringPlayer2 = "Score: " + scorePlayer2;
-            String healthStringPlayer2 = "Health: " + gameObjects.get(1).getHp();
+            String healthStringPlayer2 = "Health: " + gameObjects.getObject(1).getHp();
             g.drawString(healthStringPlayer2, (JPWIDTH / 9), JPHEIGHT / HEALTHPLAYERSTRINGPLACING);
             g.setColor(Color.GREEN);
             g.drawString(scoreStringPlayer2, (JPWIDTH / 9), JPHEIGHT / 10);
@@ -458,7 +447,7 @@ public class GamePanel extends JPanel implements Runnable, KeyListener {
     }
 
     public void addToGameObjectsList(AbstractGameObject gameObject) {
-        gameObjects.add(gameObject);
+        gameObjects.addObject(gameObject);
     }
 
     public void addToVisualEffects(VisualEffect visualEffect) {
@@ -466,7 +455,7 @@ public class GamePanel extends JPanel implements Runnable, KeyListener {
     }
 
     public AbstractGameObject getGameObject(int i) {
-        return gameObjects.get(i);
+        return gameObjects.getObject(i);
     }
 
     public boolean checkStateEqualsGame() {
