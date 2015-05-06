@@ -4,6 +4,10 @@ import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
 
+/**
+ * HighscoreList singleton class. Contains methods to access, read, change and print the highscore list. Used mostly by
+ * HighScoreHandler class.
+ */
 final class HighscoreList {
     private static final int MAXIMUMNUMBEROFHIGHSCORES = 10;
     private static final HighscoreList INSTANCE = new HighscoreList();

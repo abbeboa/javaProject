@@ -5,7 +5,7 @@ import java.awt.image.BufferedImage;
 import java.awt.image.ImageObserver;
 
 /**
- * Created by SpaO on 2015-04-30.
+ * VisualEffect object used to create VisualEffects like explosions.
  */
 
 public class VisualEffect {
@@ -42,12 +42,8 @@ public class VisualEffect {
         }
     }
 
-    private void decreaseTimeToShow() {
-        timeToShow--;
-    }
-
     public void update(GamePanel gamePanel) {
-        decreaseTimeToShow();
+        timeToShow--;
         if (timeToShow < 0) {
             gamePanel.addVisualEffectIdToRemove(id);
         }

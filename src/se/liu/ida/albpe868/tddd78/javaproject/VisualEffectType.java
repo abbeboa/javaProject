@@ -1,7 +1,7 @@
 package se.liu.ida.albpe868.tddd78.javaproject;
 
 /**
- * VisualEffect enum class. Variable VisualEffectType set in AbstractVisualEffectType and
+ * VisualEffect enum class
  */
 
 public enum VisualEffectType {
