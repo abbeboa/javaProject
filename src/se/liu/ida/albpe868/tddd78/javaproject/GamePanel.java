@@ -267,7 +267,7 @@ public class GamePanel extends JPanel implements Runnable, KeyListener {
             if (currentWave != null) {
                 currentWave.handleWave(System.currentTimeMillis(), this);
             }
-            collisionHandler.checkForCollisions(gameObjects.getList());
+            collisionHandler.checkForCollisions(gameObjects.getGameObjects());
             gameObjects.removeGameObjects(gameObjectIdsToRemove);
             removeVisualEffects(visualEffectsIdsToRemove);
         }
@@ -345,7 +345,7 @@ public class GamePanel extends JPanel implements Runnable, KeyListener {
             for (int i = 0; i < visualEffects.size(); i++) {
                 visualEffects.get(i).drawVisualEffect(dbg, this);
             }
-            if (!gameObjects.getList().isEmpty()) {
+            if (!gameObjects.getGameObjects().isEmpty()) {
                 drawPlayerStats(dbg);
             }
         } else if (state == STATE.MENU) {

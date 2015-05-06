@@ -1,6 +1,7 @@
 package se.liu.ida.albpe868.tddd78.javaproject;
 
 import java.awt.*;
+import java.awt.image.ImageObserver;
 import java.util.ArrayList;
 import java.util.Collection;
 import java.util.List;
@@ -25,13 +26,13 @@ public class GameObjectsList {
         }
     }
 
-    public void drawGameObjects(Graphics g, GamePanel gamePanel) {
+    public void drawGameObjects(Graphics g, ImageObserver gamePanel) {
         for (int i = 0; i < gameObjects.size(); i++) {
             gameObjects.get(i).drawGameObject(g, gamePanel);
         }
     }
 
-    public List<AbstractGameObject> getList() {
+    public List<AbstractGameObject> getGameObjects() {
         return gameObjects;
     }
 
